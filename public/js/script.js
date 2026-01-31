@@ -36,4 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     console.log("Humanist System Ready! 🌿");
+
+   
 });

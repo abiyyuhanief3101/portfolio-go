@@ -26,7 +26,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		"Title":    "Abiyyu Hanief | Problem Solver",
 		"Name":     "Abiyyu Hanief",
-		"Role":     "School System Implementor & Go Developer",
+		"Role":     "Product Implementator & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",
 		"About":    "A problem-solver who uses technology and process to empower communities. My approach, refined through experiences in both program coordination and software development, is to own a solution from concept to completion.",
 	}

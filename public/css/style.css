@@ -241,3 +241,98 @@ h1 {
     .cta-group { justify-content: center; }
     .links { display: none; } /* Hide menu on mobile for now simple */
 }
+
+/* --- VISUAL COMPOSITION (SIDE BY SIDE) --- */
+.visual {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- VISUAL COMPOSITION (SIDE BY SIDE - DOMINANT AVATAR) --- */
+
+.visual-row {
+    display: flex;
+    align-items: center; /* Sejajar vertikal tengah */
+    justify-content: center; /* Memastikan di tengah */
+    gap: 10px; /* Jarak dibuat rapat agar terlihat menyatu */
+    position: relative;
+    z-index: 2;
+}
+
+/* 1. Ilustrasi Tech (Pendukung - Dikecilkan) */
+.hero-img {
+    width: 100%;
+    max-width: 260px; /* Dikecilkan (Tadi 400px) agar tidak mendominasi */
+    height: auto;
+    opacity: 0.9; /* Sedikit transparan agar fokus ke Avatar */
+    transition: transform 0.5s ease;
+}
+
+/* 2. Avatar Wrapper (UTAMA - Dibesarkan Signifikan) */
+.avatar-wrapper {
+    position: relative;
+    width: 300px; /* DIBESARKAN (Tadi 180px) -> Ini kuncinya */
+    height: auto;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Style Bingkai Foto */
+    padding: 12px; /* Padding bingkai sedikit ditebalkan */
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 15px 30px rgba(63, 117, 108, 0.2); /* Bayangan lebih tegas */
+    transform: scale(1); /* Default scale normal */
+    z-index: 5; /* Pastikan dia di atas kalau gesekan */
+}
+
+.avatar-img {
+    width: 100%;
+    border-radius: 18px;
+    display: block;
+}
+
+/* --- INTERACTION (POP UP LEBIH DRAMATIS) --- */
+
+.avatar-wrapper:hover {
+    transform: scale(1.1) rotate(-2deg); /* Membesar lagi saat hover */
+    box-shadow: 0 25px 50px rgba(63, 117, 108, 0.3);
+    z-index: 10;
+}
+
+/* Label Nama - Posisi disesuaikan karena gambar makin besar */
+.floating-label {
+    position: absolute;
+    top: -50px; /* Lebih tinggi karena gambarnya besar */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--terracotta);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 1rem; /* Font dibesarkan sedikit */
+    font-weight: 700;
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 5px 15px rgba(198, 116, 62, 0.4);
+}
+
+.avatar-wrapper:hover .floating-label {
+    top: -20px; /* Posisi akhir saat hover */
+    opacity: 1;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+    .visual-row {
+        flex-direction: column-reverse; 
+        gap: 20px;
+    }
+    /* Di HP kita kecilkan lagi biar masuk layar */
+    .hero-img { max-width: 200px; }
+    .avatar-wrapper { width: 220px; }
+}
