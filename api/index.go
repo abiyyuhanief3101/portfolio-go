@@ -1,12 +1,14 @@
 package handler
 
 import (
-	_ "embed" // Penting: Ini untuk fitur embed
+	_ "embed"
 	"html/template"
 	"net/http"
 )
 
-//go:embed index.html
+// UBAH DISINI: Sesuaikan dengan nama file baru
+//
+//go:embed template.html
 var htmlContent string
 
 // Di Vercel, nama fungsinya WAJIB 'Handler' (huruf besar H)
