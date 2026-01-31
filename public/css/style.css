@@ -1,0 +1,243 @@
+/* --- 1. Variables & Reset --- */
+:root {
+    --bg-cream: #F6EECD;
+    --green-deep: #3F756C;
+    --green-neon: #4FA89B;
+    --terracotta: #C6743E;
+    --gold: #E1C789;
+    --text-main: #2D3436;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-cream);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    line-height: 1.5; /* Line height diperkecil dikit */
+    overflow-x: hidden;
+    height: 100vh; /* Kunci tinggi layar */
+}
+
+/* --- 2. Navbar Compact --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%; /* Padding diperkecil */
+    height: 80px; /* Tinggi navbar fix */
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--green-deep);
+}
+
+.dot { color: var(--terracotta); font-size: 2rem; line-height: 0; }
+
+.links a {
+    text-decoration: none;
+    color: var(--text-main);
+    margin-left: 2rem;
+    font-weight: 600;
+    font-size: 0.95rem; /* Font menu diperkecil dikit */
+    transition: 0.3s;
+}
+.links a:hover { color: var(--terracotta); }
+
+/* --- 3. Hero Layout (Anti Scroll) --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+    height: calc(100vh - 80px); /* Sisa tinggi layar setelah navbar */
+    display: flex;
+    align-items: center; /* Tengahkan vertikal */
+}
+
+.hero-split {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+}
+
+/* --- 4. Typography Compact --- */
+.content { flex: 1.2; } /* Memberi ruang lebih untuk teks */
+
+.badge {
+    display: inline-block;
+    background: rgba(63, 117, 108, 0.1);
+    color: var(--green-deep);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+    border: 1px solid rgba(63, 117, 108, 0.2);
+}
+
+h1 {
+    font-size: 2.8rem; /* UKURAN DIPERKECIL (Tadinya 3.5rem) */
+    line-height: 1.1;
+    margin-bottom: 10px;
+    color: var(--green-deep);
+    letter-spacing: -1px;
+}
+
+.role {
+    font-size: 1.1rem;
+    color: var(--terracotta);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.bio {
+    color: #555;
+    font-size: 1rem;
+    margin-bottom: 30px;
+    max-width: 95%; /* Melebarkan teks agar tidak terlalu panjang ke bawah */
+}
+
+/* --- 5. Buttons & Icons --- */
+.cta-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-primary {
+    background-color: var(--green-deep);
+    color: var(--bg-cream);
+    padding: 12px 30px; /* Padding tombol disesuaikan */
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(63, 117, 108, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(63, 117, 108, 0.5);
+}
+
+/* LinkedIn Button Style */
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgba(63, 117, 108, 0.2);
+    border-radius: 8px;
+    color: var(--green-deep);
+    transition: all 0.3s;
+}
+
+.btn-icon:hover {
+    border-color: var(--green-deep);
+    background: var(--green-deep);
+    color: var(--bg-cream);
+    transform: translateY(-3px);
+}
+
+.btn-secondary { /* Style navbar button "Let's Talk" */
+    border: 1px solid var(--green-deep);
+    padding: 8px 20px;
+    border-radius: 6px;
+}
+
+/* --- 6. Visual --- */
+.visual {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-img {
+    width: 100%;
+    max-width: 450px; /* Ukuran gambar dibatasi agar tidak "makan tempat" */
+    height: auto;
+    position: relative;
+    z-index: 2;
+}
+
+.glow-circle {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: var(--gold);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    filter: blur(80px);
+    opacity: 0.4;
+    z-index: 1;
+}
+
+/* --- 7. MODAL STYLES (Pop Up) --- */
+.modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(63, 117, 108, 0.6); /* Backdrop Hijau Gelap Transparan */
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--bg-cream);
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    border: 1px solid var(--green-deep);
+    animation: popUp 0.3s ease-out forwards;
+}
+
+@keyframes popUp {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.modal-content h2 { color: var(--green-deep); margin-bottom: 10px; }
+.modal-content p { color: #666; margin-bottom: 25px; }
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 2rem;
+    color: var(--terracotta);
+    cursor: pointer;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+    .hero-split {
+        flex-direction: column-reverse;
+        justify-content: center;
+        text-align: center;
+    }
+    .container { height: auto; padding-top: 20px; padding-bottom: 40px; }
+    h1 { font-size: 2.2rem; }
+    .hero-img { max-width: 280px; margin-bottom: 20px; }
+    .cta-group { justify-content: center; }
+    .links { display: none; } /* Hide menu on mobile for now simple */
+}

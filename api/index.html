@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">{{ .Name }}<span class="dot">.</span></div>
+        <div class="links">
+            <a href="#" class="coming-soon">About</a>
+            <a href="#" class="coming-soon">Projects</a>
+            <a href="#" class="btn-outline coming-soon">Let's Talk</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero-split">
+            <div class="content">
+                <div class="badge">👋 Hello, World!</div>
+                <h1>{{ .Headline }}</h1>
+                <h3 class="role">{{ .Role }}</h3>
+                <p class="bio">{{ .About }}</p>
+                
+                <div class="cta-group">
+                    <button class="btn-primary coming-soon">View My Work</button>
+                    
+                    <a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" class="btn-icon" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="visual">
+                <div class="glow-circle"></div>
+                <img ssrc="/img/undraw_product-demo_9d4i.svg" alt="Abiyyu Illustration" class="hero-img">
+            </div>
+        </section>
+    </main>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img src="/img/undraw_idea-sketching_rifv.svg" alt="Cooking" class="modal-img">
+            <h2>Something is Brewing! ☕</h2>
+            <p>I'm currently crafting this section to be perfect.<br>Please stay tuned for updates!</p>
+            <button class="btn-primary close-action">Okay, got it!</button>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
