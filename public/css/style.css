@@ -65,7 +65,7 @@ body {
 }
 
 /* --- 4. Typography Compact --- */
-.content { flex: 1.2; } /* Memberi ruang lebih untuk teks */
+.content { flex: 1.2; will-change: transform, opacity; } /* Memberi ruang lebih untuk teks */
 
 .badge {
     display: inline-block;
@@ -335,4 +335,323 @@ h1 {
     /* Di HP kita kecilkan lagi biar masuk layar */
     .hero-img { max-width: 200px; }
     .avatar-wrapper { width: 220px; }
+}
+
+/* --- SCROLL HINT (Isyarat Ke Bawah) --- */
+.scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.7;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+}
+
+.scroll-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--terracotta);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.mouse {
+    width: 26px;
+    height: 40px;
+    border: 2px solid var(--green-deep);
+    border-radius: 20px;
+    position: relative;
+}
+
+.wheel {
+    width: 4px;
+    height: 8px;
+    background: var(--green-deep);
+    border-radius: 2px;
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollWheel 1.5s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+    40% {transform: translateX(-50%) translateY(-10px);}
+    60% {transform: translateX(-50%) translateY(-5px);}
+}
+
+@keyframes scrollWheel {
+    0% { opacity: 1; top: 6px; }
+    100% { opacity: 0; top: 18px; }
+}
+
+/* --- SECTION 5: THE HOOK (FIXED & CLEAN) --- */
+
+.hook-section {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Padding atas disesuaikan agar pas di tengah */
+    padding: 40px 5% 0 5%; 
+    position: relative;
+    overflow: hidden;
+}
+
+.hook-container {
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    position: relative;
+    /* Pastikan teks punya prioritas layer lebih tinggi dari gambar */
+    z-index: 10; 
+}
+
+/* Typography */
+.hook-title {
+    font-size: 3.5rem;
+    color: var(--green-deep);
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    position: relative;
+    z-index: 3;
+}
+
+.hook-subtitle {
+    font-size: 1.2rem;
+    color: #555;
+    font-weight: 500;
+    /* Beri jarak aman ke gambar, jangan ditarik paksa */
+    margin-bottom: 20px; 
+    position: relative;
+    z-index: 3;
+}
+
+/* Visual Container */
+.crossroad-visual {
+    width: 100%;
+    max-width: 1300px; /* Gambar lebar */
+    margin: 0 auto;
+    
+    /* Hapus border/shadow agar seamless */
+    border-radius: 0; 
+    box-shadow: none; 
+    
+    position: relative;
+    z-index: 1; /* Layer di bawah teks */
+
+    /* Animasi 'Bernapas' Halus (Floating) */
+    animation: float 6s ease-in-out infinite;
+}
+
+/* ... (Kode sebelumnya di dalam .crossroad-visual tetap sama) ... */
+
+.hook-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    
+    /* Untuk Browser Modern (Chrome, Edge, Firefox baru) */
+    mask-image: radial-gradient(
+        ellipse at center, 
+        black 50%,      /* Tengah gambar jelas sampai 50% */
+        transparent 90% /* Mulai memudar dan transparan total di pinggir 95% */
+    );
+
+    /* Untuk Safari/WebKit (Wajib ada buat iPhone/Mac) */
+    -webkit-mask-image: radial-gradient(
+        ellipse at center, 
+        black 50%,
+        transparent 90%
+    );
+}
+
+/* ... (Sisa kode tetap sama) ... */
+
+/* Hapus shine effect karena statis lebih elegan */
+.hook-shine { display: none; }
+
+/* Definisi Animasi Floating */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); } /* Naik dikit */
+    100% { transform: translateY(0px); }
+}
+
+/* --- Floating Logos (Hook Section) --- */
+.floating-logos {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2; /* Above image */
+}
+
+.float-logo {
+    position: absolute;
+    object-fit: contain;
+    opacity: 0; /* Start hidden for fade-in */
+    animation: float 6s ease-in-out infinite;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 10px 15px rgba(63, 117, 108, 0.1));
+}
+
+.float-logo.visible {
+    opacity: 0.9;
+}
+
+.float-logo:hover {
+    transform: scale(1.1) rotate(0deg) !important; /* Reset rotation on hover */
+    opacity: 1;
+    z-index: 5;
+}
+
+/* Positions & Dynamic Sizing (Centered & Above Image) */
+.logo-1 { 
+    width: 120px; height: 120px; 
+    top: 5%; left: 15%; 
+    transform: rotate(-15deg);
+    animation-duration: 7s;
+}
+.logo-2 { 
+    width: 110px; height: 110px; 
+    top: 10%; right: 15%; 
+    transform: rotate(10deg);
+    animation-delay: 1s;
+}
+.logo-3 { 
+    width: 100px; height: 100px; 
+    top: 70%; left: 25%; 
+    transform: rotate(5deg);
+    animation-delay: 2.5s;
+    animation-duration: 8s;
+}
+.logo-4 { 
+    width: 130px; height: 130px; 
+    top: 65%; right: 25%; 
+    transform: rotate(-10deg);
+    animation-delay: 4s;
+}
+.logo-5 { 
+    width: 90px; height: 90px; 
+    top: 25%; left: 35%; 
+    transform: rotate(-25deg);
+    animation-delay: 1.5s;
+    animation-duration: 9s;
+}
+.logo-6 { 
+    width: 95px; height: 95px; 
+    top: 20%; right: 35%; 
+    transform: rotate(20deg);
+    animation-delay: 3.5s;
+    animation-duration: 7.5s;
+}
+
+/* Responsive HP */
+@media (max-width: 768px) {
+    .hook-title { font-size: 2.2rem; }
+    .hook-subtitle { font-size: 1rem; margin-bottom: 10px; }
+    .hook-section { padding-top: 60px; min-height: auto; }
+    
+    /* Adjust logos for mobile */
+    .float-logo { width: 70px !important; height: 70px !important; }
+    .logo-1 { left: 5%; top: 0%; }
+    .logo-2 { right: 5%; top: 5%; }
+    .logo-3 { left: 5%; top: 25%; }
+    .logo-4 { right: 5%; top: 30%; }
+    .logo-5 { left: 2%; top: 50%; }
+    .logo-6 { right: 2%; top: 55%; }
+}
+
+/* --- SECTION: THE PARADOX --- */
+.paradox-section {
+    width: 100%;
+    padding: 80px 5%;
+    background-color: var(--bg-cream);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paradox-container {
+    max-width: 900px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.paradox-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: var(--green-deep);
+    line-height: 1.2;
+}
+
+.paradox-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.paradox-img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    /* Radial Mask for soft edges */
+    mask-image: radial-gradient(ellipse at center, black 60%, transparent 95%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 60%, transparent 95%);
+    object-fit: cover;
+}
+
+.paradox-badges {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge-logo {
+    height: 45px;
+    width: auto;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.badge-logo:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.paradox-subtitle {
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .paradox-title { font-size: 1.6rem; }
+    .paradox-img { max-width: 100%; }
 }

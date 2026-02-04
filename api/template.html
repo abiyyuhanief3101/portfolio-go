@@ -22,8 +22,9 @@
         </div>
     </nav>
 
-    <main class="container">
-        <section class="hero-split">
+    <main>
+    <section class="container hero-section">
+        <div class="hero-split">
             <div class="content">
                 <div class="badge">👋 Hello, World!</div>
                 <h1>{{ .Headline }}</h1>
@@ -32,32 +33,68 @@
                 
                 <div class="cta-group">
                     <button class="btn-primary coming-soon">View My Work</button>
-                    
                     <a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" class="btn-icon" aria-label="LinkedIn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                     </a>
                 </div>
             </div>
 
-            <div class="visual" id="visual-container">
-    <div class="glow-circle"></div>
-    
-    <div class="visual-row">
-        <img src="/img/undraw_product-demo_9d4i.svg" alt="Tech Illustration" class="hero-img">
-        
-        <div class="avatar-wrapper">
-            <img src="/img/abi_kartun.jpeg" alt="Abiyyu Avatar" class="avatar-img">
-            <div class="floating-label">Hi, I'm Abiyyu!</div>
+            <div class="visual-row">
+                <img src="/img/undraw_product-demo_9d4i.svg" alt="Tech Illustration" class="hero-img">
+                <div class="avatar-wrapper">
+                    <img src="/img/abi_kartun.jpeg" alt="Abiyyu Avatar" class="avatar-img">
+                    <div class="floating-label">Hi, I'm Abi!</div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
 
-        </section>
-    </main>
+        <div class="scroll-hint">
+            <span class="scroll-text">Discover my journey</span>
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
+
+        <section id="the-hook" class="hook-section">
+        <div class="hook-container">
+            <div class="floating-logos">
+                <img src="/img/logo_ui.png" class="float-logo logo-1" alt="Universitas Indonesia">
+                <img src="/img/logo_blt.png" class="float-logo logo-2" alt="BLT">
+                <img src="/img/logo_IM.png" class="float-logo logo-3" alt="Indonesia Mengajar">
+                <img src="/img/logo_nst-removebg.png" class="float-logo logo-4" alt="NST">
+                <img src="/img/logo_sadewa.png" class="float-logo logo-5" alt="Sadewa">
+                <img src="/img/logo_guim.png" class="float-logo logo-6" alt="GUIM">
+            </div>
+
+            <h2 class="hook-title">How did I end up here?</h2>
+            <p class="hook-subtitle">Exploring the intersection of Technology and Community.</p>
+            
+            <div class="crossroad-visual" id="crossroad-box">
+                <img src="/img/tech_community.jpeg" alt="Crossroads: Tech vs Community" class="hook-img">
+                
+                <div class="hook-shine"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="the-paradox" class="paradox-section">
+        <div class="paradox-container">
+            <h2 class="paradox-title">Computer Science - Information Systems Graduate who almost quit Tech to serve the Grassroots.</h2>
+            
+            <div class="paradox-visual">
+                <img src="/img/paradox.jpeg" alt="The Paradox" class="paradox-img">
+                <div class="paradox-badges">
+                    <img src="/img/logo_ui.png" alt="Universitas Indonesia" class="badge-logo">
+                    <img src="/img/logo_pacil.png" alt="Fasilkom UI" class="badge-logo">
+                </div>
+            </div>
+
+            <p class="paradox-subtitle">Hi, I'm Abiyyu. I used to think Tech and Humanity were opposites. Until I built a system that saved a small business 1 hour every day.</p>
+        </div>
+    </section>
+
+</main>
 
     <div id="modal" class="modal-overlay">
         <div class="modal-content">

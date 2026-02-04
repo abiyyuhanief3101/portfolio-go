@@ -24,7 +24,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	// Data yang sama seperti sebelumnya
 	data := map[string]interface{}{
-		"Title":    "Abiyyu Hanief | Problem Solver",
+		"Title":    "Abiyyu Hanief | Portfolio",
 		"Name":     "Abiyyu Hanief",
 		"Role":     "Product Implementator & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",
