@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} - Abiyyu Hanief</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo"><a href="/" style="text-decoration:none; color:inherit;">Abiyyu Hanief<span class="dot">.</span></a></div>
+        <div class="links">
+            <a href="/blog">Journal Index</a>
+        </div>
+    </nav>
+
+    {{ if not .IsIndex }}
+    <main class="container" style="display: block; height: auto; padding-top: 60px; padding-bottom: 100px;">
+        <article style="max-width: 700px; margin: 0 auto;">
+            <span class="journal-date" style="display:block; margin-bottom:10px;">{{ .Date }}</span>
+            <h1 style="font-size: 2.5rem; color: var(--green-deep); margin-bottom: 30px; line-height: 1.2;">{{ .Title }}</h1>
+            <div class="blog-content" style="line-height: 1.8; font-size: 1.1rem; color: #333;">
+                {{ .Content }}
+            </div>
+        </article>
+    </main>
+    {{ end }}
+
+    <section id="journal" class="journal-section">
+        <div class="container journal-container">
+            <div class="journal-header">
+                <h2>Engineering Notes</h2>
+                <p>Documenting my journey from grassroot implementation to backend systems.</p>
+            </div>
+            <div class="journal-grid">
+                {{ range .Posts }}
+                <div class="journal-card">
+                    <span class="journal-date">{{ .Date }}</span>
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ .Summary }}...</p>
+                    <a href="/blog/{{ .Slug }}" class="journal-link">Read Entry &rarr;</a>
+                </div>
+                {{ else }}
+                <p>No posts found yet.</p>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

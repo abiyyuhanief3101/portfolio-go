@@ -79,6 +79,19 @@ body {
     border: 1px solid rgba(63, 117, 108, 0.2);
 }
 
+/* Typing Cursor Effect */
+.badge::after {
+    content: '|';
+    animation: blink 1s infinite;
+    margin-left: 4px;
+    opacity: 1;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
 h1 {
     font-size: 2.8rem; /* UKURAN DIPERKECIL (Tadinya 3.5rem) */
     line-height: 1.1;
@@ -731,4 +744,146 @@ h1 {
 
 @media (max-width: 768px) {
     .paradox-title { font-size: 1.6rem; }
+}
+
+/* --- SECTION: JOURNAL / BLOG --- */
+.journal-section {
+    padding: 80px 5%;
+    background-color: var(--bg-cream);
+    display: flex;
+    justify-content: center;
+}
+
+.journal-container {
+    width: 100%;
+    max-width: 1200px;
+    height: auto; /* Override hero container height */
+    display: block; /* Override flex from .container */
+}
+
+.journal-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.journal-header h2 {
+    font-size: 2.5rem;
+    color: var(--green-deep);
+    margin-bottom: 10px;
+}
+
+.journal-header p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.journal-card {
+    background: #FFF;
+    border: 1px solid rgba(63, 117, 108, 0.2);
+    border-radius: 16px;
+    padding: 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(63, 117, 108, 0.15);
+}
+
+.journal-date {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.journal-card h3 {
+    font-size: 1.5rem;
+    color: var(--green-deep);
+    margin: 10px 0;
+    line-height: 1.3;
+}
+
+.journal-card p {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.journal-link {
+    color: var(--green-deep);
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* --- SECTION: JOURNEY --- */
+.journey-section {
+    width: 100%;
+    min-height: 700px;
+    background-image: url('/img/cafe_bg.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.journey-card {
+    position: absolute;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    z-index: 2;
+}
+
+.journey-card h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    color: #3F756C;
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+.journey-card p {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.journey-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 20px 40px rgba(63, 117, 108, 0.2);
+}
+
+.top-left { top: 10%; left: 5%; max-width: 600px;}
+.bottom-right { bottom: 13%; right: 5%; text-align: right; max-width: 400px; }
+
+@media (max-width: 768px) {
+    .journey-section { height: auto; min-height: 120vh; padding: 40px 5%; }
+    .journey-card { position: relative; width: 100%; }
+    .top-left { top: 0; left: 0; margin-bottom: 300px; text-align: center; }
+    .bottom-right { bottom: 0; right: 0; text-align: center; }
+}
+
+.insta-cta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 15px;
+    font-weight: 700;
+    color: var(--green-deep);
 }

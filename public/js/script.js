@@ -37,41 +37,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log("Humanist System Ready! 🌿");
 
-    // --- 1. LOGIKA SCROLL HINT (Tetap Pakai ini) ---
-    const scrollHint = document.querySelector('.scroll-hint');
-    const hookSection = document.getElementById('the-hook');
+    // --- TYPING EFFECT (Badge / Hello World) ---
+    const badge = document.querySelector('.badge');
+    if (badge) {
+        // Daftar kata yang akan berganti-ganti
+        const phrases = ["👋 Hello World!", "Thank you for visiting", "Let's Collaborate"];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeWriter() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                badge.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                badge.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
 
-    if (scrollHint && hookSection) {
-        scrollHint.addEventListener('click', () => {
-            hookSection.scrollIntoView({ behavior: 'smooth' });
-        });
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                typeSpeed = 2000; // Tunggu 2 detik sebelum menghapus
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                typeSpeed = 500; // Tunggu sebentar sebelum mengetik kata baru
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+        typeWriter();
     }
+
+    // --- 1. Hook Section Reference ---
+    const hookSection = document.getElementById('the-hook');
 
     // --- HERO PARALLAX EFFECT ---
     const heroSection = document.querySelector('.hero-section');
     const heroContent = document.querySelector('.hero-section .content');
 
-    if (heroSection) {
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            
-            // Optimization: Only animate when hero is visible
-            if (scrollY <= heroSection.offsetHeight) {
-                // Text moves slightly slower (0.4x) & fades out
-                if (heroContent) {
-                    heroContent.style.transform = `translateY(${scrollY * 0.4}px)`;
-                    heroContent.style.opacity = 1 - (scrollY / 700);
-                }
-
-                // Scroll hint fades out fast
-                if (scrollHint) {
-                    scrollHint.style.opacity = 1 - (scrollY / 300);
-                    // Keep the X centering while moving down
-                    scrollHint.style.transform = `translate(-50%, ${scrollY * 0.5}px)`;
-                }
-            }
-        });
-    }
+    
 
     // --- LOGOS: Fade In & Parallax Effect ---
     const logos = document.querySelectorAll('.float-logo');
