@@ -887,3 +887,47 @@ h1 {
     font-weight: 700;
     color: var(--green-deep);
 }
+
+/* --- SECTION: THE ASCENT --- */
+.ascent-section {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('/img/beyond.jpeg');
+    background-size: cover;
+    background-position: center bottom;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 60px 20px;
+}
+
+.ascent-content {
+    max-width: 700px;
+    text-align: center;
+    /* Glassmorphism effect for readability */
+    backdrop-filter: blur(4px);
+    background: rgba(246, 238, 205, 0.65); /* var(--bg-cream) with opacity */
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.ascent-content h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--green-deep);
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+.ascent-content p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+    .ascent-content h2 { font-size: 2.2rem; }
+}

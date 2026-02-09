@@ -10,4 +10,4 @@ Ini adalah konten blog yang ditulis menggunakan **Markdown**.
 Website ini sekarang bisa membaca file teks dan mengubahnya menjadi halaman HTML.
 
 ## Kenapa Golang?
-Karena Golang cepat, efisien, dan asik dipelajari!
+Karena Golang cepat, efisien, dan relevan!

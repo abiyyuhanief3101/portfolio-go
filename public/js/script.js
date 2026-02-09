@@ -60,12 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
             let typeSpeed = isDeleting ? 50 : 100;
 
             if (!isDeleting && charIndex === currentPhrase.length) {
-                typeSpeed = 2000; // Tunggu 2 detik sebelum menghapus
+                typeSpeed = 5000; // Tunggu 2 detik sebelum menghapus
                 isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 phraseIndex = (phraseIndex + 1) % phrases.length;
-                typeSpeed = 500; // Tunggu sebentar sebelum mengetik kata baru
+                typeSpeed = 700; // Tunggu sebentar sebelum mengetik kata baru
             }
 
             setTimeout(typeWriter, typeSpeed);
