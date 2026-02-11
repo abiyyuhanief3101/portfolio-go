@@ -1,11 +1,10 @@
 package handler
 
 import (
-	_ "embed"
+	"embed"
 	"html/template"
+	"io/fs"
 	"net/http"
-	"os"
-	"path/filepath"
 	"regexp"
 	"strings"
 )
@@ -17,6 +16,9 @@ var htmlContent string
 
 //go:embed blog.html
 var blogContent string
+
+//go:embed posts/*.md
+var postsFS embed.FS
 
 // BlogPost holds the data parsed from markdown files
 type BlogPost struct {
@@ -109,11 +111,11 @@ func parseMarkdown(filename string, content string) BlogPost {
 
 func getPosts() []BlogPost {
 	var posts []BlogPost
-	files, err := os.ReadDir("posts")
+	files, err := fs.ReadDir(postsFS, "posts")
 	if err == nil {
 		for _, f := range files {
 			if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
-				content, _ := os.ReadFile(filepath.Join("posts", f.Name()))
+				content, _ := fs.ReadFile(postsFS, "posts/"+f.Name())
 				posts = append(posts, parseMarkdown(f.Name(), string(content)))
 			}
 		}
@@ -149,7 +151,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Read specific file
-	content, err := os.ReadFile(filepath.Join("posts", slug+".md"))
+	content, err := fs.ReadFile(postsFS, "posts/"+slug+".md")
 	if err != nil {
 		http.NotFound(w, r)
 		return

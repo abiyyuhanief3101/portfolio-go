@@ -931,3 +931,162 @@ h1 {
 @media (max-width: 768px) {
     .ascent-content h2 { font-size: 2.2rem; }
 }
+
+/* --- 8. Playful Features --- */
+
+/* Feature 2: Timeline Navigation */
+.timeline-nav {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.timeline-nav ul {
+    list-style: none;
+    position: relative;
+}
+
+/* Vertical Line */
+.timeline-nav ul::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 6px; /* Center of dot (14px width / 2 approx) */
+    width: 2px;
+    background: rgba(63, 117, 108, 0.2);
+    z-index: -1;
+}
+
+.timeline-nav li {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.timeline-nav a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    position: relative;
+}
+
+.timeline-nav .dot {
+    width: 14px;
+    height: 14px;
+    background: var(--bg-cream);
+    border: 2px solid var(--green-deep);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.timeline-nav a.active .dot {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    transform: scale(1.3);
+}
+
+.timeline-nav .label {
+    position: absolute;
+    right: 25px;
+    background: var(--green-deep);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.timeline-nav a:hover .label {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Feature 1: Sticky Avatar */
+#guide-avatar {
+    position: fixed;
+    bottom: 30px;
+    left: 30px; /* Placed on Left to balance Timeline on Right */
+    width: 90px;
+    z-index: 999;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+#guide-avatar img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+    transition: opacity 0.3s ease;
+}
+
+.avatar-tooltip {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    background: #fff;
+    color: var(--text-main);
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    white-space: nowrap;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: bottom center;
+    pointer-events: none;
+}
+
+.avatar-tooltip.show {
+    transform: translateX(-50%) scale(1);
+}
+
+/* Feature 3: Humble Footer */
+.humble-footer {
+    background: var(--green-deep);
+    color: var(--bg-cream);
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 0;
+    position: relative;
+    z-index: 10;
+}
+
+.humble-footer p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.humble-footer:hover p {
+    opacity: 1;
+}
+
+.humble-footer .hidden-icon {
+    opacity: 0;
+    display: inline-block;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.humble-footer:hover .hidden-icon {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Responsive: Hide Playful Features */
+@media (max-width: 768px) {
+    .timeline-nav, #guide-avatar {
+        display: none;
+    }
+}

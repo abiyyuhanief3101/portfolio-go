@@ -118,6 +118,75 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+    // --- PLAYFUL FEATURES LOGIC ---
+    
+    // 1. Elements Selection
+    const avatarContainer = document.getElementById('guide-avatar');
+    const avatarImg = avatarContainer ? avatarContainer.querySelector('img') : null;
+    const avatarTooltip = avatarContainer ? avatarContainer.querySelector('.avatar-tooltip') : null;
+    const timelineLinks = document.querySelectorAll('.timeline-nav a');
+    const sections = document.querySelectorAll('section');
+
+    // 2. Intersection Observer for Active State
+    const observerOptions = {
+        threshold: 0.5 // Trigger when 50% of the section is visible
+    };
+
+    const observerCallback = (entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+
+                // A. Update Timeline
+                timelineLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // B. Update Avatar (Chameleon Effect)
+                if (avatarImg && avatarTooltip) {
+                    let newSrc = '/img/avatar_default.png';
+                    let message = "";
+
+                    if (id === 'the-paradox' || id === 'journey') {
+                        newSrc = '/img/avatar_nature.png';
+                        message = "Back to Roots! 🌱";
+                    } else if (id === 'ascent') {
+                        newSrc = '/img/avatar_tech.png';
+                        message = "Tech Mode: ON 🚀";
+                    } else {
+                        newSrc = '/img/avatar_default.png';
+                        message = "Hi there! 👋";
+                    }
+
+                    // Only update if src changes to avoid flickering
+                    if (!avatarImg.src.includes(newSrc)) {
+                        avatarImg.style.opacity = 0;
+                        setTimeout(() => {
+                            avatarImg.src = newSrc;
+                            avatarImg.style.opacity = 1;
+                            
+                            // Pop the tooltip
+                            avatarTooltip.textContent = message;
+                            avatarTooltip.classList.add('show');
+                            setTimeout(() => {
+                                avatarTooltip.classList.remove('show');
+                            }, 3000);
+                        }, 300);
+                    }
+                }
+            }
+        });
+    };
+
+    // Start Observing
+    if (sections.length > 0) {
+        const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
+        sections.forEach(section => sectionObserver.observe(section));
+    }
     
     console.log("Humanist System Ready! 🌿");
    
