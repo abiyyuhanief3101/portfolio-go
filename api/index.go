@@ -20,6 +20,9 @@ var blogContent string
 //go:embed posts/*.md
 var postsFS embed.FS
 
+//go:embed wins.html
+var winsContent string
+
 // BlogPost holds the data parsed from markdown files
 type BlogPost struct {
 	Slug    string
@@ -125,7 +128,13 @@ func getPosts() []BlogPost {
 
 // Handler is the entry point for Vercel
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// Simple Routing
+	// TAMBAHKAN ROUTING WINS DISINI
+	if r.URL.Path == "/wins" {
+		handleWins(w, r)
+		return
+	}
+
+	// Simple Routing bawaan kamu
 	if strings.HasPrefix(r.URL.Path, "/blog") {
 		handlePost(w, r)
 	} else {
@@ -192,6 +201,21 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 	// Tampilkan
 	err = tmpl.Execute(w, data)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// TAMBAHKAN FUNGSI INI DI BAWAH
+func handleWins(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.New("wins").Parse(winsContent)
+	if err != nil {
+		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Tampilkan halaman tanpa data dinamis (karena statis)
+	err = tmpl.Execute(w, nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

@@ -187,7 +187,44 @@ document.addEventListener('DOMContentLoaded', () => {
         const sectionObserver = new IntersectionObserver(observerCallback, observerOptions);
         sections.forEach(section => sectionObserver.observe(section));
     }
+
+    // --- SCROLL REVEAL ANIMATION ---
+    const revealElements = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                revealObserver.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, {
+        threshold: 0.40, // Trigger when 15% of element is visible
+        rootMargin: "0px 0px -50px 0px" // Trigger slightly before it hits the bottom
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
     
     console.log("Humanist System Ready! 🌿");
+    // --- EASTER EGG: CONFETTI RECENT WIN ---
+    const confettiBtn = document.getElementById('confetti-trigger');
+    if (confettiBtn) {
+        confettiBtn.addEventListener('click', () => {
+            // Animasi Confetti dasar
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#3F756C', '#C6743E', '#F6EECD'] // Pakai warna brand kamu
+            });
+            
+            // Ganti teks sementara
+            const originalText = confettiBtn.innerText;
+            confettiBtn.innerText = "🚀 Automaton Deployed!";
+            setTimeout(() => {
+                confettiBtn.innerText = originalText;
+            }, 2000);
+        });
+    }
    
 });

@@ -118,8 +118,6 @@ func getPosts() []BlogPost {
 
 // Handler untuk halaman utama
 func handleHome(w http.ResponseWriter, r *http.Request) {
-	// UPDATE 1: Lokasi HTML sekarang ada di folder 'api', bukan 'templates'
-	// Dan namanya sekarang 'template.html' (sesuai perubahan terakhir kita)
 	layout := filepath.Join("api", "template.html")
 
 	tmpl, err := template.ParseFiles(layout)
@@ -128,7 +126,6 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Data yang sama persis dengan yang di api/index.go
 	data := map[string]interface{}{
 		"Title":    "Abiyyu Hanief | Problem Solver",
 		"Name":     "Abiyyu Hanief",
@@ -143,6 +140,25 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
+
+// --- TAMBAHAN BARU: Handler untuk halaman Small Wins ---
+func handleWins(w http.ResponseWriter, r *http.Request) {
+	layout := filepath.Join("api", "wins.html")
+
+	tmpl, err := template.ParseFiles(layout)
+	if err != nil {
+		http.Error(w, "Error loading HTML: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Eksekusi tanpa mengirimkan data dinamis
+	err = tmpl.Execute(w, nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+// --------------------------------------------------------
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	slug := strings.TrimPrefix(r.URL.Path, "/blog/")
@@ -170,7 +186,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 
 	post := parseMarkdown(slug+".md", string(content))
 
-	// Prepare data with both the single post and the list of all posts
 	data := map[string]interface{}{
 		"Title":   post.Title,
 		"Date":    post.Date,
@@ -178,7 +193,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 		"Posts":   getPosts(),
 	}
 
-	// Parse the new blog template
 	tmpl, err := template.ParseFiles(filepath.Join("api", "blog.html"))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -188,9 +202,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// UPDATE 2: Mapping Folder 'public' agar sesuai logika Vercel
-	// Di HTML kita panggil "/css/style.css", jadi kita arahkan url "/css/" ke folder "public/css"
-
 	// Melayani folder CSS
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("public/css"))))
 
@@ -199,6 +210,10 @@ func main() {
 
 	// Melayani folder IMG
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("public/img"))))
+
+	// --- TAMBAHAN BARU: Rute Halaman Small Wins ---
+	http.HandleFunc("/wins", handleWins)
+	// ----------------------------------------------
 
 	// Rute Halaman Utama
 	http.HandleFunc("/", handleHome)

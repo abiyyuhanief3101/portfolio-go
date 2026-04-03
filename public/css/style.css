@@ -1090,3 +1090,198 @@ h1 {
         display: none;
     }
 }
+
+/* --- 9. Smooth Transitions & Reveal --- */
+
+/* Reveal Animation (Scroll Triggered) */
+.reveal {
+    opacity: 0;
+    transform: translateY(60px); /* Slide up distance */
+    transition: all 1.0s cubic-bezier(0.2, 0.8, 0.2, 1); /* Smooth ease-out */
+    will-change: opacity, transform;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Section Blending (Gradient Masks to soften edges) */
+
+/* Blend Hook (Cream) into Paradox (Image) */
+.paradox-section::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, var(--bg-cream) 10%, rgba(246, 238, 205, 0) 100%);
+    z-index: 1; /* Above background, below content */
+    pointer-events: none;
+}
+
+/* Blend Paradox into Journey */
+.journey-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, var(--bg-cream), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Blend Journey into Ascent */
+.ascent-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(246, 238, 205, 0.9), transparent);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* --- RECENT WIN SECTION (SLEEK TOP-BOTTOM) --- */
+.win-section {
+    padding: 60px 5%; 
+    background-color: var(--bg-cream);
+    display: flex;
+    justify-content: center;
+}
+
+.win-container {
+    max-width: 1100px; 
+    width: 100%;
+    background: transparent; 
+    display: flex;
+    flex-direction: column; /* BERUBAH: Memisahkan Teks di atas, Card di bawah */
+    gap: 40px;
+}
+
+/* --- BAGIAN ATAS (TEKS) --- */
+.win-content-left {
+    width: 100%;
+    max-width: 800px; /* Agar teks tidak memanjang dari ujung ke ujung */
+}
+
+.win-badge {
+    display: inline-block;
+    background-color: rgba(198, 116, 62, 0.1);
+    color: var(--terracotta);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.win-badge:hover {
+    transform: scale(1.05);
+}
+
+.win-title {
+    font-size: 2.8rem;
+    color: var(--green-deep);
+    margin-bottom: 16px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+.text-terracotta {
+    color: var(--terracotta);
+}
+
+.win-subtitle {
+    font-size: 1.15rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- BAGIAN BAWAH (SLEEK METRICS) --- */
+.win-content-right {
+    width: 100%; 
+}
+
+.sleek-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* BERUBAH: Memaksa 3 Card menjadi sebaris */
+    gap: 24px;
+}
+
+.sleek-card {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); 
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sleek-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(63, 117, 108, 0.08); 
+}
+
+/* Label kecil di atas */
+.sleek-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #888888;
+    margin-bottom: 16px;
+}
+
+/* Angka Besar */
+.sleek-value {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--green-deep); 
+    line-height: 1;
+    margin-bottom: 16px;
+    letter-spacing: -0.03em;
+}
+
+.sleek-value.text-terracotta {
+    color: var(--terracotta); 
+}
+
+/* Deskripsi bawah */
+.sleek-desc {
+    font-size: 0.95rem;
+    color: #555555;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Tech Tags */
+.sleek-tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.sleek-tech-tags span {
+    background-color: rgba(63, 117, 108, 0.08); 
+    color: var(--green-deep);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 900px) {
+    .sleek-metrics-grid {
+        grid-template-columns: 1fr; /* Jadi bertumpuk satu kolom jika dibuka di HP */
+    }
+}
