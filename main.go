@@ -25,6 +25,15 @@ type BlogPost struct {
 	Content    template.HTML `json:"-"`
 }
 
+type Book struct {
+	ID       string `json:"id"`
+	Title    string `json:"title"`
+	Author   string `json:"author"`
+	CoverURL string `json:"cover_url"`
+	Rating   int    `json:"rating"`
+	Review   string `json:"review"`
+}
+
 // Mesin Markdown Parser (Tetap sama, tidak ada yang diubah)
 func mdToHTML(md string) template.HTML {
 	html := template.HTMLEscapeString(md)
@@ -96,6 +105,26 @@ func fetchPostsFromSupabase() []BlogPost {
 		posts[i].Content = mdToHTML(posts[i].RawContent)
 	}
 	return posts
+}
+
+// Fungsi menarik data Buku dari Supabase
+func fetchBooksFromSupabase() []Book {
+	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/books?order=created_at.desc", nil)
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	var books []Book
+	if err != nil || resp.StatusCode != 200 {
+		log.Println("Error fetching books:", err)
+		return books
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	json.Unmarshal(body, &books)
+	return books
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
@@ -197,6 +226,21 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
+func handleLibrary(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("api/base.html", "api/library.html")
+	if err != nil {
+		http.Error(w, "Error loading HTML", http.StatusInternalServerError)
+		return
+	}
+
+	data := map[string]interface{}{
+		"Title": "Digital Library | Abiyyu Hanief",
+		"Books": fetchBooksFromSupabase(),
+	}
+
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
 func main() {
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("public/css"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("public/js"))))
@@ -206,6 +250,7 @@ func main() {
 	http.HandleFunc("/layers", handleLayers)
 	http.HandleFunc("/blog/", handlePost)
 	http.HandleFunc("/", handleHome)
+	http.HandleFunc("/library", handleLibrary)
 
 	log.Println("Server Localhost berjalan di http://localhost:8080 🚀")
 	err := http.ListenAndServe(":8080", nil)

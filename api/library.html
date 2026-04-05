@@ -1,0 +1,30 @@
+{{ define "content" }}
+
+<div class="library-header">
+    <h1>Digital Library.</h1>
+    <p>Kumpulan buku, jurnal, dan bacaan yang membentuk cara saya berpikir dan memecahkan masalah.</p>
+</div>
+
+<div class="library-grid">
+    {{ range .Books }}
+    <div class="book-card">
+        <img src="{{ .CoverURL }}" alt="{{ .Title }}" class="book-cover" onerror="this.src='/img/undraw_continuous-learning_a1ld.svg';">
+        
+        <div class="book-overlay">
+            <h3>{{ .Title }}</h3>
+            <p class="author">by {{ .Author }}</p>
+            
+            <div class="stars">
+                ⭐ {{ .Rating }}/5
+            </div>
+            
+            <p class="review-text">"{{ .Review }}"</p>
+        </div>
+    </div>
+    {{ else }}
+    <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #888;">
+        <p>Belum ada buku di perpustakaan ini. Sedang menyusun rak...</p>
+    </div>
+    {{ end }}
+</div>
+{{ end }}

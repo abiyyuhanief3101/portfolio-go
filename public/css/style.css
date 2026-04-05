@@ -1497,3 +1497,110 @@ h1 {
         max-width: none;
     }
 }
+
+/* --- DIGITAL LIBRARY STYLES --- */
+.library-header {
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+.library-header h1 {
+    font-size: 2.5rem;
+    color: var(--green-deep);
+    margin-bottom: 10px;
+}
+.library-header p {
+    color: #666;
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* CSS Grid untuk Rak Buku */
+.library-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 40px;
+    padding: 20px 40px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Kartu Buku */
+.book-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 2/3; /* Rasio standar cover buku */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    cursor: pointer;
+    background-color: #f4f4f4; /* Placeholder sebelum gambar load */
+}
+
+.book-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+/* Overlay saat Hover */
+.book-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(30, 30, 30, 0.9); /* Dark overlay */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+    opacity: 0; /* Tersembunyi secara default */
+    transition: opacity 0.3s ease;
+}
+
+.book-card:hover .book-cover {
+    transform: scale(1.08); /* Zoom in tipis saat dihover */
+}
+
+.book-card:hover .book-overlay {
+    opacity: 1; /* Munculkan teks */
+}
+
+.book-overlay h3 {
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.book-overlay .author {
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.stars {
+    color: #FFD700;
+    letter-spacing: 2px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.review-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #eee;
+    font-style: italic;
+    display: -webkit-box;
+    -webkit-line-clamp: 6; /* Batasi maksimal 6 baris agar tidak kepanjangan */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .library-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+}
