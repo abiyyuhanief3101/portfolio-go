@@ -9,6 +9,9 @@ import (
 	"strings"
 )
 
+//go:embed base.html
+var baseContent string
+
 // UBAH DISINI: Sesuaikan dengan nama file baru
 //
 //go:embed template.html
@@ -22,6 +25,9 @@ var postsFS embed.FS
 
 //go:embed wins.html
 var winsContent string
+
+//go:embed game.html
+var gameContent string
 
 // BlogPost holds the data parsed from markdown files
 type BlogPost struct {
@@ -133,6 +139,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		handleWins(w, r)
 		return
 	}
+	if r.URL.Path == "/layers" {
+		handleLayers(w, r)
+		return
+	}
 
 	// Simple Routing bawaan kamu
 	if strings.HasPrefix(r.URL.Path, "/blog") {
@@ -147,6 +157,17 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	path := strings.TrimPrefix(r.URL.Path, "/blog")
 	slug := strings.TrimPrefix(path, "/")
 
+	tmpl, err := template.New("base").Parse(baseContent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmpl, err = tmpl.Parse(blogContent)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	if slug == "" {
 		// BLOG INDEX PAGE
 		data := map[string]interface{}{
@@ -154,8 +175,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 			"Posts":   getPosts(),
 			"IsIndex": true,
 		}
-		tmpl, _ := template.New("blog").Parse(blogContent)
-		tmpl.Execute(w, data)
+		tmpl.ExecuteTemplate(w, "base", data)
 		return
 	}
 
@@ -176,31 +196,31 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 		"Posts":   getPosts(),
 	}
 
-	tmpl, _ := template.New("blog").Parse(blogContent)
-	tmpl.Execute(w, data)
+	tmpl.ExecuteTemplate(w, "base", data)
 }
 
 func handleHome(w http.ResponseWriter, r *http.Request) {
 
 	// Parsing HTML dari string yang sudah di-embed (bukan baca file lagi)
-	tmpl, err := template.New("index").Parse(htmlContent)
+	tmpl, err := template.New("base").Parse(baseContent)
 	if err != nil {
 		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+	tmpl, err = tmpl.Parse(htmlContent)
 
 	// Data yang sama seperti sebelumnya
 	data := map[string]interface{}{
 		"Title":    "Abiyyu Hanief | Portfolio",
 		"Name":     "Abiyyu Hanief",
-		"Role":     "Product Implementator & Fullstack Developer",
+		"Role":     "Product Implementer & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",
 		"About":    "A problem-solver who uses technology and process to empower communities. My approach, refined through experiences in both program coordination and software development, is to own a solution from concept to completion.",
 		"Posts":    getPosts(),
 	}
 
 	// Tampilkan
-	err = tmpl.Execute(w, data)
+	err = tmpl.ExecuteTemplate(w, "base", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
@@ -208,14 +228,29 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 
 // TAMBAHKAN FUNGSI INI DI BAWAH
 func handleWins(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.New("wins").Parse(winsContent)
+	tmpl, err := template.New("base").Parse(baseContent)
 	if err != nil {
 		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
+	tmpl, err = tmpl.Parse(winsContent)
 
 	// Tampilkan halaman tanpa data dinamis (karena statis)
-	err = tmpl.Execute(w, nil)
+	err = tmpl.ExecuteTemplate(w, "base", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+func handleLayers(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.New("base").Parse(baseContent)
+	if err != nil {
+		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	tmpl, err = tmpl.Parse(gameContent)
+
+	err = tmpl.ExecuteTemplate(w, "base", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}

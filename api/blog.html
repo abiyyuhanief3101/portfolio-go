@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} - Abiyyu Hanief</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo"><a href="/" style="text-decoration:none; color:inherit;">Abiyyu Hanief<span class="dot">.</span></a></div>
-        <div class="links">
-            <a href="/blog">Journal Index</a>
-        </div>
-    </nav>
-
+{{ define "content" }}
     {{ if not .IsIndex }}
     <main class="container" style="display: block; height: auto; padding-top: 60px; padding-bottom: 100px;">
         <article style="max-width: 700px; margin: 0 auto;">
@@ -52,6 +31,4 @@
             </div>
         </div>
     </section>
-
-</body>
-</html>
+{{ end }}

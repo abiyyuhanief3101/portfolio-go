@@ -1,27 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Small Wins | Abiyyu Hanief</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo">Abiyyu Hanief<span class="dot">.</span></div>
-        <div class="links">
-            <a href="/">Home</a>
-            <a href="/wins" class="active" style="color: var(--terracotta); font-weight: bold;">Small Wins</a>
-            <a href="mailto:your.email@example.com" class="btn-outline">Let's Talk</a>
-        </div>
-    </nav>
-
+{{ define "content" }}
     <main>
         <section class="win-section">
             <div class="win-container">
@@ -75,8 +52,8 @@
             </div>
         </section>
     </main>
+{{ end }}
 
-    <script src="/js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-</body>
-</html>
+{{ define "scripts" }}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+{{ end }}

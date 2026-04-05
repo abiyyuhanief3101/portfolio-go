@@ -4,6 +4,7 @@
     { "source": "/blog", "destination": "/api/index.go" },
     { "source": "/blog/(.*)", "destination": "/api/index.go" },
     { "source": "/wins", "destination": "/api/index.go" },
+    { "source": "/layers", "destination": "/api/index.go" },
     { "source": "/(.*)", "destination": "/api/index.go" }
   ]
 }

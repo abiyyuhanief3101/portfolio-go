@@ -1,0 +1,51 @@
+{{ define "base" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .Title }}{{ .Title }}{{ else }}Abiyyu Hanief | Portfolio{{ end }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Slot untuk CSS/Head tambahan per halaman -->
+    {{ block "head" . }}{{ end }}
+</head>
+<body style="background-color: var(--bg-cream); min-height: 100vh; font-family: 'Plus Jakarta Sans', sans-serif;">
+
+    <!-- NAVIGATION BAR GLOBAL -->
+    <nav class="navbar">
+        <div class="logo"><a href="/" style="text-decoration:none; color:inherit;">Abiyyu Hanief<span class="dot">.</span></a></div>
+        <div class="links">
+            <a href="#" class="coming-soon">About</a>
+            <a href="#" class="coming-soon">Projects</a>
+            <a href="/blog">Journal</a>
+            <a href="/wins">Small Wins</a>
+            <a href="/layers">The 3 Layers 🧠</a>
+            <a href="mailto:nafidzabiyyu@gmail.com" class="btn-outline">Let's Talk</a>
+        </div>
+    </nav>
+
+    <!-- KONTEN HALAMAN -->
+    {{ block "content" . }}{{ end }}
+
+    <!-- MODAL "SOMETHING IS BREWING" GLOBAL -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <img src="/img/undraw_idea-sketching_rifv.svg" alt="Cooking" class="modal-img">
+            <h2>Something is Brewing! ☕</h2>
+            <p>I'm currently crafting this section to be perfect.<br>Please stay tuned for updates!</p>
+            <button class="btn-primary close-action">Okay, got it!</button>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <!-- Slot untuk Script tambahan per halaman -->
+    {{ block "scripts" . }}{{ end }}
+</body>
+</html>
+{{ end }}
