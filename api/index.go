@@ -1,6 +1,7 @@
 package handler
 
 import (
+	_ "embed"
 	"encoding/json"
 	"html/template"
 	"io"
