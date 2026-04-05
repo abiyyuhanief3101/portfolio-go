@@ -178,7 +178,9 @@ func handleLibrary(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
-	slug := strings.TrimPrefix(r.URL.Path, "/blog/")
+	// PERBAIKAN: Cara mengambil slug yang lebih kebal error
+	path := strings.TrimPrefix(r.URL.Path, "/blog")
+	slug := strings.TrimPrefix(path, "/")
 
 	tmpl, _ := template.New("base").Parse(baseContent)
 	tmpl, _ = tmpl.Parse(blogContent)
