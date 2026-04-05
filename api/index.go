@@ -1,27 +1,28 @@
 package handler
 
 import (
-	"embed"
+	"encoding/json"
 	"html/template"
-	"io/fs"
+	"io"
 	"net/http"
 	"regexp"
 	"strings"
 )
 
+// Kredensial Supabase
+const supabaseUrl = "https://kgscotrveqoixnufzxea.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnc2NvdHJ2ZXFvaXhudWZ6eGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMDA3MjIsImV4cCI6MjA5MDg3NjcyMn0.2cjGOOcuyxE1z-5yhQo1epzfFd92nGPBDgPshCTbBi8"
+
+// --- EMBED HTML FILES ---
+//
 //go:embed base.html
 var baseContent string
 
-// UBAH DISINI: Sesuaikan dengan nama file baru
-//
 //go:embed template.html
 var htmlContent string
 
 //go:embed blog.html
 var blogContent string
-
-//go:embed posts/*.md
-var postsFS embed.FS
 
 //go:embed wins.html
 var winsContent string
@@ -29,20 +30,33 @@ var winsContent string
 //go:embed game.html
 var gameContent string
 
-// BlogPost holds the data parsed from markdown files
+//go:embed library.html
+var libraryContent string
+
+// --- STRUKTUR DATA ---
 type BlogPost struct {
-	Slug    string
-	Title   string
-	Date    string
-	Summary string // First few lines of the content
-	Content template.HTML
+	Slug       string        `json:"slug"`
+	Title      string        `json:"title"`
+	Date       string        `json:"created_at"`
+	Category   string        `json:"category"`
+	RawContent string        `json:"content"`
+	Summary    string        `json:"-"`
+	Content    template.HTML `json:"-"`
 }
 
+type Book struct {
+	ID       string `json:"id"`
+	Title    string `json:"title"`
+	Author   string `json:"author"`
+	CoverURL string `json:"cover_url"`
+	Rating   int    `json:"rating"`
+	Review   string `json:"review"`
+}
+
+// --- FUNGSI PARSER MARKDOWN ---
 func mdToHTML(md string) template.HTML {
-	// 1. Escape HTML to prevent XSS (basic protection)
 	html := template.HTMLEscapeString(md)
 
-	// 2. Headers (# H1, ## H2, ### H3)
 	re := regexp.MustCompile(`(?m)^#{3}\s+(.*)$`)
 	html = re.ReplaceAllString(html, "<h3>$1</h3>")
 	re = regexp.MustCompile(`(?m)^#{2}\s+(.*)$`)
@@ -50,16 +64,12 @@ func mdToHTML(md string) template.HTML {
 	re = regexp.MustCompile(`(?m)^#{1}\s+(.*)$`)
 	html = re.ReplaceAllString(html, "<h1>$1</h1>")
 
-	// 3. Bold (**text**)
 	re = regexp.MustCompile(`\*\*(.*?)\*\*`)
 	html = re.ReplaceAllString(html, "<strong>$1</strong>")
 
-	// 4. Italic (*text*)
 	re = regexp.MustCompile(`\*(.*?)\*`)
 	html = re.ReplaceAllString(html, "<em>$1</em>")
 
-	// 5. Paragraphs (Double newlines)
-	// Replace double newlines with paragraph tags, but ignore lines that are already headers
 	parts := strings.Split(html, "\n\n")
 	var pParts []string
 	for _, p := range parts {
@@ -75,183 +85,172 @@ func mdToHTML(md string) template.HTML {
 	return template.HTML(strings.Join(pParts, "\n"))
 }
 
-func parseMarkdown(filename string, content string) BlogPost {
-	post := BlogPost{
-		Slug: strings.TrimSuffix(filename, ".md"),
-	}
+// --- FUNGSI FETCH SUPABASE ---
+func fetchPostsFromSupabase() []BlogPost {
+	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/posts?order=created_at.desc", nil)
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
 
-	// Split content by "---" separator
-	parts := strings.SplitN(content, "---", 3)
-	if len(parts) >= 3 {
-		// Parse Frontmatter (parts[1])
-		lines := strings.Split(parts[1], "\n")
-		for _, line := range lines {
-			kv := strings.SplitN(line, ":", 2)
-			if len(kv) == 2 {
-				key := strings.TrimSpace(kv[0])
-				val := strings.Trim(strings.TrimSpace(kv[1]), "\"")
-				switch key {
-				case "title":
-					post.Title = val
-				case "date":
-					post.Date = val
-				case "description":
-					post.Summary = val
-				}
-			}
-		}
-		// Fallback: If description is empty, grab first line of body
-		if post.Summary == "" {
-			bodyLines := strings.Split(parts[2], "\n")
-			for _, line := range bodyLines {
-				cleanLine := strings.TrimSpace(line)
-				if cleanLine != "" && !strings.HasPrefix(cleanLine, "#") {
-					post.Summary = cleanLine
-					break
-				}
-			}
-		}
-
-		// Render full content to HTML
-		post.Content = mdToHTML(parts[2])
-	}
-	return post
-}
-
-func getPosts() []BlogPost {
+	client := &http.Client{}
+	resp, _ := client.Do(req)
 	var posts []BlogPost
-	files, err := fs.ReadDir(postsFS, "posts")
-	if err == nil {
-		for _, f := range files {
-			if !f.IsDir() && strings.HasSuffix(f.Name(), ".md") {
-				content, _ := fs.ReadFile(postsFS, "posts/"+f.Name())
-				posts = append(posts, parseMarkdown(f.Name(), string(content)))
+	if resp == nil || resp.StatusCode != 200 {
+		return posts
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	json.Unmarshal(body, &posts)
+
+	for i := range posts {
+		if len(posts[i].Date) >= 10 {
+			posts[i].Date = posts[i].Date[:10]
+		}
+		lines := strings.Split(posts[i].RawContent, "\n")
+		for _, line := range lines {
+			cleanLine := strings.TrimSpace(line)
+			if cleanLine != "" && !strings.HasPrefix(cleanLine, "#") {
+				posts[i].Summary = cleanLine
+				break
 			}
 		}
+		posts[i].Content = mdToHTML(posts[i].RawContent)
 	}
 	return posts
 }
 
-// Handler is the entry point for Vercel
-func Handler(w http.ResponseWriter, r *http.Request) {
-	// TAMBAHKAN ROUTING WINS DISINI
-	if r.URL.Path == "/wins" {
-		handleWins(w, r)
-		return
-	}
-	if r.URL.Path == "/layers" {
-		handleLayers(w, r)
-		return
-	}
+func fetchBooksFromSupabase() []Book {
+	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/books?order=created_at.desc", nil)
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
 
-	// Simple Routing bawaan kamu
-	if strings.HasPrefix(r.URL.Path, "/blog") {
-		handlePost(w, r)
-	} else {
-		handleHome(w, r)
+	client := &http.Client{}
+	resp, _ := client.Do(req)
+	var books []Book
+	if resp == nil || resp.StatusCode != 200 {
+		return books
 	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	json.Unmarshal(body, &books)
+	return books
+}
+
+// --- HANDLERS (LOGIKA TAMPILAN) ---
+func handleHome(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(htmlContent)
+
+	data := map[string]interface{}{
+		"Title":    "Abiyyu Hanief | Problem Solver",
+		"Name":     "Abiyyu Hanief",
+		"Role":     "Product Implementator & Fullstack Developer",
+		"Headline": "Empowering Communities through Tech & Process.",
+		"About":    "A problem-solver who uses technology and process to empower communities. My approach, refined through experiences in both program coordination and software development, is to own a solution from concept to completion.",
+		"Posts":    fetchPostsFromSupabase(),
+	}
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
+func handleWins(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(winsContent)
+	tmpl.ExecuteTemplate(w, "base", nil)
+}
+
+func handleLayers(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(gameContent)
+	tmpl.ExecuteTemplate(w, "base", nil)
+}
+
+func handleLibrary(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(libraryContent)
+
+	data := map[string]interface{}{
+		"Title": "Digital Library | Abiyyu Hanief",
+		"Books": fetchBooksFromSupabase(),
+	}
+	tmpl.ExecuteTemplate(w, "base", data)
 }
 
 func handlePost(w http.ResponseWriter, r *http.Request) {
-	// Normalize path: /blog/slug -> slug, /blog -> ""
-	path := strings.TrimPrefix(r.URL.Path, "/blog")
-	slug := strings.TrimPrefix(path, "/")
+	slug := strings.TrimPrefix(r.URL.Path, "/blog/")
 
-	tmpl, err := template.New("base").Parse(baseContent)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	tmpl, err = tmpl.Parse(blogContent)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(blogContent)
 
+	// Halaman Daftar Artikel (Index)
 	if slug == "" {
-		// BLOG INDEX PAGE
 		data := map[string]interface{}{
 			"Title":   "Engineering Notes",
-			"Posts":   getPosts(),
+			"Posts":   fetchPostsFromSupabase(),
 			"IsIndex": true,
 		}
 		tmpl.ExecuteTemplate(w, "base", data)
 		return
 	}
 
-	// Read specific file
-	content, err := fs.ReadFile(postsFS, "posts/"+slug+".md")
-	if err != nil {
+	// Halaman Detail Artikel
+	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/posts?slug=eq."+slug, nil)
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil || resp.StatusCode != 200 {
+		http.NotFound(w, r)
+		return
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+	var posts []BlogPost
+	json.Unmarshal(body, &posts)
+
+	if len(posts) == 0 {
 		http.NotFound(w, r)
 		return
 	}
 
-	post := parseMarkdown(slug+".md", string(content))
+	post := posts[0]
+	if len(post.Date) >= 10 {
+		post.Date = post.Date[:10]
+	}
+	post.Content = mdToHTML(post.RawContent)
 
-	// Prepare data with both the single post and the list of all posts
 	data := map[string]interface{}{
 		"Title":   post.Title,
 		"Date":    post.Date,
 		"Content": post.Content,
-		"Posts":   getPosts(),
+		"Posts":   fetchPostsFromSupabase(),
 	}
-
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
-func handleHome(w http.ResponseWriter, r *http.Request) {
+// --- ENTRY POINT VERCEL ---
+func Handler(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
 
-	// Parsing HTML dari string yang sudah di-embed (bukan baca file lagi)
-	tmpl, err := template.New("base").Parse(baseContent)
-	if err != nil {
-		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
+	if path == "/wins" {
+		handleWins(w, r)
 		return
 	}
-	tmpl, err = tmpl.Parse(htmlContent)
-
-	// Data yang sama seperti sebelumnya
-	data := map[string]interface{}{
-		"Title":    "Abiyyu Hanief | Portfolio",
-		"Name":     "Abiyyu Hanief",
-		"Role":     "Product Implementer & Fullstack Developer",
-		"Headline": "Empowering Communities through Tech & Process.",
-		"About":    "A problem-solver who uses technology and process to empower communities. My approach, refined through experiences in both program coordination and software development, is to own a solution from concept to completion.",
-		"Posts":    getPosts(),
-	}
-
-	// Tampilkan
-	err = tmpl.ExecuteTemplate(w, "base", data)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-// TAMBAHKAN FUNGSI INI DI BAWAH
-func handleWins(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.New("base").Parse(baseContent)
-	if err != nil {
-		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
+	if path == "/layers" {
+		handleLayers(w, r)
 		return
 	}
-	tmpl, err = tmpl.Parse(winsContent)
-
-	// Tampilkan halaman tanpa data dinamis (karena statis)
-	err = tmpl.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-func handleLayers(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.New("base").Parse(baseContent)
-	if err != nil {
-		http.Error(w, "Maaf, ada kesalahan sistem: "+err.Error(), http.StatusInternalServerError)
+	if path == "/library" {
+		handleLibrary(w, r)
 		return
 	}
-	tmpl, err = tmpl.Parse(gameContent)
-
-	err = tmpl.ExecuteTemplate(w, "base", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+	if strings.HasPrefix(path, "/blog") {
+		handlePost(w, r)
+		return
 	}
+
+	// Default rute diarahkan ke Home
+	handleHome(w, r)
 }
