@@ -1,5 +1,38 @@
 {{ define "content" }}
 
+<style>
+    /* Styling khusus untuk Badge Rating Baru */
+    .rating-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+    
+    .rating-badge i {
+        font-size: 1rem;
+    }
+    
+    /* Warna dinamis yang disuntikkan lewat JavaScript */
+    .rating-high { 
+        color: var(--green-deep, #5A9A8F); 
+        background-color: rgba(90, 154, 143, 0.15); 
+        border: 1px solid rgba(90, 154, 143, 0.3); 
+    }
+    .rating-mid { 
+        color: var(--terracotta, #C6743E); 
+        background-color: rgba(198, 116, 62, 0.15); 
+        border: 1px solid rgba(198, 116, 62, 0.3); 
+    }
+</style>
+
 <div class="library-header">
     <h1>Digital Library.</h1>
     <p>Kumpulan buku, jurnal, dan bacaan yang membentuk cara saya berpikir dan memecahkan masalah.</p>
@@ -14,9 +47,8 @@
             <h3>{{ .Title }}</h3>
             <p class="author">by {{ .Author }}</p>
             
-            <div class="stars">
-                ⭐ {{ .Rating }}/5
-            </div>
+            <div class="rating-badge dynamic-rating" data-rating="{{ .Rating }}">
+                </div>
             
             <p class="review-text">"{{ .Review }}"</p>
         </div>
@@ -27,4 +59,49 @@
     </div>
     {{ end }}
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Cari semua badge rating di layar
+        const ratingBadges = document.querySelectorAll('.dynamic-rating');
+
+        ratingBadges.forEach(badge => {
+            // Ambil angka dari atribut data-rating (misal: "4.5" -> 4.5)
+            const rawRating = parseFloat(badge.getAttribute('data-rating')) || 0;
+            
+            // Kalkulasi jumlah masing-masing tipe bintang
+            const fullStars = Math.floor(rawRating); // Bintang penuh (contoh: 4.5 -> 4)
+            const hasHalfStar = (rawRating % 1) >= 0.5; // True jika ada .5
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Sisa bintang kosong
+
+            let starsHTML = '';
+
+            // 1. Tulis Bintang Penuh
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="ph-fill ph-star"></i>';
+            }
+
+            // 2. Tulis Bintang Setengah (Jika Ada)
+            if (hasHalfStar) {
+                starsHTML += '<i class="ph-fill ph-star-half"></i>';
+            }
+
+            // 3. Tulis Bintang Kosong (Outline) untuk melengkapi total 5
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<i class="ph ph-star"></i>'; 
+            }
+
+            // Gabungkan bintang dengan angka aslinya
+            badge.innerHTML = starsHTML + '<span style="margin-left: 6px;">' + rawRating.toFixed(1) + '</span>';
+
+            // Warnai badge sesuai skor (4.0 ke atas Hijau, di bawahnya Terracotta)
+            if (rawRating >= 4.0) {
+                badge.classList.add('rating-high');
+            } else {
+                badge.classList.add('rating-mid');
+            }
+        });
+    });
+</script>
+
 {{ end }}

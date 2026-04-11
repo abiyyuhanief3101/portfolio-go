@@ -1,7 +1,6 @@
 // ==========================================
 // 1. STATE & DATA MANAGEMENT
 // ==========================================
-// Tambahkan Inisialisasi Supabase
 const supabaseUrl = 'https://kgscotrveqoixnufzxea.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnc2NvdHJ2ZXFvaXhudWZ6eGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMDA3MjIsImV4cCI6MjA5MDg3NjcyMn0.2cjGOOcuyxE1z-5yhQo1epzfFd92nGPBDgPshCTbBi8';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -56,27 +55,27 @@ const i18n = {
 };
 
 // ==========================================
-// 2. TEXT HELPERS (Membuat wording Seamless)
+// 2. TEXT HELPERS
 // ==========================================
-// Membesarkan huruf pertama nama hewan (misal: "burung hantu" -> "Burung hantu")
 function capitalizeTitle(str) {
     if (!str) return "";
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Membersihkan kata "karena" / "because" dan mengecilkan huruf pertama
 function cleanReason(str) {
     if (!str) return "";
     let cleaned = str.trim();
-    // Regex untuk menghapus kata karena/because di awal kalimat
     cleaned = cleaned.replace(/^(karena|karna|because|cause|cuz)\s+/i, '');
+    
+    if (cleaned === cleaned.toUpperCase()) {
+        return cleaned;
+    }
     return cleaned.charAt(0).toLowerCase() + cleaned.slice(1);
 }
 
 // ==========================================
 // 3. UI CONTROLLERS
 // ==========================================
-
 function setLanguage(lang) {
     currentState.language = lang;
     const t = i18n[lang];
@@ -108,7 +107,6 @@ function setLanguage(lang) {
     document.getElementById('btn-reveal').innerText = t.btnReveal;
 }
 
-// Set initial language saat file dimuat
 setLanguage(currentState.language);
 
 function nextScreen() {
@@ -177,7 +175,6 @@ async function revealResults() {
         return;
     }
 
-    // Ubah teks tombol jadi loading saat mengirim data
     const btnReveal = document.getElementById('btn-reveal');
     btnReveal.innerText = "Processing...";
     btnReveal.disabled = true;
@@ -186,59 +183,72 @@ async function revealResults() {
     const a2 = currentState.answers[1];
     const a3 = currentState.answers[2];
 
-    // --- MULAI PROSES KIRIM DATA KE SUPABASE ---
+    // Kirim data ke Supabase
     try {
         const { error } = await supabaseClient.from('visitor_insights').insert([{
-            name: name,
-            role: role,
-            email: email,
-            animal_1: a1.animal,
-            reason_1: a1.reason,
-            animal_2: a2.animal,
-            reason_2: a2.reason,
-            animal_3: a3.animal,
-            reason_3: a3.reason
+            name: name, role: role, email: email,
+            animal_1: a1.animal, reason_1: a1.reason,
+            animal_2: a2.animal, reason_2: a2.reason,
+            animal_3: a3.animal, reason_3: a3.reason
         }]);
-
-        if (error) console.error("Gagal mengirim data:", error);
+        if (error) console.error("Gagal mengirim data ke Supabase:", error);
     } catch (err) {
         console.error("Terjadi kesalahan jaringan:", err);
     }
-    // --- SELESAI PROSES KIRIM DATA ---
 
-    // Pindah ke Screen 5 (Hasil)
+    // Tampilkan Hasil di Layar
     currentState.screen = 5;
     document.getElementById('screen-4').classList.remove('active');
     document.getElementById('screen-5').classList.add('active');
     document.getElementById('spa-container').classList.add('wide-card');
 
-    // Set title hewan (Kapitalisasi huruf pertama)
     document.getElementById('res-animal-1').innerText = capitalizeTitle(a1.animal);
     document.getElementById('res-animal-2').innerText = capitalizeTitle(a2.animal);
     document.getElementById('res-animal-3').innerText = capitalizeTitle(a3.animal);
 
-    // Bersihkan alasan agar wordingnya seamless
     const r1 = cleanReason(a1.reason);
     const r2 = cleanReason(a2.reason);
     const r3 = cleanReason(a3.reason);
 
-    // Wording Hasil
     if(currentState.language === 'id') {
         document.getElementById('t-result-title').innerText = "Your 3 Layers";
-        document.getElementById('res-desc-1').innerHTML = `Secara tidak sadar, kamu memproyeksikan dirimu memiliki energi seperti ${a1.animal}. Apresiasimu terhadap sifatnya yang <strong>"${r1}"</strong> adalah karakter yang sangat ingin kamu tunjukkan kepada dunia saat ini.`;
-        document.getElementById('res-desc-2').innerHTML = `Tanpa kamu sadari, orang lain justru paling sering menangkap auramu layaknya ${a2.animal}. Kesan bahwa kamu adalah seseorang yang <strong>"${r2}"</strong> adalah energi dominan yang mereka rasakan darimu.`;
-        document.getElementById('res-desc-3').innerHTML = `Namun jauh di lubuk hatimu yang paling murni, inti dari jati dirimu (Core Self) beresonansi kuat dengan ${a3.animal}. Sifat <strong>"${r3}"</strong> adalah nilai paling sejati yang kamu pegang erat.`;
-        document.getElementById('t-closing').innerHTML = `Terkadang kita butuh melihat sesuatu dari 3 perspektif berbeda. Sama seperti bagaimana saya membangun sistem: dari sisi pengguna, bisnis, dan teknis. <strong>Let's connect!</strong>`;
+        document.getElementById('res-desc-1').innerHTML = `Secara tidak sadar, kamu memproyeksikan energimu layaknya ${a1.animal}. Apresiasimu terhadap konsep <strong>"${r1}"</strong> secara metaforis mencerminkan karakter yang paling ingin kamu tunjukkan kepada dunia saat ini.`;
+        document.getElementById('res-desc-2').innerHTML = `Tanpa disadari, orang lain justru paling sering menangkap auramu layaknya ${a2.animal}. Kesan yang menyiratkan <strong>"${r2}"</strong> adalah energi dominan yang mereka rasakan darimu.`;
+        document.getElementById('res-desc-3').innerHTML = `Namun jauh di lubuk hatimu, jati dirimu (Core Self) beresonansi dengan ${a3.animal}. Filosofi dari <strong>"${r3}"</strong> menyiratkan nilai paling sejati yang murni ada di dalam dirimu.`;
+        document.getElementById('t-closing').innerHTML = `Terkadang kita butuh melihat sesuatu dari 3 perspektif berbeda. Sama seperti bagaimana sebuah sistem dibangun: dari sisi pengguna, bisnis, dan teknis. <strong>Let's connect!</strong>`;
     } else {
         document.getElementById('t-result-title').innerText = "Your 3 Layers";
-        document.getElementById('res-desc-1').innerHTML = `You unconsciously project the qualities of a ${a1.animal}. Your deep appreciation for how it is <strong>"${r1}"</strong> reflects the exact identity you want the world to see right now.`;
-        document.getElementById('res-desc-2').innerHTML = `Without realizing it, people often perceive you with the energy of a ${a2.animal}. The impression that you are someone who is <strong>"${r2}"</strong> is your most prominent vibe.`;
-        document.getElementById('res-desc-3').innerHTML = `Deep down, your truest core resonates with the ${a3.animal}. Beyond the surface, the trait of being <strong>"${r3}"</strong> is who you purely are.`;
-        document.getElementById('t-closing').innerHTML = `Sometimes we need to see things from 3 different perspectives. Just like how I build systems: from the user's side, business side, and technical side. <strong>Let's connect!</strong>`;
+        document.getElementById('res-desc-1').innerHTML = `You unconsciously project the energy of a ${a1.animal}. Your appreciation for the concept of <strong>"${r1}"</strong> metaphorically reflects the exact identity you want the world to see right now.`;
+        document.getElementById('res-desc-2').innerHTML = `Without realizing it, people often perceive you with the vibe of a ${a2.animal}. The impression that implies <strong>"${r2}"</strong> is the most prominent energy they feel from you.`;
+        document.getElementById('res-desc-3').innerHTML = `Deep down, your truest core resonates with the ${a3.animal}. The philosophy behind <strong>"${r3}"</strong> implies the pure value you hold within.`;
+        document.getElementById('t-closing').innerHTML = `Sometimes we need to see things from 3 different perspectives. Just like how systems are built: from the user's side, business side, and technical side. <strong>Let's connect!</strong>`;
+    }
+
+    if (email !== '') {
+        const emailNotice = currentState.language === 'id' ?
+            `<br><br><span class="spam-notice" style="font-size: 0.85em; color: var(--terracotta);"><em>*Hasil analisismu sedang dikirim. Cek folder <strong>Promotions</strong> atau <strong>Spam</strong> jika email belum masuk di Inbox utama.</em></span>` :
+            `<br><br><span class="spam-notice" style="font-size: 0.85em; color: var(--terracotta);"><em>*Your results have been sent. Please check your <strong>Promotions</strong> or <strong>Spam</strong> folder if you don't see it in your primary inbox.</em></span>`;
+        document.getElementById('t-closing').innerHTML += emailNotice;
+    }
+
+    // --- PROSES KIRIM EMAIL (HANYA TEKS) ---
+    if (email !== '') {
+        const emailPayload = {
+            name: name,
+            email: email,
+            desc_1: document.getElementById('res-desc-1').innerText,
+            desc_2: document.getElementById('res-desc-2').innerText,
+            desc_3: document.getElementById('res-desc-3').innerText
+        };
+
+        fetch('/send-email', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(emailPayload)
+        }).catch(err => console.error("Gagal mengirim trigger email:", err));
     }
 }
 
-// Fungsi Native Share API
 function shareResult() {
     const shareText = currentState.language === 'en' ? 
         "I just discovered my 3 Layers of personality! Try this fun psychological exploration:" : 

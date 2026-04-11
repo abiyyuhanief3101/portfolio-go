@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -13,6 +15,9 @@ import (
 // Kredensial Supabase (REST API)
 const supabaseUrl = "https://kgscotrveqoixnufzxea.supabase.co"
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnc2NvdHJ2ZXFvaXhudWZ6eGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMDA3MjIsImV4cCI6MjA5MDg3NjcyMn0.2cjGOOcuyxE1z-5yhQo1epzfFd92nGPBDgPshCTbBi8"
+
+// Ganti dengan API Key Resend milikmu yang asli
+const resendApiKey = "re_TvXDCnx7_9kqVmyb8zCnDzrmrG6twfd16"
 
 // Struktur data menyesuaikan kolom di Supabase
 type BlogPost struct {
@@ -26,12 +31,20 @@ type BlogPost struct {
 }
 
 type Book struct {
-	ID       string `json:"id"`
-	Title    string `json:"title"`
-	Author   string `json:"author"`
-	CoverURL string `json:"cover_url"`
-	Rating   int    `json:"rating"`
-	Review   string `json:"review"`
+	ID       string  `json:"id"`
+	Title    string  `json:"title"`
+	Author   string  `json:"author"`
+	CoverURL string  `json:"cover_url"`
+	Rating   float64 `json:"rating"`
+	Review   string  `json:"review"`
+}
+
+type EmailRequest struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Desc1 string `json:"desc_1"`
+	Desc2 string `json:"desc_2"`
+	Desc3 string `json:"desc_3"`
 }
 
 // Mesin Markdown Parser
@@ -246,6 +259,69 @@ func handleClean(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, nil)
 }
 
+func handleSendEmail(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	var reqData EmailRequest
+	if err := json.NewDecoder(r.Body).Decode(&reqData); err != nil {
+		http.Error(w, "Bad request", http.StatusBadRequest)
+		return
+	}
+
+	// Buat template HTML email yang rapi dan elegan
+	htmlBody := fmt.Sprintf(`
+	<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; background-color: #ffffff; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px;">
+		<h2 style="color: #5A9A8F; text-align: center;">Your 3 Layers</h2>
+		<p>Hello <strong>%s</strong>,</p>
+		<p>Thank you for exploring your 3 Layers. Here is a copy of your psychological profile results:</p>
+		
+		<div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #C6743E;">
+			<p style="margin-top: 0;"><strong>Layer 1 (The Persona):</strong><br>%s</p>
+			<p><strong>Layer 2 (The Impression):</strong><br>%s</p>
+			<p style="margin-bottom: 0;"><strong>Layer 3 (The Core Self):</strong><br>%s</p>
+		</div>
+		
+		<p><em>Note: We've also attached a snapshot of your result card to this email so you can easily share it to your socials!</em></p>
+		<br>
+		<p style="border-top: 1px solid #eee; padding-top: 15px; font-size: 0.9em; color: #777;">
+			Warm regards,<br>
+			<strong>Abiyyu Hanief</strong><br>
+			<a href="https://abiyyuhanief.id" style="color: #5A9A8F; text-decoration: none;">abiyyuhanief.id</a>
+		</p>
+	</div>`, reqData.Name, reqData.Desc1, reqData.Desc2, reqData.Desc3)
+
+	// Rakit Payload (Data) untuk API Resend
+	// Rakit Payload (Data) untuk API Resend tanpa Attachment
+	resendPayload := map[string]interface{}{
+		"from":    "hello@abiyyuhanief.id",
+		"to":      []string{reqData.Email},
+		"subject": "Your 3 Layers Psychological Profile",
+		"html":    htmlBody,
+	}
+
+	payloadBytes, _ := json.Marshal(resendPayload)
+	client := &http.Client{}
+
+	// Tembak ke API Resend
+	req, _ := http.NewRequest("POST", "https://api.resend.com/emails", bytes.NewBuffer(payloadBytes))
+	req.Header.Set("Authorization", "Bearer "+resendApiKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error sending email via Resend:", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	defer resp.Body.Close()
+
+	// Kembalikan status sukses ke browser tanpa mengganggu UI
+	w.WriteHeader(http.StatusOK)
+}
+
 func main() {
 	// Routing Aset Statis
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("public/css"))))
@@ -258,6 +334,7 @@ func main() {
 	http.HandleFunc("/blog/", handlePost)
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/library", handleLibrary)
+	http.HandleFunc("/send-email", handleSendEmail)
 
 	// ROUTE BARU: Cleaning Mode
 	http.HandleFunc("/clean", handleClean)
