@@ -34,7 +34,7 @@ type Book struct {
 	Review   string `json:"review"`
 }
 
-// Mesin Markdown Parser (Tetap sama, tidak ada yang diubah)
+// Mesin Markdown Parser
 func mdToHTML(md string) template.HTML {
 	html := template.HTMLEscapeString(md)
 
@@ -66,7 +66,7 @@ func mdToHTML(md string) template.HTML {
 	return template.HTML(strings.Join(pParts, "\n"))
 }
 
-// Fungsi BARU: Menarik Data Posts dari Supabase via API
+// Fungsi Menarik Data Posts dari Supabase via API
 func fetchPostsFromSupabase() []BlogPost {
 	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/posts?order=created_at.desc", nil)
 	req.Header.Add("apikey", supabaseKey)
@@ -84,14 +84,11 @@ func fetchPostsFromSupabase() []BlogPost {
 	body, _ := io.ReadAll(resp.Body)
 	json.Unmarshal(body, &posts)
 
-	// Memproses Markdown dan memformat Tanggal
 	for i := range posts {
-		// Potong format waktu ISO 8601 (2026-04-05T...) menjadi tanggal saja (2026-04-05)
 		if len(posts[i].Date) >= 10 {
 			posts[i].Date = posts[i].Date[:10]
 		}
 
-		// Otomatis membuat Ringkasan (Summary) dari kalimat pertama
 		lines := strings.Split(posts[i].RawContent, "\n")
 		for _, line := range lines {
 			cleanLine := strings.TrimSpace(line)
@@ -101,7 +98,6 @@ func fetchPostsFromSupabase() []BlogPost {
 			}
 		}
 
-		// Terjemahkan Markdown murni dari DB menjadi HTML
 		posts[i].Content = mdToHTML(posts[i].RawContent)
 	}
 	return posts
@@ -127,6 +123,8 @@ func fetchBooksFromSupabase() []Book {
 	return books
 }
 
+// --- HANDLERS ---
+
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := template.ParseFiles("api/base.html", "api/template.html")
 	if err != nil {
@@ -140,7 +138,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 		"Role":     "Product Implementator & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",
 		"About":    "A problem-solver who uses technology and process to empower communities. My approach, refined through experiences in both program coordination and software development, is to own a solution from concept to completion.",
-		"Posts":    fetchPostsFromSupabase(), // Data ditarik dari Supabase!
+		"Posts":    fetchPostsFromSupabase(),
 	}
 
 	tmpl.ExecuteTemplate(w, "base", data)
@@ -164,14 +162,27 @@ func handleLayers(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", nil)
 }
 
-// Handle Post direvisi agar melakukan kueri ke API Supabase berdasarkan Slug
+func handleLibrary(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("api/base.html", "api/library.html")
+	if err != nil {
+		http.Error(w, "Error loading HTML", http.StatusInternalServerError)
+		return
+	}
+
+	data := map[string]interface{}{
+		"Title": "Digital Library | Abiyyu Hanief",
+		"Books": fetchBooksFromSupabase(),
+	}
+
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	slug := strings.TrimPrefix(r.URL.Path, "/blog/")
 
-	// Kondisi 1: Menampilkan halaman Index Blog
 	if slug == "" {
 		data := map[string]interface{}{
-			"Title":   "Engineering Notes",
+			"Title":   "Notes",
 			"Posts":   fetchPostsFromSupabase(),
 			"IsIndex": true,
 		}
@@ -182,7 +193,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Kondisi 2: Mencari artikel spesifik berdasarkan URL Slug
 	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/posts?slug=eq."+slug, nil)
 	req.Header.Add("apikey", supabaseKey)
 	req.Header.Add("Authorization", "Bearer "+supabaseKey)
@@ -200,11 +210,10 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(body, &posts)
 
 	if len(posts) == 0 {
-		http.NotFound(w, r) // Slug tidak ditemukan di database
+		http.NotFound(w, r)
 		return
 	}
 
-	// Data ditemukan!
 	post := posts[0]
 	if len(post.Date) >= 10 {
 		post.Date = post.Date[:10]
@@ -215,7 +224,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 		"Title":   post.Title,
 		"Date":    post.Date,
 		"Content": post.Content,
-		"Posts":   fetchPostsFromSupabase(), // Untuk list artikel lain di sidebar
+		"Posts":   fetchPostsFromSupabase(),
 	}
 
 	tmpl, err := template.ParseFiles("api/base.html", "api/blog.html")
@@ -226,31 +235,41 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
-func handleLibrary(w http.ResponseWriter, r *http.Request) {
-	tmpl, err := template.ParseFiles("api/base.html", "api/library.html")
+// FUNGSI BARU: Menangani Halaman Cleaning Mode
+func handleClean(w http.ResponseWriter, r *http.Request) {
+	// Karena ini halaman mandiri, kita tidak menggunakan base.html
+	tmpl, err := template.ParseFiles("api/clean.html")
 	if err != nil {
 		http.Error(w, "Error loading HTML", http.StatusInternalServerError)
 		return
 	}
-
-	data := map[string]interface{}{
-		"Title": "Digital Library | Abiyyu Hanief",
-		"Books": fetchBooksFromSupabase(),
-	}
-
-	tmpl.ExecuteTemplate(w, "base", data)
+	tmpl.Execute(w, nil)
 }
 
 func main() {
+	// Routing Aset Statis
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("public/css"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("public/js"))))
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("public/img"))))
 
+	// Routing Halaman Utama
 	http.HandleFunc("/wins", handleWins)
 	http.HandleFunc("/layers", handleLayers)
 	http.HandleFunc("/blog/", handlePost)
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/library", handleLibrary)
+
+	// ROUTE BARU: Cleaning Mode
+	http.HandleFunc("/clean", handleClean)
+
+	// Endpoint PWA
+	http.HandleFunc("/manifest.json", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "public/manifest.json")
+	})
+	http.HandleFunc("/sw.js", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/javascript")
+		http.ServeFile(w, r, "public/sw.js")
+	})
 
 	log.Println("Server Localhost berjalan di http://localhost:8080 🚀")
 	err := http.ListenAndServe(":8080", nil)

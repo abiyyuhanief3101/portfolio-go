@@ -243,6 +243,13 @@ h1 {
 
 /* --- Mobile Responsive --- */
 @media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        gap: 15px;
+        padding: 1.5rem 5% 1rem 5%;
+    }
     .hero-split {
         flex-direction: column-reverse;
         justify-content: center;
@@ -252,7 +259,15 @@ h1 {
     h1 { font-size: 2.2rem; }
     .hero-img { max-width: 280px; margin-bottom: 20px; }
     .cta-group { justify-content: center; }
-    .links { display: none; } /* Hide menu on mobile for now simple */
+    .links { 
+        display: flex; 
+        width: 100%; 
+        overflow-x: auto; 
+        padding-bottom: 5px;
+        scrollbar-width: none; /* Firefox */
+    }
+    .links::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+    .links a { margin-left: 0; margin-right: 1.5rem; }
 }
 
 /* --- VISUAL COMPOSITION (SIDE BY SIDE) --- */

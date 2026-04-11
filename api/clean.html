@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cleaning Mode | Abiyyu Hanief</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: #e0e0e0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            user-select: none;
+            position: relative;
+        }
+
+        .particle-container {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #ffffff;
+        }
+
+        /* METEOR CSS */
+        .meteor {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, #ffffff, #ffffff00);
+            border-radius: 2px;
+            transform: rotate(-30deg);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .status-container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: var(--green-deep, #5A9A8F);
+        }
+
+        p {
+            font-size: 1rem;
+            max-width: 400px;
+            line-height: 1.5;
+            color: #aaaaaa;
+        }
+
+        .key-hint {
+            display: inline-block;
+            background: #111111;
+            color: #cccccc;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-weight: bold;
+            border: 1px solid #333333;
+        }
+
+        .progress-bar-container {
+            width: 300px;
+            height: 4px;
+            background-color: #222222;
+            border-radius: 2px;
+            margin: 40px auto 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--green-deep, #5A9A8F);
+            transition: width 3s linear;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particle-container" id="particles"></div>
+
+    <div class="status-container">
+        <h1>Cleaning Mode</h1>
+        <p>Keyboard inputs are temporarily disabled for safe physical cleaning.</p>
+        <p style="margin-top: 30px;">
+            Hold <span class="key-hint">Shift</span> + <span class="key-hint">C</span> 
+            <br><span style="font-size: 0.85rem; color: #777;">(or Tap & Hold on touchscreen)</span><br>
+            for 3 seconds to unlock.
+        </p>
+        
+        <p style="margin-top: 30px; font-size: 0.85rem; color: #777; font-style: italic;">
+            (Only alphanumeric keys are disabled; system shortcuts remain active)
+        </p>
+        
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress"></div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // TWINKLING STARFIELD (REALISTIC)
+        // ==========================================
+        const starContainer = document.getElementById('particles');
+        const totalStars = 75; // Dikurangi agar tidak terlalu ramai
+
+        for (let i = 0; i < totalStars; i++) {
+            const star = document.createElement('div');
+            star.classList.add('particle');
+            
+            // Random size
+            const sizeValue = Math.random();
+            let size = 1;
+            if (sizeValue > 0.95) size = 2.5 + Math.random(); 
+            else if (sizeValue > 0.8) size = 1.5 + Math.random(); 
+            else size = 0.8 + Math.random(); 
+            
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            
+            // Set base opacity
+            const baseOpacity = anime.random(30, 80) / 100;
+            star.style.opacity = baseOpacity;
+            
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = posX + '%';
+            star.style.top = posY + '%';
+            
+            starContainer.appendChild(star);
+        }
+
+        // Animasi Twinkle (Blink-blink natural)
+        anime({
+            targets: '.particle',
+            opacity: function(el) {
+                // Buat opacity naik turun dari base opacity-nya
+                const current = parseFloat(el.style.opacity);
+                return [Math.max(0.1, current - 0.4), Math.min(1, current + 0.4)];
+            },
+            scale: function() {
+                // Sedikit membesar saat menyala agar lebih realistis
+                return [1, anime.random(10, 15) / 10]; 
+            },
+            easing: 'easeInOutSine',
+            duration: function() { return anime.random(1500, 4000); }, // Kedipnya santai
+            delay: function() { return anime.random(0, 5000); }, // Mulainya tidak barengan
+            loop: true,
+            direction: 'alternate'
+        });
+
+        // ==========================================
+        // METEOR ANIMATION (INFREQUENT)
+        // ==========================================
+        const meteorContainer = document.getElementById('particles');
+
+        function spawnMeteor() {
+            const meteor = document.createElement('div');
+            meteor.classList.add('meteor');
+            
+            const startX = anime.random(-20, 90); 
+            const startY = anime.random(-20, 30); 
+
+            meteor.style.left = startX + 'vw';
+            meteor.style.top = startY + 'vh';
+            meteor.style.opacity = '0';
+            
+            meteorContainer.appendChild(meteor);
+
+            anime({
+                targets: meteor,
+                translateX: anime.random(30, 70) + 'vw', 
+                translateY: anime.random(50, 90) + 'vh', 
+                opacity: [0, 0.7, 0], 
+                easing: 'easeOutQuint', 
+                duration: anime.random(700, 1300), 
+                complete: function() {
+                    meteor.remove(); 
+                }
+            });
+        }
+
+        function triggerMeteors() {
+            const numMeteors = anime.random(1, 2); 
+            for (let i = 0; i < numMeteors; i++) {
+                spawnMeteor();
+            }
+            
+            const nextTriggerDelay = anime.random(15000, 45000); 
+            setTimeout(triggerMeteors, nextTriggerDelay);
+        }
+
+        setTimeout(triggerMeteors, anime.random(3000, 8000));
+
+        // ==========================================
+        // UNLOCK LOGIC (KEYBOARD & TOUCH)
+        // ==========================================
+        let holdTimer = null;
+        let isUnlocking = false;
+        const progressBar = document.getElementById('progress');
+
+        function resetProgress() {
+            if (isUnlocking) {
+                isUnlocking = false;
+                clearTimeout(holdTimer);
+                
+                progressBar.style.transition = 'width 0.2s ease';
+                progressBar.style.width = '0%';
+                
+                setTimeout(() => {
+                    progressBar.style.transition = 'width 3s linear';
+                }, 200);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (!e.metaKey) e.preventDefault();
+
+            if (e.shiftKey && (e.key === 'c' || e.key === 'C')) {
+                if (!isUnlocking) {
+                    isUnlocking = true;
+                    progressBar.style.width = '100%';
+                    
+                    holdTimer = setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                }
+            }
+        }, { passive: false });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'Shift' || e.key === 'c' || e.key === 'C') {
+                resetProgress();
+            }
+        });
+
+        document.addEventListener('touchstart', (e) => {
+            if (e.touches.length > 1) return; 
+
+            if (!isUnlocking) {
+                isUnlocking = true;
+                progressBar.style.width = '100%';
+                
+                holdTimer = setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchend', resetProgress);
+        document.addEventListener('touchcancel', resetProgress); 
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+</body>
+</html>

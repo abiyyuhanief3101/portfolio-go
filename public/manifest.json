@@ -1,0 +1,21 @@
+{
+  "name": "Abiyyu Hanief | Portfolio",
+  "short_name": "Abiyyu",
+  "description": "Portfolio of Abiyyu Hanief",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6EECD",
+  "theme_color": "#F6EECD",
+  "icons": [
+    {
+      "src": "/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

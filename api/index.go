@@ -34,6 +34,9 @@ var gameContent string
 //go:embed library.html
 var libraryContent string
 
+//go:embed clean.html
+var cleanContent string
+
 // --- STRUKTUR DATA ---
 type BlogPost struct {
 	Slug       string        `json:"slug"`
@@ -177,6 +180,12 @@ func handleLibrary(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
+func handleClean(w http.ResponseWriter, r *http.Request) {
+	// Karena ini halaman mandiri, kita tidak memakai base.html
+	tmpl, _ := template.New("clean").Parse(cleanContent)
+	tmpl.Execute(w, nil)
+}
+
 func handlePost(w http.ResponseWriter, r *http.Request) {
 	// PERBAIKAN: Cara mengambil slug yang lebih kebal error
 	path := strings.TrimPrefix(r.URL.Path, "/blog")
@@ -188,7 +197,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	// Halaman Daftar Artikel (Index)
 	if slug == "" {
 		data := map[string]interface{}{
-			"Title":   "Engineering Notes",
+			"Title":   "Notes",
 			"Posts":   fetchPostsFromSupabase(),
 			"IsIndex": true,
 		}
@@ -236,6 +245,11 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 // --- ENTRY POINT VERCEL ---
 func Handler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
+
+	if path == "/clean" {
+		handleClean(w, r)
+		return
+	}
 
 	if path == "/wins" {
 		handleWins(w, r)

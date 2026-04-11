@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ if .Title }}{{ .Title }}{{ else }}Abiyyu Hanief | Portfolio{{ end }}</title>
+
+    <!-- PWA Requirements -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#F6EECD">
+    <link rel="apple-touch-icon" href="/img/icon-192x192.png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,13 +25,12 @@
     <nav class="navbar">
         <div class="logo"><a href="/" style="text-decoration:none; color:inherit;">Abiyyu Hanief<span class="dot">.</span></a></div>
         <div class="links">
-            <a href="#" class="coming-soon">About</a>
-            <a href="#" class="coming-soon">Projects</a>
+            {{/*  <a href="#" class="coming-soon">About</a>
+            <a href="#" class="coming-soon">Projects</a>  */}}
             <a href="/library" class="nav-item">Library</a>
             <a href="/blog">Journal</a>
             <a href="/wins">Small Wins</a>
             <a href="/layers">The 3 Layers 🧠</a>
-            <a href="mailto:nafidzabiyyu@gmail.com" class="btn-outline">Let's Talk</a>
         </div>
     </nav>
 
@@ -45,6 +49,17 @@
     </div>
 
     <script src="/js/script.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker Registered!', reg.scope))
+                    .catch(err => console.error('Service Worker Registration Failed!', err));
+            });
+        }
+    </script>
     <!-- Slot untuk Script tambahan per halaman -->
     {{ block "scripts" . }}{{ end }}
 </body>
