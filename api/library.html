@@ -16,11 +16,8 @@
         transition: all 0.3s ease;
     }
     
-    .rating-badge i {
-        font-size: 1rem;
-    }
+    .rating-badge i { font-size: 1rem; }
     
-    /* Warna dinamis yang disuntikkan lewat JavaScript */
     .rating-high { 
         color: var(--green-deep, #5A9A8F); 
         background-color: rgba(90, 154, 143, 0.15); 
@@ -31,11 +28,50 @@
         background-color: rgba(198, 116, 62, 0.15); 
         border: 1px solid rgba(198, 116, 62, 0.3); 
     }
+
+    /* Indikator Buku Punya Jurnal */
+    /* Update styling note-indicator agar lebih "clickable" */
+    .note-indicator {
+    margin-top: 15px; 
+    background: rgba(255, 255, 255, 0.15); 
+    padding: 8px 16px; 
+    border-radius: 20px; 
+    font-size: 0.85rem; 
+    font-weight: 700; 
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
+    display: inline-block; /* Agar kotak tidak melar penuh */
+    }
+    .note-indicator:hover {
+    background: var(--green-deep);
+    color: white;
+    transform: scale(1.05); /* Sedikit membesar saat hover */
+    }
+    .note-indicator:active {
+    transform: scale(0.95); /* Efek membal saat di-klik/tap */
+    }
+
+    .book-card.has-note:hover .note-indicator {
+        background: var(--green-deep);
+        color: white;
+    }
+
+    /* Loader Spinner untuk Pop-up */
+    .book-loader {
+        width: 40px; height: 40px; 
+        border: 4px solid #f0f0f0; 
+        border-top: 4px solid var(--green-deep); 
+        border-radius: 50%; 
+        animation: spin 1s linear infinite; 
+        margin: 40px auto;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 
 <div class="library-header">
     <h1>Digital Library.</h1>
-    <p>Kumpulan buku, jurnal, dan bacaan yang membentuk cara saya berpikir dan memecahkan masalah.</p>
+    <p>My way of thought, maybe.</p>
 </div>
 
 <div class="library-grid">
@@ -47,61 +83,86 @@
             <h3>{{ .Title }}</h3>
             <p class="author">by {{ .Author }}</p>
             
-            <div class="rating-badge dynamic-rating" data-rating="{{ .Rating }}">
-                </div>
+            <div class="rating-badge dynamic-rating" data-rating="{{ .Rating }}"></div>
             
             <p class="review-text">"{{ .Review }}"</p>
+
+            {{ if .PostSlug }}
+            <div class="note-indicator" 
+                 onclick="openBookNote('{{ .PostSlug }}'); event.stopPropagation();" 
+                 style="cursor: pointer;">
+                📝 Read Long Notes
+            </div>
+            {{ end }}
         </div>
     </div>
     {{ else }}
-    <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #888;">
-        <p>Belum ada buku di perpustakaan ini. Sedang menyusun rak...</p>
-    </div>
     {{ end }}
 </div>
 
+<div id="notionModal" class="notion-modal" onclick="closeModal(event)">
+    <div class="notion-modal-content" onclick="event.stopPropagation()">
+        <span class="notion-close-btn" onclick="closeModal()">&times;</span>
+        <div id="modalBody">
+            </div>
+    </div>
+</div>
+
 <script>
+    // Skrip Rating Bintang
     document.addEventListener("DOMContentLoaded", function() {
-        // Cari semua badge rating di layar
         const ratingBadges = document.querySelectorAll('.dynamic-rating');
-
         ratingBadges.forEach(badge => {
-            // Ambil angka dari atribut data-rating (misal: "4.5" -> 4.5)
             const rawRating = parseFloat(badge.getAttribute('data-rating')) || 0;
-            
-            // Kalkulasi jumlah masing-masing tipe bintang
-            const fullStars = Math.floor(rawRating); // Bintang penuh (contoh: 4.5 -> 4)
-            const hasHalfStar = (rawRating % 1) >= 0.5; // True jika ada .5
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Sisa bintang kosong
-
+            const fullStars = Math.floor(rawRating); 
+            const hasHalfStar = (rawRating % 1) >= 0.5; 
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); 
             let starsHTML = '';
-
-            // 1. Tulis Bintang Penuh
-            for (let i = 0; i < fullStars; i++) {
-                starsHTML += '<i class="ph-fill ph-star"></i>';
-            }
-
-            // 2. Tulis Bintang Setengah (Jika Ada)
-            if (hasHalfStar) {
-                starsHTML += '<i class="ph-fill ph-star-half"></i>';
-            }
-
-            // 3. Tulis Bintang Kosong (Outline) untuk melengkapi total 5
-            for (let i = 0; i < emptyStars; i++) {
-                starsHTML += '<i class="ph ph-star"></i>'; 
-            }
-
-            // Gabungkan bintang dengan angka aslinya
+            for (let i = 0; i < fullStars; i++) starsHTML += '<i class="ph-fill ph-star"></i>';
+            if (hasHalfStar) starsHTML += '<i class="ph-fill ph-star-half"></i>';
+            for (let i = 0; i < emptyStars; i++) starsHTML += '<i class="ph ph-star"></i>'; 
             badge.innerHTML = starsHTML + '<span style="margin-left: 6px;">' + rawRating.toFixed(1) + '</span>';
-
-            // Warnai badge sesuai skor (4.0 ke atas Hijau, di bawahnya Terracotta)
-            if (rawRating >= 4.0) {
-                badge.classList.add('rating-high');
-            } else {
-                badge.classList.add('rating-mid');
-            }
+            if (rawRating >= 4.0) badge.classList.add('rating-high');
+            else badge.classList.add('rating-mid');
         });
     });
+
+    // Skrip Modal & Fetch Data Blog
+    async function openBookNote(slug) {
+        const modal = document.getElementById('notionModal');
+        const modalBody = document.getElementById('modalBody');
+        
+        // Tampilkan Modal dengan animasi Loading
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden'; 
+        modalBody.innerHTML = '<div style="text-align:center;"><div class="book-loader"></div><p style="color:#888;">Membuka lembaran catatan...</p></div>';
+
+        try {
+            // Tembak request ke halaman blog di belakang layar
+            const response = await fetch('/blog/' + slug);
+            const htmlText = await response.text();
+            
+            // Ubah teks respon jadi elemen HTML Virtual
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            
+            // Cari div artikelnya berdasarkan slug
+            const contentDiv = doc.getElementById('content-' + slug);
+            
+            if (contentDiv) {
+                modalBody.innerHTML = contentDiv.innerHTML;
+            } else {
+                modalBody.innerHTML = '<div style="text-align:center; padding: 40px; color:#888;">Catatan tidak ditemukan.</div>';
+            }
+        } catch (error) {
+            modalBody.innerHTML = '<div style="text-align:center; padding: 40px; color:#888;">Gagal memuat catatan. Periksa koneksi internetmu.</div>';
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('notionModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; 
+    }
 </script>
 
 {{ end }}

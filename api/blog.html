@@ -1,34 +1,97 @@
 {{ define "content" }}
-    {{ if not .IsIndex }}
-    <main class="container" style="display: block; height: auto; padding-top: 60px; padding-bottom: 100px;">
-        <article style="max-width: 700px; margin: 0 auto;">
-            <span class="journal-date" style="display:block; margin-bottom:10px;">{{ .Date }}</span>
-            <h1 style="font-size: 2.5rem; color: var(--green-deep); margin-bottom: 30px; line-height: 1.2;">{{ .Title }}</h1>
-            <div class="blog-content" style="line-height: 1.8; font-size: 1.1rem; color: #333;">
-                {{ .Content }}
-            </div>
-        </article>
-    </main>
-    {{ end }}
-
-    <section id="journal" class="journal-section">
-        <div class="container journal-container">
-            <div class="journal-header">
-                <h2>Notes</h2>
-                <p>Documenting my journey from grassroot implementation to backend systems.</p>
-            </div>
-            <div class="journal-grid">
-                {{ range .Posts }}
-                <div class="journal-card">
-                    <span class="journal-date">{{ .Date }}</span>
-                    <h3>{{ .Title }}</h3>
-                    <p>{{ .Summary }}...</p>
-                    <a href="/blog/{{ .Slug }}" class="journal-link">Read Entry &rarr;</a>
-                </div>
-                {{ else }}
-                <p>No posts found yet.</p>
-                {{ end }}
-            </div>
+<section id="journal" class="journal-section">
+    <div class="journal-container">
+        
+        <div class="journal-header">
+            <h2>Notes.</h2>
+            <p>Documenting process, thoughts, and efficiency.</p>
         </div>
-    </section>
+
+        <div class="journal-grid">
+            {{ range .Posts }}
+            <div class="journal-card" onclick="openPost('{{ .Slug }}')">
+                <div>
+                    <div class="tag-container" style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                        <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
+                        
+                        {{ range .Category }}
+                            <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Book" }}book{{ else if eq . "Code" }}code{{ else }}default{{ end }}">
+                                {{ . }}
+                            </span>
+                        {{ end }}
+                    </div>
+
+                    <h3>{{ .Title }}</h3>
+                </div>
+                
+                <div class="card-footer">
+                    <span class="journal-date" style="margin: 0;">{{ .Date }}</span>
+                    <span style="color: var(--green-deep); font-weight: 700; font-size: 0.9rem;">Read &rarr;</span>
+                </div>
+
+                <div id="content-{{ .Slug }}" style="display: none;">
+                    <div class="modal-header">
+                        
+                        <div class="modal-meta" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+                            <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
+                            {{ range .Category }}
+                                <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Buku" }}book{{ else }}default{{ end }}" style="margin: 0;">
+                                    {{ . }}
+                                </span>
+                            {{ end }}
+                            <span style="color: #888; font-size: 0.9rem; margin-left: 5px;">• {{ .Date }}</span>
+                        </div>
+
+                        <h1>{{ .Title }}</h1>
+                    </div>
+                    <div class="modal-body">
+                        {{ .Content }}
+                    </div>
+                </div>
+            </div>
+            {{ else }}
+            <div style="text-align: center; color: #888; padding: 40px;">
+                <p>No posts found yet.</p>
+            </div>
+            {{ end }}
+        </div>
+
+    </div>
+</section>
+
+<div id="notionModal" class="notion-modal" onclick="closeModal(event)">
+    <div class="notion-modal-content" onclick="event.stopPropagation()">
+        <span class="notion-close-btn" onclick="closeModal()">&times;</span>
+        <div id="modalBody">
+            </div>
+    </div>
+</div>
+
+<script>
+    function openPost(slug) {
+        const content = document.getElementById('content-' + slug).innerHTML;
+        document.getElementById('modalBody').innerHTML = content;
+        document.getElementById('notionModal').style.display = 'flex';
+        document.body.style.overflow = 'hidden'; // Lock scroll
+        
+        window.history.pushState({}, '', '/blog/' + slug);
+    }
+
+    function closeModal() {
+        document.getElementById('notionModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Unlock scroll
+        window.history.pushState({}, '', '/blog');
+    }
+
+    // Handle Direct Links
+    window.onload = () => {
+        const path = window.location.pathname;
+        if (path.startsWith('/blog/')) {
+            const slug = path.split('/').pop();
+            if (slug && document.getElementById('content-' + slug)) {
+                openPost(slug);
+            }
+        }
+    };
+</script>
 {{ end }}

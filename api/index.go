@@ -48,8 +48,9 @@ type BlogPost struct {
 	Slug       string        `json:"slug"`
 	Title      string        `json:"title"`
 	Date       string        `json:"created_at"`
-	Category   string        `json:"category"`
+	Category   []string      `json:"category"` // 👈 DIUBAH DARI string MENJADI []string (Array)
 	RawContent string        `json:"content"`
+	Language   string        `json:"language"`
 	Summary    string        `json:"-"`
 	Content    template.HTML `json:"-"`
 }
@@ -61,6 +62,7 @@ type Book struct {
 	CoverURL string  `json:"cover_url"`
 	Rating   float64 `json:"rating"`
 	Review   string  `json:"review"`
+	PostSlug string  `json:"post_slug"` // 👈 TAMBAHAN BARU (Relasi ke Blog)
 }
 
 type EmailRequest struct {
@@ -161,7 +163,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ = tmpl.Parse(htmlContent)
 
 	data := map[string]interface{}{
-		"Title":    "Abiyyu Hanief | Problem Solver",
+		"Title":    "Abiyyu Hanief | Home",
 		"Name":     "Abiyyu Hanief",
 		"Role":     "Product Implementator & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",

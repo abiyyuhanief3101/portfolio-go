@@ -8,6 +8,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 )
@@ -17,16 +18,16 @@ const supabaseUrl = "https://kgscotrveqoixnufzxea.supabase.co"
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtnc2NvdHJ2ZXFvaXhudWZ6eGVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzMDA3MjIsImV4cCI6MjA5MDg3NjcyMn0.2cjGOOcuyxE1z-5yhQo1epzfFd92nGPBDgPshCTbBi8"
 
 // Ganti dengan API Key Resend milikmu yang asli
-const resendApiKey = "re_TvXDCnx7_9kqVmyb8zCnDzrmrG6twfd16"
 
-// Struktur data menyesuaikan kolom di Supabase
+// --- STRUKTUR DATA ---
 type BlogPost struct {
 	Slug       string        `json:"slug"`
 	Title      string        `json:"title"`
 	Date       string        `json:"created_at"`
-	Category   string        `json:"category"`
+	Category   []string      `json:"category"` // 👈 DIUBAH DARI string MENJADI []string (Array)
 	RawContent string        `json:"content"`
-	Summary    string        `json:"-"` // "-" artinya abaikan saat membaca JSON
+	Language   string        `json:"language"`
+	Summary    string        `json:"-"`
 	Content    template.HTML `json:"-"`
 }
 
@@ -37,6 +38,7 @@ type Book struct {
 	CoverURL string  `json:"cover_url"`
 	Rating   float64 `json:"rating"`
 	Review   string  `json:"review"`
+	PostSlug string  `json:"post_slug"` // 👈 TAMBAHAN BARU (Relasi ke Blog)
 }
 
 type EmailRequest struct {
@@ -146,7 +148,7 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := map[string]interface{}{
-		"Title":    "Abiyyu Hanief | Problem Solver",
+		"Title":    "Abiyyu Hanief | Home",
 		"Name":     "Abiyyu Hanief",
 		"Role":     "Product Implementator & Fullstack Developer",
 		"Headline": "Empowering Communities through Tech & Process.",
@@ -301,6 +303,8 @@ func handleSendEmail(w http.ResponseWriter, r *http.Request) {
 		"subject": "Your 3 Layers Psychological Profile",
 		"html":    htmlBody,
 	}
+
+	resendApiKey := os.Getenv("RESEND_API_KEY") // Ambil API Key Resend dari environment variable
 
 	payloadBytes, _ := json.Marshal(resendPayload)
 	client := &http.Client{}

@@ -1,0 +1,5 @@
+# Mengabaikan file environment
+.env
+
+# Mengabaikan file credential Google
+credentials.json
