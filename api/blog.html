@@ -1,17 +1,20 @@
 {{ define "content" }}
 <section id="journal" class="journal-section">
     <div class="journal-container">
-        
-        <div class="journal-header">
-            <h2>Notes.</h2>
+        <div class="journal-header" style="margin-bottom: 40px;">
+            <h1 style="font-size: 3rem; font-weight: 800; color: var(--green-deep);">Notes.</h1>
             <p>Documenting process, thoughts, and efficiency.</p>
+            
+            <div class="illustration-absolute hide-on-mobile">
+                <img src="/img/journal_illustration_transparent.png" alt="Journal Illustration" class="floating-img" loading="lazy">
+            </div>
         </div>
 
         <div class="journal-grid">
             {{ range .Posts }}
             <div class="journal-card" onclick="openPost('{{ .Slug }}')">
                 <div>
-                    <div class="tag-container" style="margin-bottom: 15px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <div class="tag-container" style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
                         <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
                         
                         {{ range .Category }}
@@ -22,6 +25,8 @@
                     </div>
 
                     <h3>{{ .Title }}</h3>
+
+                    <p class="post-preview">{{ .Summary }}</p>
                 </div>
                 
                 <div class="card-footer">
@@ -31,11 +36,10 @@
 
                 <div id="content-{{ .Slug }}" style="display: none;">
                     <div class="modal-header">
-                        
                         <div class="modal-meta" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
                             <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
                             {{ range .Category }}
-                                <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Buku" }}book{{ else }}default{{ end }}" style="margin: 0;">
+                                <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Book" }}book{{ else if eq . "Code" }}code{{ else }}default{{ end }}">
                                     {{ . }}
                                 </span>
                             {{ end }}
@@ -83,7 +87,6 @@
         window.history.pushState({}, '', '/blog');
     }
 
-    // Handle Direct Links
     window.onload = () => {
         const path = window.location.pathname;
         if (path.startsWith('/blog/')) {

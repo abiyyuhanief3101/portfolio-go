@@ -6,17 +6,42 @@
     --terracotta: #C6743E;
     --gold: #E1C789;
     --text-main: #2D3436;
+
+    /* --- Semantic Variables for Light/Dark Mode --- */
+    --bg-primary: var(--bg-cream);
+    --bg-secondary: #FDFBF7;
+    --text-primary: var(--text-main);
+    --text-secondary: #555555;
+    --border-color: rgba(0, 0, 0, 0.05);
+    --navbar-bg: transparent;
+    --card-bg: #ffffff;
+    --link-color: var(--green-deep);
+    --theme-toggle-bg: rgba(63, 117, 108, 0.1);
+}
+
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-secondary: #1E1E1E;
+    --text-primary: #E0E0E0;
+    --text-secondary: #A0A0A0;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --navbar-bg: #121212;
+    --card-bg: #1A1A1A;
+    --link-color: var(--green-neon);
+    --theme-toggle-bg: rgba(255, 255, 255, 0.1);
+    --green-deep: #4FA89B; /* Slightly lighter deep-green for better contrast */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-color: var(--bg-cream);
-    color: var(--text-main);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     font-family: 'Plus Jakarta Sans', sans-serif;
     line-height: 1.5; /* Line height diperkecil dikit */
     overflow-x: hidden;
     height: 100vh; /* Kunci tinggi layar */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* --- 2. Navbar Compact --- */
@@ -38,7 +63,7 @@ body {
 
 .links a {
     text-decoration: none;
-    color: var(--text-main);
+    color: var(--text-primary);
     margin-left: 2rem;
     font-weight: 600;
     font-size: 0.95rem; /* Font menu diperkecil dikit */
@@ -108,7 +133,7 @@ h1 {
 }
 
 .bio {
-    color: #555;
+    color: var(--text-secondary);
     font-size: 1rem;
     margin-bottom: 30px;
     max-width: 95%; /* Melebarkan teks agar tidak terlalu panjang ke bawah */
@@ -209,7 +234,7 @@ h1 {
 }
 
 .modal-content {
-    background: var(--bg-cream);
+    background: var(--card-bg);
     padding: 40px;
     border-radius: 16px;
     text-align: center;
@@ -231,7 +256,7 @@ h1 {
 }
 
 .modal-content h2 { color: var(--green-deep); margin-bottom: 10px; }
-.modal-content p { color: #666; margin-bottom: 25px; }
+.modal-content p { color: var(--text-secondary); margin-bottom: 25px; }
 
 .close-btn {
     position: absolute;
@@ -309,7 +334,7 @@ h1 {
     
     /* Style Bingkai Foto */
     padding: 12px; /* Padding bingkai sedikit ditebalkan */
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 24px;
     box-shadow: 0 15px 30px rgba(63, 117, 108, 0.2); /* Bayangan lebih tegas */
     transform: scale(1); /* Default scale normal */
@@ -424,7 +449,7 @@ h1 {
 .hook-section {
     width: 100%;
     min-height: 100vh;
-    background-color: var(--bg-cream);
+    background-color: var(--bg-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -458,7 +483,7 @@ h1 {
 
 .hook-subtitle {
     font-size: 1.2rem;
-    color: #555;
+    color: var(--text-secondary);
     font-weight: 500;
     /* Beri jarak aman ke gambar, jangan ditarik paksa */
     margin-bottom: 20px; 
@@ -610,7 +635,7 @@ h1 {
     width: 100%;
     min-height: 100vh;
     padding: 30px 5%;
-    background-color: var(--bg-cream);
+    background-color: var(--bg-primary);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -678,7 +703,7 @@ h1 {
 .paradox-subtitle {
     font-weight: 500;
     font-size: 1.1rem;
-    color: #555;
+    color: var(--text-secondary);
     max-width: 700px;
     line-height: 1.6;
     background: rgba(255, 255, 255, 0.65);
@@ -734,19 +759,19 @@ h1 {
 .story-author {
     font-weight: 700;
     font-size: 0.95rem;
-    color: var(--text-main);
+    color: var(--text-primary);
     line-height: 1.2;
 }
 
 .story-source {
     font-size: 0.8rem;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .story-quote {
     font-size: 1.1rem;
     font-style: italic;
-    color: #444;
+    color: var(--text-secondary);
     line-height: 1.6;
 }
 
@@ -764,7 +789,7 @@ h1 {
 /* --- SECTION: JOURNAL / BLOG --- */
 .journal-section {
     padding: 80px 5%;
-    background-color: var(--bg-cream);
+    background-color: var(--bg-primary);
     display: flex;
     justify-content: center;
 }
@@ -788,27 +813,37 @@ h1 {
 }
 
 .journal-header p {
-    color: #555;
+    color: var(--text-secondary);
     font-size: 1.1rem;
 }
 
+/* Container Utama Grid */
 .journal-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+    /* Ini yang membuat kartu berjejer ke samping dan fleksibel */
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
     gap: 30px;
+    margin-top: 50px;
 }
 
+/* Card Jurnal dengan warna Broken White */
 .journal-card {
-    background: #fffcf5; 
-    border: 1px solid rgba(0,0,0,0.03); /* Border sangat tipis agar natural */
-    padding: 24px;
-    border-radius: 12px;
+    background: var(--card-bg); /* Warna broken white ala kertas jurnal */
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Beri tinggi minimal agar card terlihat konsisten */
+    min-height: 280px; 
 }
 
 .journal-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(63, 117, 108, 0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
 
 .journal-date {
@@ -820,15 +855,31 @@ h1 {
     margin-bottom: 10px;
 }
 
+/* Penyesuaian Judul Artikel */
 .journal-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.1rem; /* Ukuran yang lebih kecil sesuai permintaanmu */
+    font-weight: 800;
     color: var(--green-deep);
-    margin: 10px 0;
-    line-height: 1.3;
+    margin-bottom: 12px;
+    line-height: 1.4;
+}
+
+/* Preview Text Ala Notion */
+.post-preview {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 15px;
+    /* Teknik Line Clamp untuk membatasi baris */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Maksimal 2 baris saja */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .journal-card p {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1rem;
     margin-bottom: 20px;
     line-height: 1.6;
@@ -938,7 +989,7 @@ h1 {
 }
 
 .ascent-content p {
-    color: #555;
+    color: var(--text-secondary);
     font-size: 1.1rem;
     margin-bottom: 30px;
 }
@@ -993,7 +1044,7 @@ h1 {
 .timeline-nav .dot {
     width: 14px;
     height: 14px;
-    background: var(--bg-cream);
+    background: var(--bg-primary);
     border: 2px solid var(--green-deep);
     border-radius: 50%;
     transition: all 0.3s ease;
@@ -1130,7 +1181,7 @@ h1 {
     top: 0; left: 0;
     width: 100%;
     height: 150px;
-    background: linear-gradient(to bottom, var(--bg-cream) 10%, rgba(246, 238, 205, 0) 100%);
+    background: linear-gradient(to bottom, var(--bg-primary) 10%, transparent 100%);
     z-index: 1; /* Above background, below content */
     pointer-events: none;
 }
@@ -1142,7 +1193,7 @@ h1 {
     top: 0; left: 0;
     width: 100%;
     height: 100px;
-    background: linear-gradient(to bottom, var(--bg-cream), transparent);
+    background: linear-gradient(to bottom, var(--bg-primary), transparent);
     z-index: 1;
     pointer-events: none;
 }
@@ -1162,7 +1213,7 @@ h1 {
 /* --- RECENT WIN SECTION (SLEEK TOP-BOTTOM) --- */
 .win-section {
     padding: 60px 5%; 
-    background-color: var(--bg-cream);
+    background-color: var(--bg-primary);
     display: flex;
     justify-content: center;
 }
@@ -1213,7 +1264,7 @@ h1 {
 
 .win-subtitle {
     font-size: 1.15rem;
-    color: #555;
+    color: var(--text-secondary);
     line-height: 1.6;
 }
 
@@ -1229,11 +1280,11 @@ h1 {
 }
 
 .sleek-card {
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     border-radius: 24px;
     padding: 32px 28px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); 
-    border: 1px solid rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -1251,7 +1302,7 @@ h1 {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: #888888;
+    color: var(--text-secondary);
     margin-bottom: 16px;
 }
 
@@ -1272,7 +1323,7 @@ h1 {
 /* Deskripsi bawah */
 .sleek-desc {
     font-size: 0.95rem;
-    color: #555555;
+    color: var(--text-secondary);
     line-height: 1.6;
     margin: 0;
 }
@@ -1302,7 +1353,7 @@ h1 {
 }
 /* --- SPA GAME STYLES --- */
 .spa-card {
-    background-color: #ffffff;
+    background-color: var(--card-bg);
     max-width: 600px;
     width: 100%;
     border-radius: 24px;
@@ -1335,19 +1386,19 @@ h1 {
 
 /* Tipografi & Konten */
 .spa-title { font-size: 2.2rem; color: var(--green-deep); margin-bottom: 15px; line-height: 1.2; letter-spacing: -0.02em; }
-.spa-desc { font-size: 1.1rem; color: #555; margin-bottom: 30px; line-height: 1.6; }
+.spa-desc { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 30px; line-height: 1.6; }
 .spa-question { font-size: 1.4rem; color: var(--green-deep); margin-bottom: 30px; line-height: 1.4; }
 
 /* Disclaimer */
 .disclaimer-box { background-color: rgba(198, 116, 62, 0.05); padding: 15px 20px; border-radius: 12px; margin-bottom: 30px; border-left: 4px solid var(--terracotta); }
 .disclaimer-box span { font-weight: 700; color: var(--terracotta); font-size: 0.9rem; }
-.disclaimer-box p { font-size: 0.85rem; color: #666; margin: 5px 0 0 0; line-height: 1.5; }
+.disclaimer-box p { font-size: 0.85rem; color: var(--text-secondary); margin: 5px 0 0 0; line-height: 1.5; }
 
 /* Form Inputs */
 .input-group { display: flex; flex-direction: column; text-align: left; }
 .input-group label { font-size: 0.95rem; font-weight: 600; color: var(--green-deep); margin-bottom: 8px; }
-.spa-input { padding: 14px 18px; border-radius: 12px; border: 1px solid #ddd; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; transition: border 0.3s; background: #fafafa; }
-.spa-input:focus { outline: none; border-color: var(--green-deep); background: #fff; }
+.spa-input { padding: 14px 18px; border-radius: 12px; border: 1px solid var(--border-color); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; transition: border 0.3s; background: var(--bg-secondary); color: var(--text-primary); }
+.spa-input:focus { outline: none; border-color: var(--green-deep); background: var(--bg-primary); }
 .mt-4 { margin-top: 16px; }
 .mt-6 { margin-top: 24px; }
 
@@ -1361,7 +1412,7 @@ h1 {
     /* position: absolute; top: 20px; right: 20px; dihapus */
     display: flex; 
     gap: 5px; 
-    background: #eee; 
+    background: var(--bg-secondary); 
     padding: 4px; 
     border-radius: 20px; 
     
@@ -1371,21 +1422,21 @@ h1 {
     margin-bottom: 20px; /* Memberi jarak aman dengan judul di bawahnya */
 }
 
-.lang-btn { background: transparent; border: none; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; color: #888; border-radius: 16px; cursor: pointer; transition: all 0.3s; }
-.lang-btn.active { background: #fff; color: var(--green-deep); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.lang-btn { background: transparent; border: none; padding: 4px 12px; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); border-radius: 16px; cursor: pointer; transition: all 0.3s; }
+.lang-btn.active { background: var(--card-bg); color: var(--green-deep); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
 /* Progress Bar */
-.progress-wrapper { width: 100%; height: 6px; background: #eee; border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
+.progress-wrapper { width: 100%; height: 6px; background: var(--bg-secondary); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
 .progress-bar { height: 100%; background: var(--terracotta); width: 33%; transition: width 0.4s ease; }
-.progress-text { font-size: 0.8rem; font-weight: 700; color: #888; text-align: right; margin-bottom: 20px; }
+.progress-text { font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); text-align: right; margin-bottom: 20px; }
 
 /* Styling Screen 4 & 5 */
 .loader-spinner { width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--terracotta); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.result-card { background: #fafafa; padding: 20px; border-radius: 16px; border: 1px solid #eee; }
-.badge-layer { display: inline-block; background: var(--bg-cream); color: var(--green-deep); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; }
+.result-card { background: var(--bg-secondary); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color); }
+.badge-layer { display: inline-block; background: var(--bg-secondary); color: var(--green-deep); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; }
 .result-card h3 { font-size: 1.2rem; color: var(--green-deep); margin-bottom: 5px; }
-.res-text { font-size: 1rem; color: #555; line-height: 1.5; }
+.res-text { font-size: 1rem; color: var(--text-secondary); line-height: 1.5; }
 
 /* Transisi untuk memperlebar Card Utama di Screen 5 */
 .spa-card {
@@ -1403,10 +1454,10 @@ h1 {
 }
 
 .result-card {
-    background: #fafafa;
+    background: var(--bg-secondary);
     padding: 24px;
     border-radius: 16px;
-    border: 1px solid #eee;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 }
@@ -1429,7 +1480,7 @@ h1 {
     position: fixed;
     bottom: 30px;
     right: 30px; 
-    background: #ffffff;
+    background: var(--card-bg);
     padding: 18px 20px;
     border-radius: 16px;
     box-shadow: 0 15px 35px rgba(63, 117, 108, 0.15);
@@ -1472,7 +1523,7 @@ h1 {
 }
 
 .toast-content p { 
-    color: #666; 
+    color: var(--text-secondary); 
     margin: 0; 
     font-size: 0.85rem; 
     line-height: 1.4;
@@ -1524,7 +1575,7 @@ h1 {
     margin-bottom: 10px;
 }
 .library-header p {
-    color: #666;
+    color: var(--text-secondary);
     font-size: 1.1rem;
     max-width: 600px;
     margin: 0 auto;
@@ -1548,7 +1599,7 @@ h1 {
     aspect-ratio: 2/3; /* Rasio standar cover buku */
     box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     cursor: pointer;
-    background-color: #f4f4f4; /* Placeholder sebelum gambar load */
+    background-color: var(--bg-secondary); /* Placeholder sebelum gambar load */
 }
 
 .book-cover {
@@ -1651,7 +1702,7 @@ h1 {
 }
 
 .notion-modal-content {
-    background: #fffcf5;
+    background: var(--card-bg);
     width: 100%;
     max-width: 800px;
     max-height: 90vh;
@@ -1676,8 +1727,8 @@ h1 {
 
 /* Modal Inner Styling */
 .modal-header h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--green-deep); }
-.modal-meta { color: #888; margin-bottom: 40px; font-size: 0.9rem; }
-.modal-body { line-height: 1.8; font-size: 1.1rem; color: #333; }
+.modal-meta { color: var(--text-secondary); margin-bottom: 40px; font-size: 0.9rem; }
+.modal-body { line-height: 1.8; font-size: 1.1rem; color: var(--text-primary); }
 
 /* Penyesuaian Card dari CSS kamu sebelumnya */
 .journal-card {
@@ -1693,7 +1744,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
-    border-top: 1px solid rgba(0,0,0,0.05);
+    border-top: 1px solid var(--border-color);
     padding-top: 15px;
 }
 
@@ -1718,3 +1769,47 @@ h1 {
 .tag-book  { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
 .tag-default { background: #f5f5f5; color: #616161; border: 1px solid #e0e0e0; }
 .tag-code { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+
+/* --- ABSOLUTE DECORATIVE ILLUSTRATIONS --- */
+
+/* Pastikan header menjadi 'jangkar' untuk gambar absolut */
+.journal-header, .library-header {
+    position: relative; 
+}
+
+/* Memastikan teks selalu berada di atas gambar jika overlap */
+.journal-header h1, .journal-header h2, .journal-header p,
+.library-header h1, .library-header h2, .library-header p {
+    position: relative;
+    z-index: 1;
+}
+
+/* Wadah absolut agar tidak menggeser elemen apapun */
+.illustration-absolute {
+    position: absolute;
+    right: 5%; /* Menempatkan di sisi kanan */
+    top: 50%; /* Menempatkan di tengah header secara vertikal */
+    transform: translateY(-50%); /* Menarik tepat ke tengah */
+    pointer-events: none; /* Gambar tidak bisa diklik/menghalangi teks */
+    z-index: 0; /* Taruh di layer bawah */
+}
+
+.floating-img {
+    width: 100%;
+    max-width: 250px; /* Ukuran proporsional, silakan diubah jika kurang besar */
+    height: auto;
+    filter: drop-shadow(0 20px 30px rgba(90, 154, 143, 0.2)); 
+    animation: float-animation 6s ease-in-out infinite;
+}
+
+@keyframes float-animation {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+@media (max-width: 768px) {
+    .hide-on-mobile {
+        display: none !important;
+    }
+}
