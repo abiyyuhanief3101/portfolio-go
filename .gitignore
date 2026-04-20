@@ -3,3 +3,5 @@
 
 # Mengabaikan file credential Google
 credentials.json
+.vercel
+.env*.local

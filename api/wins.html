@@ -1,55 +1,48 @@
 {{ define "content" }}
     <main>
         <section class="win-section">
-            <div class="win-container">
+            {{ range $index, $win := .SmallWins }}
+            <div class="win-container {{ if eq (mod $index 2) 1 }}reverse-layout{{ end }}">
                 
                 <div class="win-content-left">
-                    <div class="win-badge" id="confetti-trigger" title="Click me for a surprise!">
+                    <div class="win-badge">
                         🏆 Achievement Unlocked
                     </div>
                     
-                    <h2 class="win-title">Financial Reconciliation <span class="text-terracotta">Automation</span></h2>
+                    <h2 class="win-title">{{ $win.Title }} <span class="text-terracotta">{{ $win.TitleHighlight }}</span></h2>
                     <p class="win-subtitle">
-                        Transforming the exhausting manual daily financial validation into an instant automated process.
+                        {{ $win.Subtitle }}
                     </p>
                 </div>
 
                 <div class="win-content-right">
-                    <div class="sleek-metrics-grid">
+                    <div class="sleek-metrics-grid layout-{{ len $win.Metrics }}">
                         
+                        {{ range $win.Metrics }}
                         <div class="sleek-card">
-                            <span class="sleek-label">Daily Time Reduction</span>
-                            <div class="sleek-value">87%</div>
-                            <p class="sleek-desc">
-                                Slashed manual processing time from 11.5 mins to instant, reclaiming 40+ hours annually for strategic tasks.
-                            </p>
-                        </div>
-
-                        <div class="sleek-card">
-                            <span class="sleek-label">Human Error Risk</span>
-                            <div class="sleek-value">0%</div>
-                            <p class="sleek-desc">
-                                Engineered an anti-duplicate system that completely eliminated bank and payment gateway discrepancies.
-                            </p>
-                        </div>
-
-                        <div class="sleek-card">
-                            <span class="sleek-label">System Capacity</span>
-                            <div class="sleek-value text-terracotta">Scalable</div>
-                            <p class="sleek-desc" style="margin-bottom: 20px;">
-                                Handles increasing transaction volumes seamlessly, built for long-term operational growth.
-                            </p>
-                            <div class="sleek-tech-tags">
-                                <span>Python</span>
-                                <span>Django</span>
-                                <span>Xendit API</span>
+                            <span class="sleek-label">{{ .Label }}</span>
+                            <div class="sleek-value {{ .ValueColor }}">{{ .Value }}</div>
+                            <p class="sleek-desc">{{ .Desc }}</p>
+                            
+                            {{ if .TechTags }}
+                            <div class="sleek-tech-tags" style="margin-top: 20px;">
+                                {{ range .TechTags }}
+                                <span>{{ . }}</span>
+                                {{ end }}
                             </div>
+                            {{ end }}
                         </div>
+                        {{ end }}
 
                     </div>
                 </div>
 
             </div>
+            {{ else }}
+            <div style="text-align: center; padding: 100px 20px;">
+                <p style="color: #888;">Belum ada pencapaian yang tercatat.</p>
+            </div>
+            {{ end }}
         </section>
     </main>
 {{ end }}

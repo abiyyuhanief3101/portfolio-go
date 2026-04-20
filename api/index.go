@@ -73,6 +73,21 @@ type EmailRequest struct {
 	Desc3 string `json:"desc_3"`
 }
 
+type Metric struct {
+	Label      string   `json:"label"`
+	Value      string   `json:"value"`
+	ValueColor string   `json:"value_color"` // Opsional: untuk menaruh class CSS seperti "text-terracotta"
+	Desc       string   `json:"desc"`
+	TechTags   []string `json:"tech_tags"` // Array untuk tag bahasa pemrograman
+}
+
+type SmallWin struct {
+	Title          string   `json:"title"`
+	TitleHighlight string   `json:"title_highlight"` // Kata yang ingin diwarnai terracotta
+	Subtitle       string   `json:"subtitle"`
+	Metrics        []Metric `json:"metrics"` // Satu pencapaian bisa punya banyak metrik (Array)
+}
+
 // --- FUNGSI PARSER MARKDOWN ---
 func mdToHTML(md string) template.HTML {
 	html := template.HTMLEscapeString(md)
@@ -157,6 +172,28 @@ func fetchBooksFromSupabase() []Book {
 	return books
 }
 
+// Fungsi menarik data Small Wins dari Supabase
+func fetchWinsFromSupabase() []SmallWin {
+	req, _ := http.NewRequest("GET", supabaseUrl+"/rest/v1/small_wins?order=created_at.desc", nil)
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	var wins []SmallWin
+	if err != nil || resp.StatusCode != 200 {
+		log.Println("Error fetching small wins:", err)
+		return wins
+	}
+	defer resp.Body.Close()
+
+	body, _ := io.ReadAll(resp.Body)
+
+	// Keajaiban JSONB: Supabase mengirim JSON, Golang otomatis membedahnya ke dalam Struct!
+	json.Unmarshal(body, &wins)
+	return wins
+}
+
 // --- HANDLERS (LOGIKA TAMPILAN) ---
 func handleHome(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.New("base").Parse(baseContent)
@@ -174,9 +211,26 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleWins(w http.ResponseWriter, r *http.Request) {
-	tmpl, _ := template.New("base").Parse(baseContent)
-	tmpl, _ = tmpl.Parse(winsContent)
-	tmpl.ExecuteTemplate(w, "base", nil)
+	// 1. Daftarkan fungsi 'mod'
+	funcMap := template.FuncMap{
+		"mod": func(i, j int) int { return i % j },
+	}
+
+	// 2. Parse file HTML
+	tmpl := template.New("base.html").Funcs(funcMap)
+	tmpl, err := tmpl.ParseFiles("api/base.html", "api/wins.html")
+	if err != nil {
+		http.Error(w, "Error loading HTML: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// 3. TARIK DATA DARI SUPABASE (Tidak ada lagi data manual di sini!)
+	data := map[string]interface{}{
+		"Title":     "Small Wins | Abiyyu Hanief",
+		"SmallWins": fetchWinsFromSupabase(), // 👈 Memanggil fungsi fetcher yang baru dibuat
+	}
+
+	tmpl.ExecuteTemplate(w, "base", data)
 }
 
 func handleLayers(w http.ResponseWriter, r *http.Request) {

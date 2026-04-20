@@ -1210,12 +1210,15 @@ h1 {
     pointer-events: none;
 }
 
-/* --- RECENT WIN SECTION (SLEEK TOP-BOTTOM) --- */
+/* --- SECTION: SMALL WINS (Z-PATTERN & SMART BENTO BOX) --- */
 .win-section {
-    padding: 60px 5%; 
+    padding: 100px 5%; 
     background-color: var(--bg-primary);
     display: flex;
-    justify-content: center;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 70px; /* 👈 Jarak ideal yang lebih rapat */
+    overflow-x: hidden; 
 }
 
 .win-container {
@@ -1223,14 +1226,19 @@ h1 {
     width: 100%;
     background: transparent; 
     display: flex;
-    flex-direction: column; /* BERUBAH: Memisahkan Teks di atas, Card di bawah */
-    gap: 40px;
+    flex-direction: row; /* Z-Pattern: Sejajar ke samping */
+    align-items: center; /* Rata tengah secara vertikal */
+    gap: 60px;
 }
 
-/* --- BAGIAN ATAS (TEKS) --- */
+/* 🪄 SIHIR 1: Z-Pattern Logic (Membalik posisi baris genap) */
+.win-container.reverse-layout {
+    flex-direction: row-reverse;
+}
+
 .win-content-left {
-    width: 100%;
-    max-width: 800px; /* Agar teks tidak memanjang dari ujung ke ujung */
+    flex: 1; /* Membagi ruang secara proporsional */
+    max-width: 420px;
 }
 
 .win-badge {
@@ -1246,9 +1254,7 @@ h1 {
     transition: transform 0.2s;
 }
 
-.win-badge:hover {
-    transform: scale(1.05);
-}
+.win-badge:hover { transform: scale(1.05); }
 
 .win-title {
     font-size: 2.8rem;
@@ -1258,9 +1264,7 @@ h1 {
     letter-spacing: -0.02em;
 }
 
-.text-terracotta {
-    color: var(--terracotta);
-}
+.text-terracotta { color: var(--terracotta); }
 
 .win-subtitle {
     font-size: 1.15rem;
@@ -1268,21 +1272,45 @@ h1 {
     line-height: 1.6;
 }
 
-/* --- BAGIAN BAWAH (SLEEK METRICS) --- */
 .win-content-right {
-    width: 100%; 
+    flex: 1.3; /* Metrik mendapat ruang sedikit lebih besar */
 }
 
+/* 🪄 SIHIR 2: Smart Bento Box Layout */
 .sleek-metrics-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* BERUBAH: Memaksa 3 Card menjadi sebaris */
-    gap: 24px;
+    gap: 20px;
 }
 
+/* Skenario 1: Hero Card (1 Metrik) -> Raksasa */
+.sleek-metrics-grid.layout-1 {
+    grid-template-columns: 1fr;
+}
+.sleek-metrics-grid.layout-1 .sleek-card {
+    padding: 50px 40px;
+}
+.sleek-metrics-grid.layout-1 .sleek-value {
+    font-size: 4.5rem; 
+}
+
+/* Skenario 2: Split (2 Metrik) -> 50:50 */
+.sleek-metrics-grid.layout-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Skenario 3: Bento Box (3 Metrik) -> 1 Besar di atas, 2 Kecil di bawah */
+.sleek-metrics-grid.layout-3 {
+    grid-template-columns: repeat(2, 1fr);
+}
+.sleek-metrics-grid.layout-3 .sleek-card:first-child {
+    grid-column: span 2; /* Memaksa kotak pertama melebar penuhi 2 kolom */
+}
+
+/* Base Styling Card Metrik */
 .sleek-card {
     background-color: var(--card-bg);
     border-radius: 24px;
-    padding: 32px 28px;
+    padding: 30px 24px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03); 
     border: 1px solid var(--border-color);
     display: flex;
@@ -1296,39 +1324,33 @@ h1 {
     box-shadow: 0 12px 30px rgba(63, 117, 108, 0.08); 
 }
 
-/* Label kecil di atas */
 .sleek-label {
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
-/* Angka Besar */
 .sleek-value {
     font-size: 3rem;
     font-weight: 800;
     color: var(--green-deep); 
     line-height: 1;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     letter-spacing: -0.03em;
 }
 
-.sleek-value.text-terracotta {
-    color: var(--terracotta); 
-}
+.sleek-value.text-terracotta { color: var(--terracotta); }
 
-/* Deskripsi bawah */
 .sleek-desc {
     font-size: 0.95rem;
     color: var(--text-secondary);
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
 }
 
-/* Tech Tags */
 .sleek-tech-tags {
     display: flex;
     flex-wrap: wrap;
@@ -1341,16 +1363,34 @@ h1 {
     color: var(--green-deep);
     padding: 6px 12px;
     border-radius: 8px;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
 }
 
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 900px) {
-    .sleek-metrics-grid {
-        grid-template-columns: 1fr; /* Jadi bertumpuk satu kolom jika dibuka di HP */
+    /* Matikan Z-Pattern di HP, tumpuk ke bawah semua */
+    .win-container, .win-container.reverse-layout {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 30px;
+    }
+    .win-content-left {
+        max-width: 100%;
+    }
+    /* Matikan Bento Box di HP, jadikan 1 kolom panjang */
+    .sleek-metrics-grid.layout-2, 
+    .sleek-metrics-grid.layout-3 {
+        grid-template-columns: 1fr; 
+    }
+    .sleek-metrics-grid.layout-3 .sleek-card:first-child {
+        grid-column: span 1; 
+    }
+    .sleek-metrics-grid.layout-1 .sleek-value {
+        font-size: 3.5rem; 
     }
 }
+
 /* --- SPA GAME STYLES --- */
 .spa-card {
     background-color: var(--card-bg);
