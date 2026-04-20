@@ -216,18 +216,19 @@ func handleWins(w http.ResponseWriter, r *http.Request) {
 		"mod": func(i, j int) int { return i % j },
 	}
 
-	// 2. Parse file HTML
-	tmpl := template.New("base.html").Funcs(funcMap)
-	tmpl, err := tmpl.ParseFiles("api/base.html", "api/wins.html")
+	// 2. Parse file HTML menggunakan variabel go:embed (baseContent & winsContent)
+	tmpl := template.New("base").Funcs(funcMap)
+	tmpl, _ = tmpl.Parse(baseContent)
+	tmpl, err := tmpl.Parse(winsContent)
 	if err != nil {
 		http.Error(w, "Error loading HTML: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// 3. TARIK DATA DARI SUPABASE (Tidak ada lagi data manual di sini!)
+	// 3. TARIK DATA DARI SUPABASE
 	data := map[string]interface{}{
 		"Title":     "Small Wins | Abiyyu Hanief",
-		"SmallWins": fetchWinsFromSupabase(), // 👈 Memanggil fungsi fetcher yang baru dibuat
+		"SmallWins": fetchWinsFromSupabase(), // Memanggil fungsi fetcher
 	}
 
 	tmpl.ExecuteTemplate(w, "base", data)
