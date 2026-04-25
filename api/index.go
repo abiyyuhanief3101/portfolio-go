@@ -8,10 +8,12 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"regexp"
 	"strings"
+	"time"
 )
 
 // Kredensial Supabase
@@ -62,7 +64,8 @@ type Book struct {
 	CoverURL string  `json:"cover_url"`
 	Rating   float64 `json:"rating"`
 	Review   string  `json:"review"`
-	PostSlug string  `json:"post_slug"` // 👈 TAMBAHAN BARU (Relasi ke Blog)
+	PostSlug string  `json:"post_slug"`
+	IsPinned bool    `json:"is_pinned"`
 }
 
 type EmailRequest struct {
@@ -244,9 +247,32 @@ func handleLibrary(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.New("base").Parse(baseContent)
 	tmpl, _ = tmpl.Parse(libraryContent)
 
+	allBooks := fetchBooksFromSupabase()
+
+	var pinned []Book
+	var others []Book
+
+	// Pisahkan buku yang di-pin dan tidak
+	for _, b := range allBooks {
+		if b.IsPinned {
+			pinned = append(pinned, b)
+		} else {
+			others = append(others, b)
+		}
+	}
+
+	// Acak hanya buku yang TIDAK di-pin
+	rgen := rand.New(rand.NewSource(time.Now().UnixNano()))
+	rgen.Shuffle(len(others), func(i, j int) {
+		others[i], others[j] = others[j], others[i]
+	})
+
+	// Gabungkan kembali: Pinned di atas, Others (yang sudah diacak) di bawah
+	finalBooks := append(pinned, others...)
+
 	data := map[string]interface{}{
 		"Title": "Digital Library | Abiyyu Hanief",
-		"Books": fetchBooksFromSupabase(),
+		"Books": finalBooks,
 	}
 	tmpl.ExecuteTemplate(w, "base", data)
 }

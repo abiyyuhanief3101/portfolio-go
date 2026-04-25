@@ -29,27 +29,65 @@
         border: 1px solid rgba(198, 116, 62, 0.3); 
     }
 
+    /* 🔖 MODIFIKASI: Indikator Bookmark (Cartoon Style & Palette Matched) */
+    .book-card {
+        position: relative;
+    }
+
+    .bookmark-badge {
+        position: absolute;
+        top: 10px;      
+        right: 15px;    
+        
+        /* Menggunakan warna Terracotta agar serasi dengan website */
+        background-color: var(--terracotta, #C6743E); 
+        color: white; 
+        
+        width: 48px;     
+        height: 48px;    
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        /* Bayangan lembut khas gaya kartun */
+        box-shadow: 0 6px 15px rgba(198, 116, 62, 0.4); 
+        
+        z-index: 10;
+        font-size: 1.8rem;   
+        
+        /* Sedikit rotasi agar terlihat dinamis */
+        transform: rotate(-5deg); 
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        
+        /* Border putih tebal untuk mempertegas kesan ilustrasi */
+        border: 3px solid white; 
+    }
+
+    .book-card:hover .bookmark-badge {
+        transform: rotate(0deg) scale(1.15);
+    }
+
     /* Indikator Buku Punya Jurnal */
-    /* Update styling note-indicator agar lebih "clickable" */
     .note-indicator {
-    margin-top: 15px; 
-    background: rgba(255, 255, 255, 0.15); 
-    padding: 8px 16px; 
-    border-radius: 20px; 
-    font-size: 0.85rem; 
-    font-weight: 700; 
-    backdrop-filter: blur(4px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: all 0.2s ease;
-    display: inline-block; /* Agar kotak tidak melar penuh */
+        margin-top: 15px; 
+        background: rgba(255, 255, 255, 0.15); 
+        padding: 8px 16px; 
+        border-radius: 20px; 
+        font-size: 0.85rem; 
+        font-weight: 700; 
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        transition: all 0.2s ease;
+        display: inline-block;
     }
     .note-indicator:hover {
-    background: var(--green-deep);
-    color: white;
-    transform: scale(1.05); /* Sedikit membesar saat hover */
+        background: var(--green-deep);
+        color: white;
+        transform: scale(1.05);
     }
     .note-indicator:active {
-    transform: scale(0.95); /* Efek membal saat di-klik/tap */
+        transform: scale(0.95);
     }
 
     .book-card.has-note:hover .note-indicator {
@@ -81,6 +119,13 @@
 <div class="library-grid">
     {{ range .Books }}
     <div class="book-card">
+        
+        {{ if .IsPinned }}
+        <div class="bookmark-badge" title="Masterpiece / Highlight">
+            <i class="ph-fill ph-bookmark-simple"></i>
+        </div>
+        {{ end }}
+
         <img src="{{ .CoverURL }}" alt="{{ .Title }}" class="book-cover" onerror="this.src='/img/undraw_continuous-learning_a1ld.svg';">
         
         <div class="book-overlay">
@@ -101,14 +146,14 @@
         </div>
     </div>
     {{ else }}
+    <p style="text-align: center; color: #888;">No books found in the library.</p>
     {{ end }}
 </div>
 
 <div id="notionModal" class="notion-modal" onclick="closeModal(event)">
     <div class="notion-modal-content" onclick="event.stopPropagation()">
         <span class="notion-close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalBody">
-            </div>
+        <div id="modalBody"></div>
     </div>
 </div>
 
@@ -136,30 +181,24 @@
         const modal = document.getElementById('notionModal');
         const modalBody = document.getElementById('modalBody');
         
-        // Tampilkan Modal dengan animasi Loading
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden'; 
-        modalBody.innerHTML = '<div style="text-align:center;"><div class="book-loader"></div><p style="color:#888;">Membuka lembaran catatan...</p></div>';
+        modalBody.innerHTML = '<div style=\"text-align:center;\"><div class=\"book-loader\"></div><p style=\"color:#888;\">Membuka lembaran catatan...</p></div>';
 
         try {
-            // Tembak request ke halaman blog di belakang layar
             const response = await fetch('/blog/' + slug);
             const htmlText = await response.text();
-            
-            // Ubah teks respon jadi elemen HTML Virtual
             const parser = new DOMParser();
             const doc = parser.parseFromString(htmlText, 'text/html');
-            
-            // Cari div artikelnya berdasarkan slug
             const contentDiv = doc.getElementById('content-' + slug);
             
             if (contentDiv) {
                 modalBody.innerHTML = contentDiv.innerHTML;
             } else {
-                modalBody.innerHTML = '<div style="text-align:center; padding: 40px; color:#888;">Catatan tidak ditemukan.</div>';
+                modalBody.innerHTML = '<div style=\"text-align:center; padding: 40px; color:#888;\">Catatan tidak ditemukan.</div>';
             }
         } catch (error) {
-            modalBody.innerHTML = '<div style="text-align:center; padding: 40px; color:#888;">Gagal memuat catatan. Periksa koneksi internetmu.</div>';
+            modalBody.innerHTML = '<div style=\"text-align:center; padding: 40px; color:#888;\">Gagal memuat catatan. Periksa koneksi internetmu.</div>';
         }
     }
 
