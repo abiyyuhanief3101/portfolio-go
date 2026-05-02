@@ -8,17 +8,17 @@
 
     <!-- PWA Requirements -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#F6EECD">
+    <meta name="theme-color" content="#F8F4EC">
     <link rel="apple-touch-icon" href="/img/icon-192x192.png">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="/css/style.css">
-    
-    <meta property="og:title" content="Abiyyu Hanief - Tech Architect & Product Implementer">
-    <meta property="og:description" content="A digital ecosystem exploring the intersection of human empathy and scalable systems. Explore my 3 Layers psychological profile and digital library.">
+
+    <meta property="og:title" content="Abiyyu Hanief — Tech &amp; Community">
+    <meta property="og:description" content="A problem-solver who uses technology and process to empower communities.">
     <meta property="og:image" content="https://abiyyuhanief.id/img/thumbnail.png">
     <meta property="og:url" content="https://abiyyuhanief.id">
     <meta property="og:type" content="website">
@@ -26,22 +26,19 @@
     {{ block "head" . }}{{ end }}
 </head>
 
-<body style="background-color: var(--bg-cream); min-height: 100vh; font-family: 'Plus Jakarta Sans', sans-serif;">
+<body>
 
-    <!-- NAVIGATION BAR GLOBAL -->
-    <nav class="navbar">
-        <div class="logo"><a href="/" style="text-decoration:none; color:inherit;">Abiyyu Hanief<span class="dot">.</span></a></div>
-        <div class="links">
-            {{/*  <a href="#" class="coming-soon">About</a>
-            <a href="#" class="coming-soon">Projects</a>  */}}
-            <a href="/library" class="nav-item">Library</a>
-            <a href="/blog">Journal</a>
-            <a href="/wins">Small Wins</a>
-            <a href="/layers">The 3 Layers 🧠</a>
-        </div>
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="/" class="nav-logo">Abi.</a>
+        <ul class="nav-links">
+            <li><a href="/library">Library</a></li>
+            <li><a href="/blog">Journal</a></li>
+            <li><a href="/wins">Small Wins</a></li>
+            <li><a href="/layers" class="nav-cta">The 3 Layers 🧠</a></li>
+        </ul>
     </nav>
 
-    <!-- KONTEN HALAMAN -->
     {{ block "content" . }}{{ end }}
 
     <!-- MODAL "SOMETHING IS BREWING" GLOBAL -->
@@ -57,7 +54,7 @@
 
     <script src="/js/script.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    
+
     <!-- PWA Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
@@ -68,7 +65,7 @@
             });
         }
     </script>
-    <!-- Slot untuk Script tambahan per halaman -->
+
     {{ block "scripts" . }}{{ end }}
 </body>
 </html>
