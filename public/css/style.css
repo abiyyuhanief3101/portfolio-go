@@ -1257,11 +1257,11 @@ h1 {
 .win-badge:hover { transform: scale(1.05); }
 
 .win-title {
-    font-size: 2.8rem;
+    font-size: 1.4rem;
     color: var(--green-deep);
     margin-bottom: 16px;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 }
 
 .text-terracotta { color: var(--terracotta); }
@@ -2131,7 +2131,7 @@ nav {
   text-transform: uppercase; padding: 4px 9px; border-radius: 100px;
   margin-bottom: .9rem;
 }
-.win-title {
+.wins-grid .win-title {
   font-family: 'Fraunces', serif; font-size: 1rem;
   font-weight: 700; line-height: 1.35; margin-bottom: .7rem;
 }
@@ -2160,6 +2160,48 @@ nav {
 .foot-links { display: flex; gap: 1.5rem; list-style: none; }
 .foot-links a { color: var(--muted); text-decoration: none; transition: color .2s; }
 .foot-links a:hover { color: var(--text); }
+
+/* ── HERO ATMOSPHERE ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero-atmosphere {
+  position: absolute;
+  right: -40px; top: 0;
+  width: 520px; height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: var(--radius);
+  mix-blend-mode: multiply;
+}
+.hero-content,
+.hero-visual {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── JOURNEY ILLUSTRATION ── */
+.journey-illustration {
+  margin-top: 2px;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+  height: 300px;
+  background: var(--green);
+  border: 1px solid var(--border);
+  border-top: none;
+}
+.journey-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  mix-blend-mode: screen;
+  opacity: 0.88;
+}
 
 /* ── HOMEPAGE RESPONSIVE ── */
 @media (max-width: 768px) {
