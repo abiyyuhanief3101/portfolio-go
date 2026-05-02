@@ -60,11 +60,19 @@ type Metric struct {
 	TechTags   []string `json:"tech_tags"` // Array untuk tag bahasa pemrograman
 }
 
+// Struktur baru untuk menampung gambar galeri
+type GalleryImage struct {
+	URL     string `json:"url"`
+	Caption string `json:"caption"` // Keterangan di bawah gambar (seperti 'dashboard overview')
+}
+
+// Struct SmallWin yang sudah di-update
 type SmallWin struct {
-	Title          string   `json:"title"`
-	TitleHighlight string   `json:"title_highlight"` // Kata yang ingin diwarnai terracotta
-	Subtitle       string   `json:"subtitle"`
-	Metrics        []Metric `json:"metrics"` // Satu pencapaian bisa punya banyak metrik (Array)
+	Title          string         `json:"title"`
+	TitleHighlight string         `json:"title_highlight"`
+	Subtitle       string         `json:"subtitle"`
+	Metrics        []Metric       `json:"metrics"`
+	Gallery        []GalleryImage `json:"gallery"` // 👈 TAMBAHAN BARU: Wadah untuk tumpukan gambar
 }
 
 // Mesin Markdown Parser

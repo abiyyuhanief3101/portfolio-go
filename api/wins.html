@@ -1,4 +1,125 @@
 {{ define "content" }}
+<style>
+    /* --- CSS KHUSUS GALLERY STACK --- */
+    .win-gallery-section {
+        margin-top: 40px;
+        width: 100%;
+    }
+    
+    .gallery-stack {
+        position: relative;
+        width: 100%;
+        /* Menjaga proporsi gambar landscape (16:9) */
+        aspect-ratio: 16 / 9; 
+        perspective: 1000px;
+        /* Tambahan margin bawah agar tumpukan kartu tidak menabrak kontrol */
+        margin-bottom: 35px; 
+    }
+    
+    .gallery-card {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        opacity: 0;
+        visibility: hidden;
+        background: var(--card-bg);
+        cursor: pointer;
+    }
+    
+    .gallery-card img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .gallery-card:hover img {
+        transform: scale(1.05); /* Efek zoom tipis saat di-hover */
+    }
+    
+    .gallery-caption {
+        position: absolute;
+        bottom: 15px; left: 15px; right: 15px;
+        background: rgba(30, 30, 30, 0.75);
+        backdrop-filter: blur(5px);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 10px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    /* LOGIKA POSISI 3D STACK */
+    .gallery-card.active {
+        opacity: 1; visibility: visible;
+        transform: translateY(0) scale(1) translateZ(0);
+        z-index: 3;
+    }
+    .gallery-card.next-1 {
+        opacity: 0.6; visibility: visible;
+        transform: translateY(15px) scale(0.95) translateZ(-50px);
+        z-index: 2;
+    }
+    .gallery-card.next-2 {
+        opacity: 0.3; visibility: visible;
+        transform: translateY(30px) scale(0.90) translateZ(-100px);
+        z-index: 1;
+    }
+    
+    /* KONTROL & PAGINATION */
+    .gallery-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .gallery-btn {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        width: 40px; height: 40px;
+        border-radius: 50%;
+        display: flex; justify-content: center; align-items: center;
+        cursor: pointer; transition: 0.2s;
+        font-size: 1.2rem;
+    }
+    
+    .gallery-btn:hover { 
+        background: var(--green-deep); 
+        color: white; 
+        border-color: var(--green-deep); 
+        transform: scale(1.1);
+    }
+    
+    .gallery-dots { 
+        display: flex; 
+        gap: 8px; 
+        align-items: center;
+    }
+    
+    .gallery-dots .dot { 
+        width: 8px; height: 8px; 
+        border-radius: 50%; 
+        background: var(--border-color); 
+        transition: 0.3s; 
+    }
+    
+    .gallery-dots .dot.active { 
+        background: var(--terracotta); 
+        width: 24px; 
+        border-radius: 4px; 
+    }
+</style>
+
     <main>
         <section class="win-section">
             {{ range $index, $win := .SmallWins }}
@@ -16,8 +137,8 @@
                 </div>
 
                 <div class="win-content-right">
+                    
                     <div class="sleek-metrics-grid layout-{{ len $win.Metrics }}">
-                        
                         {{ range $win.Metrics }}
                         <div class="sleek-card">
                             <span class="sleek-label">{{ .Label }}</span>
@@ -33,9 +154,38 @@
                             {{ end }}
                         </div>
                         {{ end }}
-
                     </div>
-                </div>
+
+                    {{ if .Gallery }}
+                    <div class="win-gallery-section">
+                        <div class="gallery-stack" id="gallery-{{ $index }}">
+                            {{ range $gIndex, $img := .Gallery }}
+                            <div class="gallery-card {{ if eq $gIndex 0 }}active{{ else if eq $gIndex 1 }}next-1{{ else if eq $gIndex 2 }}next-2{{ else }}hidden{{ end }}" 
+                                 onclick="rotateGallery('gallery-{{ $index }}', 'next')">
+                                <img src="{{ .URL }}" alt="{{ .Caption }}" loading="lazy">
+                                {{ if .Caption }}
+                                <div class="gallery-caption">
+                                    <i class="ph ph-image"></i> {{ .Caption }}
+                                </div>
+                                {{ end }}
+                            </div>
+                            {{ end }}
+                        </div>
+                        
+                        {{ if gt (len .Gallery) 1 }}
+                        <div class="gallery-controls">
+                            <button class="gallery-btn" onclick="rotateGallery('gallery-{{ $index }}', 'prev')"><i class="ph ph-caret-left"></i></button>
+                            <div class="gallery-dots" id="dots-gallery-{{ $index }}">
+                                {{ range $gIndex, $img := .Gallery }}
+                                <span class="dot {{ if eq $gIndex 0 }}active{{ end }}"></span>
+                                {{ end }}
+                            </div>
+                            <button class="gallery-btn" onclick="rotateGallery('gallery-{{ $index }}', 'next')"><i class="ph ph-caret-right"></i></button>
+                        </div>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    </div>
 
             </div>
             {{ else }}
@@ -45,8 +195,78 @@
             {{ end }}
         </section>
     </main>
-{{ end }}
 
-{{ define "scripts" }}
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    function rotateGallery(galleryId, direction) {
+        const stack = document.getElementById(galleryId);
+        const cards = Array.from(stack.querySelectorAll('.gallery-card'));
+        const dotsContainer = document.getElementById('dots-' + galleryId);
+        const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
+        
+        if (cards.length <= 1) return;
+
+        // Cari index kartu yang sedang 'active'
+        let activeIdx = cards.findIndex(card => card.classList.contains('active'));
+        
+        // Kalkulasi index selanjutnya berdasarkan tombol yang ditekan (Prev/Next)
+        if (direction === 'next') {
+            activeIdx = (activeIdx + 1) % cards.length;
+        } else {
+            activeIdx = (activeIdx - 1 + cards.length) % cards.length;
+        }
+
+        // Terapkan ulang class ke setiap kartu
+        cards.forEach((card, i) => {
+            // Bersihkan class lama
+            card.className = 'gallery-card';
+            if (dots[i]) dots[i].className = 'dot';
+            
+            // Setel class baru sesuai urutan tumpukan 3D
+            if (i === activeIdx) {
+                card.classList.add('active');
+                if (dots[i]) dots[i].classList.add('active');
+            } else if (i === (activeIdx + 1) % cards.length) {
+                card.classList.add('next-1');
+            } else if (i === (activeIdx + 2) % cards.length) {
+                card.classList.add('next-2');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        
+    }
+    // --- TAHAP 3: LOGIKA SWIPE UNTUK MOBILE ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const stacks = document.querySelectorAll('.gallery-stack');
+        
+        stacks.forEach(stack => {
+            let startX = 0;
+            let endX = 0;
+            const galleryId = stack.id;
+
+            // Deteksi saat jari mulai menyentuh layar
+            stack.addEventListener('touchstart', (e) => {
+                startX = e.changedTouches[0].screenX;
+            }, {passive: true});
+
+            // Deteksi saat jari diangkat dari layar
+            stack.addEventListener('touchend', (e) => {
+                endX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, {passive: true});
+
+            function handleSwipe() {
+                const swipeThreshold = 50; // Minimal jarak gesekan (50px) agar tidak sensitif
+                
+                if (startX - endX > swipeThreshold) {
+                    // Jari geser ke KIRI = Gambar selanjutnya (Next)
+                    rotateGallery(galleryId, 'next');
+                } else if (endX - startX > swipeThreshold) {
+                    // Jari geser ke KANAN = Gambar sebelumnya (Prev)
+                    rotateGallery(galleryId, 'prev');
+                }
+            }
+        });
+    });
+</script>
 {{ end }}
