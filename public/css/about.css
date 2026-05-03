@@ -7,7 +7,7 @@
 .about-container {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 4px;
 }
 
 .about-footer-space {
@@ -16,16 +16,16 @@
 
 /* ── HERO ────────────────────────────────────────────────────── */
 .about-hero {
-  padding: 80px 0 72px;
+  padding: 14px 0 16px;
 }
 
 .about-hero-inner {
   display: flex;
-  align-items: flex-start;
-  gap: 64px;
-  max-width: 860px;
+  align-items: center;
+  gap: 56px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 10px;
 }
 
 .about-bio {
@@ -62,7 +62,7 @@
   font-size: 15px;
   font-weight: 500;
   color: #888;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   letter-spacing: 0.01em;
 }
 
@@ -96,6 +96,7 @@
   border-radius: 8px;
   text-decoration: none;
   transition: background 0.2s ease, transform 0.15s ease;
+  margin-bottom: 40px;
 }
 
 .about-linkedin-btn:hover {
@@ -111,7 +112,7 @@
 .about-headshot-wrap {
   flex-shrink: 0;
   position: relative;
-  width: 220px;
+  width: 240px;
 }
 
 .about-headshot {
@@ -416,6 +417,161 @@
   cursor: default;
 }
 
+/* ── STATUS BADGE ────────────────────────────────────────────── */
+.about-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: blink-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.about-status-badge a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ── NUMBERS SECTION ─────────────────────────────────────────── */
+.about-numbers {
+  background: rgba(0,0,0,0.02);
+}
+
+.numbers-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  padding: 24px 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  border: 1px solid rgba(0,0,0,0.07);
+  text-align: center;
+}
+
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(22px, 2.8vw, 34px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  color: inherit;
+}
+
+.stat-prefix-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.45em;
+  font-weight: 700;
+  vertical-align: middle;
+  opacity: 0.6;
+  margin-right: 2px;
+  letter-spacing: 0.06em;
+}
+
+.stat-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: #888;
+  line-height: 1.4;
+}
+
+/* ── ACCORDION TIMELINE ──────────────────────────────────────── */
+.timeline-toggle {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+  gap: 8px;
+}
+
+.timeline-toggle .timeline-header {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.timeline-chevron {
+  font-size: 18px;
+  line-height: 1;
+  color: #aaa;
+  flex-shrink: 0;
+  padding-top: 2px;
+  transition: transform 0.3s ease, color 0.2s;
+  display: inline-block;
+}
+
+.timeline-entry.open .timeline-chevron {
+  transform: rotate(180deg);
+  color: #888;
+}
+
+.timeline-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.timeline-entry.open .timeline-content {
+  max-height: 600px;
+}
+
+.timeline-content .timeline-highlights {
+  margin-top: 16px;
+}
+
+.timeline-entry.open .timeline-body {
+  border-left: 2px solid #c0a882;
+  padding-left: 12px;
+  margin-left: -14px;
+}
+
+/* ── REVEAL ANIMATIONS ───────────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-child {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.reveal-child.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .about-hero-inner {
@@ -424,7 +580,7 @@
   }
 
   .about-headshot-wrap {
-    width: 140px;
+    width: 160px;
     align-self: center;
   }
 
@@ -444,6 +600,14 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .numbers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .numbers-grid .stat-card:last-child {
+    grid-column: 1 / -1;
   }
 
   .gallery-item {
