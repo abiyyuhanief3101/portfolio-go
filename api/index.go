@@ -45,6 +45,9 @@ var libraryContent string
 //go:embed clean.html
 var cleanContent string
 
+//go:embed about.html
+var aboutContent string
+
 // --- STRUKTUR DATA ---
 type BlogPost struct {
 	Slug       string        `json:"slug"`
@@ -285,6 +288,15 @@ func handleLibrary(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
+func handleAbout(w http.ResponseWriter, r *http.Request) {
+	tmpl, _ := template.New("base").Parse(baseContent)
+	tmpl, _ = tmpl.Parse(aboutContent)
+	data := map[string]interface{}{
+		"Title": "About — Abiyyu Hanief",
+	}
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
 func handleClean(w http.ResponseWriter, r *http.Request) {
 	// Karena ini halaman mandiri, kita tidak memakai base.html
 	tmpl, _ := template.New("clean").Parse(cleanContent)
@@ -414,6 +426,11 @@ func handleSendEmail(w http.ResponseWriter, r *http.Request) {
 // --- ENTRY POINT VERCEL ---
 func Handler(w http.ResponseWriter, r *http.Request) {
 	path := r.URL.Path
+
+	if path == "/about" {
+		handleAbout(w, r)
+		return
+	}
 
 	if path == "/clean" {
 		handleClean(w, r)

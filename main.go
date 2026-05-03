@@ -329,6 +329,18 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
+func handleAbout(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("api/base.html", "api/about.html")
+	if err != nil {
+		http.Error(w, "Error loading HTML: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	data := map[string]interface{}{
+		"Title": "About — Abiyyu Hanief",
+	}
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
 // FUNGSI BARU: Menangani Halaman Cleaning Mode
 func handleClean(w http.ResponseWriter, r *http.Request) {
 	// Karena ini halaman mandiri, kita tidak menggunakan base.html
@@ -418,6 +430,8 @@ func main() {
 	http.HandleFunc("/", handleHome)
 	http.HandleFunc("/library", handleLibrary)
 	http.HandleFunc("/send-email", handleSendEmail)
+
+	http.HandleFunc("/about", handleAbout)
 
 	// ROUTE BARU: Cleaning Mode
 	http.HandleFunc("/clean", handleClean)
