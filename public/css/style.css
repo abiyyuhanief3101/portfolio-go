@@ -807,6 +807,7 @@ h1 {
 }
 
 .journal-header h2 {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 10px;
@@ -1257,6 +1258,7 @@ h1 {
 .win-badge:hover { transform: scale(1.05); }
 
 .win-title {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 16px;
@@ -1610,6 +1612,7 @@ h1 {
     padding: 60px 20px 40px;
 }
 .library-header h1 {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 10px;
