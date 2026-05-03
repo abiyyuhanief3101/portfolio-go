@@ -187,6 +187,19 @@
   </ul>
 </footer>
 
+    <!-- CLICKBAIT TOAST KHUSUS HOME -->
+    <div id="clickbait-toast" class="toast-card">
+        <button class="toast-close" id="close-toast-btn">&times;</button>
+        <div class="toast-content">
+            <div class="toast-icon">👀</div>
+            <div>
+                <h4>How does the world see you?</h4>
+                <p>Take this 60-second psychological icebreaker.</p>
+            </div>
+        </div>
+        <a href="/layers" class="btn-primary toast-btn">Play The 3 Layers ✨</a>
+    </div>
+
 {{ end }}
 
 {{ define "scripts" }}
@@ -214,4 +227,22 @@ document.querySelectorAll('.story-block, .win-card, .quote-inner > *').forEach(e
   observer.observe(el);
 });
 </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toast = document.getElementById('clickbait-toast');
+            const closeBtn = document.getElementById('close-toast-btn');
+            let toastTimer;
+            if (!toast || !closeBtn) return;
+            function showToast() { toast.classList.add('show-toast'); }
+            function hideToastAndSetTimer() {
+                toast.classList.remove('show-toast');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(showToast, 15000);
+            }
+            toastTimer = setTimeout(showToast, 500);
+            closeBtn.addEventListener('click', hideToastAndSetTimer);
+        });
+    </script>
+
 {{ end }}

@@ -806,7 +806,12 @@ h1 {
     margin-bottom: 50px;
 }
 
+.journal-header h1 {
+    font-family: 'Fraunces', serif;
+}
+
 .journal-header h2 {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 10px;
@@ -821,7 +826,7 @@ h1 {
 .journal-grid {
     display: grid;
     /* Ini yang membuat kartu berjejer ke samping dan fleksibel */
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     gap: 30px;
     margin-top: 50px;
 }
@@ -857,7 +862,8 @@ h1 {
 
 /* Penyesuaian Judul Artikel */
 .journal-card h3 {
-    font-size: 1.1rem; /* Ukuran yang lebih kecil sesuai permintaanmu */
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
     font-weight: 800;
     color: var(--green-deep);
     margin-bottom: 12px;
@@ -1257,6 +1263,7 @@ h1 {
 .win-badge:hover { transform: scale(1.05); }
 
 .win-title {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 16px;
@@ -1334,6 +1341,7 @@ h1 {
 }
 
 .sleek-value {
+    font-family: 'Fraunces', serif;
     font-size: 2rem;
     font-weight: 800;
     color: var(--green-deep);
@@ -1387,8 +1395,10 @@ h1 {
         grid-column: span 1; 
     }
     .sleek-metrics-grid.layout-1 .sleek-value {
-        font-size: 3.5rem; 
+        font-size: 3.5rem;
     }
+    .win-title { font-size: 1.8rem; }
+    .win-section { padding: 60px 5%; gap: 50px; }
 }
 
 /* --- SPA GAME STYLES --- */
@@ -1596,11 +1606,41 @@ h1 {
 
 /* Responsif untuk HP (Toast muncul di bawah tengah) */
 @media (max-width: 768px) {
-    .toast-card { 
-        bottom: 20px; 
-        left: 20px; 
-        right: 20px; 
+    .toast-card {
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
         max-width: none;
+        padding: 16px 16px 16px 44px;
+        gap: 12px;
+    }
+    .toast-content {
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+    }
+    .toast-icon {
+        position: absolute;
+        left: 12px;
+        top: 12px;
+        font-size: 1.8rem;
+    }
+    .toast-content h4 {
+        font-size: 0.95rem;
+        margin-bottom: 4px;
+    }
+    .toast-content p {
+        font-size: 0.8rem;
+    }
+    .toast-btn {
+        padding: 12px;
+        font-size: 0.85rem;
+        margin-top: 4px;
+    }
+    .toast-close {
+        top: 8px;
+        right: 10px;
+        font-size: 1.3rem;
     }
 }
 
@@ -1610,6 +1650,7 @@ h1 {
     padding: 60px 20px 40px;
 }
 .library-header h1 {
+    font-family: 'Fraunces', serif;
     font-size: 2.5rem;
     color: var(--green-deep);
     margin-bottom: 10px;
@@ -1674,6 +1715,7 @@ h1 {
 }
 
 .book-overlay h3 {
+    font-family: 'Fraunces', serif;
     font-size: 1.4rem;
     margin: 0 0 5px 0;
     color: #fff;
@@ -1766,7 +1808,7 @@ h1 {
 .notion-close-btn:hover { color: var(--terracotta); }
 
 /* Modal Inner Styling */
-.modal-header h1 { font-size: 2.5rem; margin-bottom: 10px; color: var(--green-deep); }
+.modal-header h1 { font-family: 'Fraunces', serif; font-size: 2.5rem; margin-bottom: 10px; color: var(--green-deep); }
 .modal-meta { color: var(--text-secondary); margin-bottom: 40px; font-size: 0.9rem; }
 .modal-body { line-height: 1.8; font-size: 1.1rem; color: var(--text-primary); }
 
@@ -1897,6 +1939,30 @@ nav {
   transition: background .2s !important;
 }
 .nav-cta:hover { background: var(--green-hover) !important; }
+
+/* ── HAMBURGER ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  z-index: 110;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.nav-hamburger.open span:first-child  { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:last-child   { transform: translateY(-7px) rotate(-45deg); }
 
 /* ── HERO ── */
 .hero {
@@ -2228,10 +2294,38 @@ nav {
   .quote-inner { grid-template-columns: 1fr; gap: 2rem; }
   .wins-grid { grid-template-columns: 1fr; }
   .site-footer { justify-content: center; text-align: center; }
-  .nav-links { gap: 1.1rem; }
   .revelation-illustration {
     width: calc(100% + 5rem);
     margin: 0 -2.5rem 1.5rem -2.5rem;
     height: 180px;
+  }
+
+  /* ── Mobile nav dropdown ── */
+  .nav-hamburger { display: flex; }
+  nav { position: relative; }
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 60px; left: 0; right: 0;
+    background: rgba(248,244,236,0.97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    flex-direction: column;
+    padding: 0.5rem 0;
+    gap: 0;
+    z-index: 99;
+    list-style: none;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { border-bottom: 1px solid rgba(216,206,186,0.6); }
+  .nav-links li:last-child { border-bottom: none; }
+  .nav-links a { display: block; padding: 0.85rem 1.5rem; font-size: 0.95rem; }
+  .nav-cta {
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--green) !important;
+    padding: 0.85rem 1.5rem !important;
+    font-size: 0.95rem !important;
   }
 }

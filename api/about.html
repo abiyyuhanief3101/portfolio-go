@@ -1,0 +1,323 @@
+{{ template "base" . }}
+
+{{ define "head" }}
+<link rel="stylesheet" href="/css/about.css">
+{{ end }}
+
+{{ define "content" }}
+
+<!-- ═══════════════════════════════════════ HERO / BIO ══ -->
+<section class="about-hero">
+  <div class="about-container">
+    <div class="about-hero-inner">
+
+      <div class="about-bio">
+        <p class="about-eyebrow">About</p>
+        <h1 class="about-name">Abi</h1>
+        <p class="about-role">Product Implementor &amp; Fullstack Developer</p>
+
+        <div class="about-bio-text">
+          <p>I'm Abi — someone who builds things, whether that's a full-stack system or a community program from scratch.</p>
+          <p>My background sits at the intersection of technology and people. I studied Information Systems at Universitas Indonesia, but the real education happened in the field: distributing IDR 200 million in business grants to 70 local entrepreneurs in North Sumatra, architecting a helpdesk ecosystem for a school management platform serving 2,800+ students, and running fundraising campaigns that reached hundreds of thousands of people online.</p>
+          <p>I believe the best solutions come from understanding the human problem first — then deciding whether the answer is a line of code, a program design, or both.</p>
+        </div>
+
+        <a href="https://linkedin.com/in/nafidz-abiyyuh-09660a15a"
+           target="_blank" rel="noopener noreferrer"
+           class="about-linkedin-btn">
+          <i class="ph ph-linkedin-logo"></i>
+          Connect on LinkedIn
+        </a>
+      </div>
+
+      <div class="about-headshot-wrap">
+        <!-- Place headshot at: /public/img/about/headshot.jpg -->
+        <img src="/img/abi_kartun.jpeg" alt="Nafidz Abiyyu Hanief" class="about-headshot">
+        <div class="about-headshot-bg"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ EXPERIENCE ══ -->
+<section class="about-section">
+  <div class="about-container">
+    <h2 class="about-section-title">Experience</h2>
+
+    <div class="about-timeline">
+
+      <div class="timeline-entry">
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-header">
+            <div class="timeline-title-group">
+              <p class="timeline-company">PT Nusantara Sukses Teknologi</p>
+              <p class="timeline-role">Product Implementation Specialist</p>
+            </div>
+            <div class="timeline-meta">
+              <span><i class="ph ph-calendar-blank"></i> Dec 2025 – Present</span>
+              <span><i class="ph ph-map-pin"></i> Jakarta</span>
+            </div>
+          </div>
+          <ul class="timeline-highlights">
+            <li>Orchestrated LMS &amp; SMS deployment for 11 schools — 2,851 students, 301+ teachers, 4,200+ parents</li>
+            <li>Built support.siswamedia.com from scratch: Mekari Qontak + Google Sheets API pipelines, eliminating 100% of manual chat extraction and saving 20+ hours/month</li>
+            <li>Implemented Gemini &amp; Groq AI pipelines for automated sentiment analysis and executive summaries — slashed insight generation from days to real-time</li>
+            <li>Built Health Score dashboards &amp; financial reconciliation tools (Python/Pandas) → >60% monitoring efficiency gain</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-header">
+            <div class="timeline-title-group">
+              <p class="timeline-company">Yayasan Bukit Lawang Trust</p>
+              <p class="timeline-role">Sustainability Business &amp; Eco-Farming Program Coordinator</p>
+            </div>
+            <div class="timeline-meta">
+              <span><i class="ph ph-calendar-blank"></i> Apr – Dec 2025</span>
+              <span><i class="ph ph-map-pin"></i> Langkat, North Sumatra</span>
+            </div>
+          </div>
+          <ul class="timeline-highlights">
+            <li>Managed end-to-end business grant program — IDR 200M distributed to 70 entrepreneurs across 5 locations</li>
+            <li>Designed and delivered a 10-week curriculum on business model creation and financial execution</li>
+            <li>Built a full-stack cashier &amp; inventory app (Django) → 80% reduction in order processing time, near-zero order errors</li>
+            <li>Directed Eco-Farming Program: 60 students recruited, 3 harvests completed, 7+ vertical gardens created</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-entry">
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+          <div class="timeline-line"></div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-header">
+            <div class="timeline-title-group">
+              <p class="timeline-company">Gerakan Indonesia Mengajar</p>
+              <p class="timeline-role">Fundraising Program &amp; Partnership</p>
+            </div>
+            <div class="timeline-meta">
+              <span><i class="ph ph-calendar-blank"></i> Jun 2024 – Jul 2025</span>
+              <span><i class="ph ph-map-pin"></i> Jakarta</span>
+            </div>
+          </div>
+          <ul class="timeline-highlights">
+            <li>Designed campaign activation for pengajar muda programs in remote areas</li>
+            <li>Collaborated with 2 influencers (290k+ combined followers) → 130k+ Instagram views</li>
+            <li>Raised IDR 11.843.000 in one month during National Children's Day 2024</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline-entry timeline-entry--last">
+        <div class="timeline-marker">
+          <div class="timeline-dot"></div>
+        </div>
+        <div class="timeline-body">
+          <div class="timeline-header">
+            <div class="timeline-title-group">
+              <p class="timeline-company">Gerakan UI Mengajar · BEM UI · Depok Kita · Sadewa</p>
+              <p class="timeline-role">Multiple Roles — Community &amp; Social Impact</p>
+            </div>
+            <div class="timeline-meta">
+              <span><i class="ph ph-calendar-blank"></i> 2021 – 2023</span>
+              <span><i class="ph ph-map-pin"></i> Depok</span>
+            </div>
+          </div>
+          <ul class="timeline-highlights">
+            <li>GUIM — Social Services Assistant and Accommodation coordinator for field programs in remote areas</li>
+            <li>BEM UI — Staff of Social Community Department; coordinated community outreach programs</li>
+            <li>Depok Kita — Program Coordinator (May–Dec 2022)</li>
+            <li>Sadewa (IT Lead) — Launched sadewaind.org (865 page views, 344 sessions in month one); managed 30+ Google Workspace accounts across 8 divisions</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ EDUCATION ══ -->
+<section class="about-section about-section--tinted">
+  <div class="about-container">
+    <h2 class="about-section-title">Education</h2>
+    <div class="about-education">
+
+      <div class="edu-card">
+        <div class="edu-left">
+          <p class="edu-institution">Universitas Indonesia</p>
+          <p class="edu-degree">Bachelor of Computer Science — Information System</p>
+        </div>
+        <span class="edu-year">2020 – 2024</span>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-left">
+          <p class="edu-institution">Binar Academy</p>
+          <p class="edu-degree">Product Management — Digital Product Course</p>
+        </div>
+        <span class="edu-year">2024</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ SKILLS ══ -->
+<section class="about-section">
+  <div class="about-container">
+    <h2 class="about-section-title">Skills</h2>
+    <div class="about-skills">
+
+      <div class="skill-group">
+        <p class="skill-group-label">Tech Stack</p>
+        <div class="skill-chips">
+          <span class="chip">Go</span>
+          <span class="chip">Python</span>
+          <span class="chip">Django</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">React</span>
+          <span class="chip">HTML &amp; CSS</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Supabase</span>
+          <span class="chip">Git</span>
+          <span class="chip">Vercel</span>
+          <span class="chip">Figma</span>
+          <span class="chip">Odoo</span>
+          <span class="chip">Resend API</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-label">Product &amp; Process</p>
+        <div class="skill-chips">
+          <span class="chip">Product Management</span>
+          <span class="chip">PRD Writing</span>
+          <span class="chip">Scrum / Agile</span>
+          <span class="chip">Usability Testing</span>
+          <span class="chip">ERP Configuration</span>
+          <span class="chip">IT Project Management</span>
+          <span class="chip">System Architecture</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <p class="skill-group-label">Community &amp; Program</p>
+        <div class="skill-chips">
+          <span class="chip">Program Design</span>
+          <span class="chip">Curriculum Development</span>
+          <span class="chip">Fundraising</span>
+          <span class="chip">Community Facilitation</span>
+          <span class="chip">Grant Management</span>
+          <span class="chip">Partnership Development</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════ GALLERY ══ -->
+<section class="about-section about-gallery-section">
+  <div class="about-container">
+    <h2 class="about-section-title">Moments</h2>
+  </div>
+  <div class="gallery-wrapper">
+    <button class="gallery-nav gallery-nav--prev" aria-label="Previous photo">
+      <i class="ph ph-arrow-left"></i>
+    </button>
+    <div class="gallery-track-outer">
+      <div class="gallery-track" id="aboutGalleryTrack">
+        <!--
+          Place photos in: /public/img/about/gallery/
+          Recommended: 6–12 photos, landscape or portrait both work.
+          Suggested ratio: 3:4 or 4:3 for visual consistency.
+        -->
+        <div class="gallery-item"><img src="/img/about/gallery/photo-1.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-2.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-3.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-4.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-5.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-6.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-7.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-8.jpg" alt=""></div>
+      </div>
+    </div>
+    <button class="gallery-nav gallery-nav--next" aria-label="Next photo">
+      <i class="ph ph-arrow-right"></i>
+    </button>
+  </div>
+</section>
+
+<div class="about-footer-space"></div>
+
+{{ end }}
+
+
+{{ define "scripts" }}
+<script>
+(function () {
+  const track = document.getElementById('aboutGalleryTrack');
+  if (!track) return;
+
+  const items = track.querySelectorAll('.gallery-item');
+  const prevBtn = document.querySelector('.gallery-nav--prev');
+  const nextBtn = document.querySelector('.gallery-nav--next');
+  let current = 0;
+  const total = items.length;
+
+  function gap() {
+    return parseInt(getComputedStyle(track).gap) || 16;
+  }
+
+  function itemW() {
+    return items[0].offsetWidth + gap();
+  }
+
+  function visibleCount() {
+    return Math.round(track.parentElement.offsetWidth / itemW()) || 1;
+  }
+
+  function maxIndex() {
+    return Math.max(0, total - visibleCount());
+  }
+
+  function goTo(idx) {
+    current = Math.max(0, Math.min(idx, maxIndex()));
+    track.style.transform = 'translateX(-' + (current * itemW()) + 'px)';
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current >= maxIndex();
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Touch swipe
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 48) {
+      diff > 0 ? goTo(current + 1) : goTo(current - 1);
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => goTo(current));
+  goTo(0);
+})();
+</script>
+{{ end }}
