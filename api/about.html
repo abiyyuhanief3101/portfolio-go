@@ -5,7 +5,7 @@
 {{ define "content" }}
 
 <!-- ═══════════════════════════════════════ HERO / BIO ══ -->
-<section class="about-hero">
+<section class="about-hero reveal">
   <div class="about-container">
     <div class="about-hero-inner">
 
@@ -13,6 +13,11 @@
         <p class="about-eyebrow">About</p>
         <h1 class="about-name">Abi</h1>
         <p class="about-role">Product Implementor &amp; Fullstack Developer</p>
+
+        <div class="about-status-badge">
+          <span class="status-dot"></span>
+          Currently: Product Implementation Specialist @ <a href="https://nusatek.id" target="_blank" rel="noopener noreferrer">Nusatek</a>
+        </div>
 
         <div class="about-bio-text">
           <p>I'm Abi — someone who builds things, whether that's a full-stack system or a community program from scratch.</p>
@@ -32,6 +37,52 @@
         <!-- Place headshot at: /public/img/about/headshot.jpg -->
         <img src="/img/abi_kartun.jpeg" alt="Nafidz Abiyyu Hanief" class="about-headshot">
         <div class="about-headshot-bg"></div>
+        <img src="/img/cute_cat_cabbage.png" alt="Cute Cat" style="position: absolute; bottom: -199px; right: -270px; width: 230px; z-index: 10;">
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ BY THE NUMBERS ══ -->
+<section class="about-section about-numbers reveal">
+  <div class="about-container">
+    <h2 class="about-section-title">By the numbers</h2>
+    <div class="numbers-grid">
+
+      <div class="stat-card reveal-child">
+        <div class="stat-value">
+          <span class="stat-count" data-target="70" data-suffix="+">0</span>
+        </div>
+        <div class="stat-label">Entrepreneurs Empowered</div>
+      </div>
+
+      <div class="stat-card reveal-child">
+        <div class="stat-value">
+          <span class="stat-prefix-label">IDR</span><span class="stat-count" data-target="200" data-suffix="M">0</span>
+        </div>
+        <div class="stat-label">Business Grants Distributed</div>
+      </div>
+
+      <div class="stat-card reveal-child">
+        <div class="stat-value">
+          <span class="stat-count" data-target="2851" data-format="comma">0</span>
+        </div>
+        <div class="stat-label">Students in Deployed Systems</div>
+      </div>
+
+      <div class="stat-card reveal-child">
+        <div class="stat-value">
+          <span class="stat-count" data-target="12" data-suffix="+">0</span>
+        </div>
+        <div class="stat-label">Schools Implemented</div>
+      </div>
+
+      <div class="stat-card reveal-child">
+        <div class="stat-value">
+          <span class="stat-count" data-target="130" data-suffix="K">0</span>
+        </div>
+        <div class="stat-label">Campaign Reach (Instagram views)</div>
       </div>
 
     </div>
@@ -39,7 +90,7 @@
 </section>
 
 <!-- ══════════════════════════════════ EXPERIENCE ══ -->
-<section class="about-section">
+<section class="about-section reveal">
   <div class="about-container">
     <h2 class="about-section-title">Experience</h2>
 
@@ -51,22 +102,27 @@
           <div class="timeline-line"></div>
         </div>
         <div class="timeline-body">
-          <div class="timeline-header">
-            <div class="timeline-title-group">
-              <p class="timeline-company">PT Nusantara Sukses Teknologi</p>
-              <p class="timeline-role">Product Implementation Specialist</p>
+          <button class="timeline-toggle" aria-expanded="false">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <p class="timeline-company">PT Nusantara Sukses Teknologi</p>
+                <p class="timeline-role">Product Implementation Specialist</p>
+              </div>
+              <div class="timeline-meta">
+                <span><i class="ph ph-calendar-blank"></i> Dec 2025 – Present</span>
+                <span><i class="ph ph-map-pin"></i> Jakarta</span>
+              </div>
             </div>
-            <div class="timeline-meta">
-              <span><i class="ph ph-calendar-blank"></i> Dec 2025 – Present</span>
-              <span><i class="ph ph-map-pin"></i> Jakarta</span>
-            </div>
+            <span class="timeline-chevron" aria-hidden="true">▾</span>
+          </button>
+          <div class="timeline-content">
+            <ul class="timeline-highlights">
+              <li>Orchestrated LMS &amp; SMS deployment for 11 schools — 2,851 students, 301+ teachers, 4,200+ parents</li>
+              <li>Built support.siswamedia.com from scratch: Mekari Qontak + Google Sheets API pipelines, eliminating 100% of manual chat extraction and saving 20+ hours/month</li>
+              <li>Implemented Gemini &amp; Groq AI pipelines for automated sentiment analysis and executive summaries — slashed insight generation from days to real-time</li>
+              <li>Built Health Score dashboards &amp; financial reconciliation tools (Python/Pandas) → >60% monitoring efficiency gain</li>
+            </ul>
           </div>
-          <ul class="timeline-highlights">
-            <li>Orchestrated LMS &amp; SMS deployment for 11 schools — 2,851 students, 301+ teachers, 4,200+ parents</li>
-            <li>Built support.siswamedia.com from scratch: Mekari Qontak + Google Sheets API pipelines, eliminating 100% of manual chat extraction and saving 20+ hours/month</li>
-            <li>Implemented Gemini &amp; Groq AI pipelines for automated sentiment analysis and executive summaries — slashed insight generation from days to real-time</li>
-            <li>Built Health Score dashboards &amp; financial reconciliation tools (Python/Pandas) → >60% monitoring efficiency gain</li>
-          </ul>
         </div>
       </div>
 
@@ -76,22 +132,27 @@
           <div class="timeline-line"></div>
         </div>
         <div class="timeline-body">
-          <div class="timeline-header">
-            <div class="timeline-title-group">
-              <p class="timeline-company">Yayasan Bukit Lawang Trust</p>
-              <p class="timeline-role">Sustainability Business &amp; Eco-Farming Program Coordinator</p>
+          <button class="timeline-toggle" aria-expanded="false">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <p class="timeline-company">Yayasan Bukit Lawang Trust</p>
+                <p class="timeline-role">Sustainability Business &amp; Eco-Farming Program Coordinator</p>
+              </div>
+              <div class="timeline-meta">
+                <span><i class="ph ph-calendar-blank"></i> Apr – Dec 2025</span>
+                <span><i class="ph ph-map-pin"></i> Langkat, North Sumatra</span>
+              </div>
             </div>
-            <div class="timeline-meta">
-              <span><i class="ph ph-calendar-blank"></i> Apr – Dec 2025</span>
-              <span><i class="ph ph-map-pin"></i> Langkat, North Sumatra</span>
-            </div>
+            <span class="timeline-chevron" aria-hidden="true">▾</span>
+          </button>
+          <div class="timeline-content">
+            <ul class="timeline-highlights">
+              <li>Managed end-to-end business grant program — IDR 200M distributed to 70 entrepreneurs across 5 locations</li>
+              <li>Designed and delivered a 10-week curriculum on business model creation and financial execution</li>
+              <li>Built a full-stack cashier &amp; inventory app (Django) → 80% reduction in order processing time, near-zero order errors</li>
+              <li>Directed Eco-Farming Program: 60 students recruited, 3 harvests completed, 7+ vertical gardens created</li>
+            </ul>
           </div>
-          <ul class="timeline-highlights">
-            <li>Managed end-to-end business grant program — IDR 200M distributed to 70 entrepreneurs across 5 locations</li>
-            <li>Designed and delivered a 10-week curriculum on business model creation and financial execution</li>
-            <li>Built a full-stack cashier &amp; inventory app (Django) → 80% reduction in order processing time, near-zero order errors</li>
-            <li>Directed Eco-Farming Program: 60 students recruited, 3 harvests completed, 7+ vertical gardens created</li>
-          </ul>
         </div>
       </div>
 
@@ -101,21 +162,26 @@
           <div class="timeline-line"></div>
         </div>
         <div class="timeline-body">
-          <div class="timeline-header">
-            <div class="timeline-title-group">
-              <p class="timeline-company">Gerakan Indonesia Mengajar</p>
-              <p class="timeline-role">Fundraising Program &amp; Partnership</p>
+          <button class="timeline-toggle" aria-expanded="false">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <p class="timeline-company">Gerakan Indonesia Mengajar</p>
+                <p class="timeline-role">Fundraising Program &amp; Partnership</p>
+              </div>
+              <div class="timeline-meta">
+                <span><i class="ph ph-calendar-blank"></i> Jun 2024 – Jul 2025</span>
+                <span><i class="ph ph-map-pin"></i> Jakarta</span>
+              </div>
             </div>
-            <div class="timeline-meta">
-              <span><i class="ph ph-calendar-blank"></i> Jun 2024 – Jul 2025</span>
-              <span><i class="ph ph-map-pin"></i> Jakarta</span>
-            </div>
+            <span class="timeline-chevron" aria-hidden="true">▾</span>
+          </button>
+          <div class="timeline-content">
+            <ul class="timeline-highlights">
+              <li>Designed campaign activation for pengajar muda programs in remote areas</li>
+              <li>Collaborated with 2 influencers (290k+ combined followers) → 130k+ Instagram views</li>
+              <li>Raised IDR 11.843.000 in one month during National Children's Day 2024</li>
+            </ul>
           </div>
-          <ul class="timeline-highlights">
-            <li>Designed campaign activation for pengajar muda programs in remote areas</li>
-            <li>Collaborated with 2 influencers (290k+ combined followers) → 130k+ Instagram views</li>
-            <li>Raised IDR 11.843.000 in one month during National Children's Day 2024</li>
-          </ul>
         </div>
       </div>
 
@@ -124,22 +190,27 @@
           <div class="timeline-dot"></div>
         </div>
         <div class="timeline-body">
-          <div class="timeline-header">
-            <div class="timeline-title-group">
-              <p class="timeline-company">Gerakan UI Mengajar · BEM UI · Depok Kita · Sadewa</p>
-              <p class="timeline-role">Multiple Roles — Community &amp; Social Impact</p>
+          <button class="timeline-toggle" aria-expanded="false">
+            <div class="timeline-header">
+              <div class="timeline-title-group">
+                <p class="timeline-company">Gerakan UI Mengajar · BEM UI · Depok Kita · Sadewa</p>
+                <p class="timeline-role">Multiple Roles — Community &amp; Social Impact</p>
+              </div>
+              <div class="timeline-meta">
+                <span><i class="ph ph-calendar-blank"></i> 2021 – 2023</span>
+                <span><i class="ph ph-map-pin"></i> Depok</span>
+              </div>
             </div>
-            <div class="timeline-meta">
-              <span><i class="ph ph-calendar-blank"></i> 2021 – 2023</span>
-              <span><i class="ph ph-map-pin"></i> Depok</span>
-            </div>
+            <span class="timeline-chevron" aria-hidden="true">▾</span>
+          </button>
+          <div class="timeline-content">
+            <ul class="timeline-highlights">
+              <li>GUIM — Social Services Assistant and Accommodation coordinator for field programs in remote areas</li>
+              <li>BEM UI — Staff of Social Community Department; coordinated community outreach programs</li>
+              <li>Depok Kita — Program Coordinator (May–Dec 2022)</li>
+              <li>Sadewa (IT Lead) — Launched sadewaind.org (865 page views, 344 sessions in month one); managed 30+ Google Workspace accounts across 8 divisions</li>
+            </ul>
           </div>
-          <ul class="timeline-highlights">
-            <li>GUIM — Social Services Assistant and Accommodation coordinator for field programs in remote areas</li>
-            <li>BEM UI — Staff of Social Community Department; coordinated community outreach programs</li>
-            <li>Depok Kita — Program Coordinator (May–Dec 2022)</li>
-            <li>Sadewa (IT Lead) — Launched sadewaind.org (865 page views, 344 sessions in month one); managed 30+ Google Workspace accounts across 8 divisions</li>
-          </ul>
         </div>
       </div>
 
@@ -148,7 +219,7 @@
 </section>
 
 <!-- ══════════════════════════════════ EDUCATION ══ -->
-<section class="about-section about-section--tinted">
+<section class="about-section about-section--tinted reveal">
   <div class="about-container">
     <h2 class="about-section-title">Education</h2>
     <div class="about-education">
@@ -174,7 +245,7 @@
 </section>
 
 <!-- ══════════════════════════════════ SKILLS ══ -->
-<section class="about-section">
+<section class="about-section reveal">
   <div class="about-container">
     <h2 class="about-section-title">Skills</h2>
     <div class="about-skills">
@@ -228,7 +299,7 @@
 </section>
 
 <!-- ══════════════════════════════════ GALLERY ══ -->
-<section class="about-section about-gallery-section">
+<section class="about-section about-gallery-section reveal">
   <div class="about-container">
     <h2 class="about-section-title">Moments</h2>
   </div>
@@ -267,55 +338,100 @@
 {{ define "scripts" }}
 <script>
 (function () {
-  const track = document.getElementById('aboutGalleryTrack');
-  if (!track) return;
 
-  const items = track.querySelectorAll('.gallery-item');
-  const prevBtn = document.querySelector('.gallery-nav--prev');
-  const nextBtn = document.querySelector('.gallery-nav--next');
-  let current = 0;
-  const total = items.length;
+  /* ── Gallery ─────────────────────────────────────────────── */
+  var track = document.getElementById('aboutGalleryTrack');
+  if (track) {
+    var items = track.querySelectorAll('.gallery-item');
+    var prevBtn = document.querySelector('.gallery-nav--prev');
+    var nextBtn = document.querySelector('.gallery-nav--next');
+    var current = 0;
+    var total = items.length;
 
-  function gap() {
-    return parseInt(getComputedStyle(track).gap) || 16;
-  }
+    function gap() { return parseInt(getComputedStyle(track).gap) || 16; }
+    function itemW() { return items[0].offsetWidth + gap(); }
+    function visibleCount() { return Math.round(track.parentElement.offsetWidth / itemW()) || 1; }
+    function maxIndex() { return Math.max(0, total - visibleCount()); }
 
-  function itemW() {
-    return items[0].offsetWidth + gap();
-  }
-
-  function visibleCount() {
-    return Math.round(track.parentElement.offsetWidth / itemW()) || 1;
-  }
-
-  function maxIndex() {
-    return Math.max(0, total - visibleCount());
-  }
-
-  function goTo(idx) {
-    current = Math.max(0, Math.min(idx, maxIndex()));
-    track.style.transform = 'translateX(-' + (current * itemW()) + 'px)';
-    prevBtn.disabled = current === 0;
-    nextBtn.disabled = current >= maxIndex();
-  }
-
-  prevBtn.addEventListener('click', () => goTo(current - 1));
-  nextBtn.addEventListener('click', () => goTo(current + 1));
-
-  // Touch swipe
-  let touchStartX = 0;
-  track.addEventListener('touchstart', e => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-  track.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 48) {
-      diff > 0 ? goTo(current + 1) : goTo(current - 1);
+    function goTo(idx) {
+      current = Math.max(0, Math.min(idx, maxIndex()));
+      track.style.transform = 'translateX(-' + (current * itemW()) + 'px)';
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current >= maxIndex();
     }
-  }, { passive: true });
 
-  window.addEventListener('resize', () => goTo(current));
-  goTo(0);
+    prevBtn.addEventListener('click', function () { goTo(current - 1); });
+    nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+    var touchStartX = 0;
+    track.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', function (e) {
+      var diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 48) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+    }, { passive: true });
+
+    window.addEventListener('resize', function () { goTo(current); });
+    goTo(0);
+  }
+
+  /* ── Counter animation ───────────────────────────────────── */
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function animateCounter(el) {
+    var target = parseInt(el.dataset.target, 10);
+    var suffix = el.dataset.suffix || '';
+    var format = el.dataset.format || '';
+    var duration = 1500;
+    var start = null;
+
+    function frame(ts) {
+      if (!start) start = ts;
+      var t = Math.min((ts - start) / duration, 1);
+      var value = Math.round(easeOut(t) * target);
+      var display = format === 'comma' ? value.toLocaleString() : String(value);
+      el.textContent = display + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ── Accordion ───────────────────────────────────────────── */
+  document.querySelectorAll('.timeline-toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var entry = this.closest('.timeline-entry');
+      var isOpen = entry.classList.contains('open');
+      document.querySelectorAll('.timeline-entry.open').forEach(function (e) {
+        e.classList.remove('open');
+        e.querySelector('.timeline-toggle').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        entry.classList.add('open');
+        this.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ── Scroll reveal ───────────────────────────────────────── */
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      var children = entry.target.querySelectorAll('.reveal-child');
+      children.forEach(function (child, i) {
+        setTimeout(function () {
+          child.classList.add('visible');
+          var counter = child.querySelector('.stat-count');
+          if (counter) animateCounter(counter);
+        }, i * 120);
+      });
+      revealObs.unobserve(entry.target);
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(function (el) {
+    revealObs.observe(el);
+  });
+
 })();
 </script>
 {{ end }}

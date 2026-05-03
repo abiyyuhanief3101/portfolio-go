@@ -103,35 +103,107 @@ type SmallWin struct {
 }
 
 // --- FUNGSI PARSER MARKDOWN ---
+var (
+	reBold        = regexp.MustCompile(`\*\*(.*?)\*\*`)
+	reItalic      = regexp.MustCompile(`\*(.*?)\*`)
+	reCode        = regexp.MustCompile("`([^`]+)`")
+	reLink        = regexp.MustCompile(`\[([^\]]+)\]\(([^)]+)\)`)
+	reBlockquote  = regexp.MustCompile(`^>+\s*`)
+)
+
+func applyInline(s string) string {
+	s = reBold.ReplaceAllString(s, "<strong>$1</strong>")
+	s = reItalic.ReplaceAllString(s, "<em>$1</em>")
+	s = reCode.ReplaceAllString(s, "<code>$1</code>")
+	s = reLink.ReplaceAllString(s, `<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>`)
+	return s
+}
+
 func mdToHTML(md string) template.HTML {
-	html := template.HTMLEscapeString(md)
+	// Normalize pre-escaped HTML entities that may come from the DB or rich-text editors
+	md = strings.ReplaceAll(md, "&gt;", ">")
+	md = strings.ReplaceAll(md, "&lt;", "<")
+	md = strings.ReplaceAll(md, "&amp;", "&")
+	md = strings.ReplaceAll(md, "&quot;", "\"")
+	lines := strings.Split(md, "\n")
+	var result []string
+	var listItems []string
+	var bqItems []string
+	var pending []string
 
-	re := regexp.MustCompile(`(?m)^#{3}\s+(.*)$`)
-	html = re.ReplaceAllString(html, "<h3>$1</h3>")
-	re = regexp.MustCompile(`(?m)^#{2}\s+(.*)$`)
-	html = re.ReplaceAllString(html, "<h2>$1</h2>")
-	re = regexp.MustCompile(`(?m)^#{1}\s+(.*)$`)
-	html = re.ReplaceAllString(html, "<h1>$1</h1>")
+	flushList := func() {
+		if len(listItems) == 0 {
+			return
+		}
+		result = append(result, "<ul><li>"+strings.Join(listItems, "</li><li>")+"</li></ul>")
+		listItems = nil
+	}
 
-	re = regexp.MustCompile(`\*\*(.*?)\*\*`)
-	html = re.ReplaceAllString(html, "<strong>$1</strong>")
+	flushBq := func() {
+		if len(bqItems) == 0 {
+			return
+		}
+		for _, item := range bqItems {
+			result = append(result, "<blockquote>"+item+"</blockquote>")
+		}
+		bqItems = nil
+	}
 
-	re = regexp.MustCompile(`\*(.*?)\*`)
-	html = re.ReplaceAllString(html, "<em>$1</em>")
-
-	parts := strings.Split(html, "\n\n")
-	var pParts []string
-	for _, p := range parts {
-		cleanP := strings.TrimSpace(p)
-		if cleanP != "" {
-			if strings.HasPrefix(cleanP, "<h") {
-				pParts = append(pParts, cleanP)
-			} else {
-				pParts = append(pParts, "<p>"+strings.ReplaceAll(cleanP, "\n", "<br>")+"</p>")
-			}
+	flushPending := func() {
+		if len(pending) == 0 {
+			return
+		}
+		block := strings.TrimSpace(strings.Join(pending, "\n"))
+		pending = nil
+		if block == "" {
+			return
+		}
+		if strings.HasPrefix(block, "### ") {
+			result = append(result, "<h3>"+applyInline(template.HTMLEscapeString(block[4:]))+"</h3>")
+		} else if strings.HasPrefix(block, "## ") {
+			result = append(result, "<h2>"+applyInline(template.HTMLEscapeString(block[3:]))+"</h2>")
+		} else if strings.HasPrefix(block, "# ") {
+			result = append(result, "<h1>"+applyInline(template.HTMLEscapeString(block[2:]))+"</h1>")
+		} else {
+			// Single \n within a paragraph: HTML collapses to space naturally — no <br> needed
+			processed := applyInline(template.HTMLEscapeString(block))
+			result = append(result, "<p>"+processed+"</p>")
 		}
 	}
-	return template.HTML(strings.Join(pParts, "\n"))
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
+			flushPending()
+			flushBq()
+			item := strings.TrimSpace(trimmed[2:])
+			listItems = append(listItems, applyInline(template.HTMLEscapeString(item)))
+		} else if reBlockquote.MatchString(trimmed) {
+			flushPending()
+			flushList()
+			item := strings.TrimSpace(reBlockquote.ReplaceAllString(trimmed, ""))
+			if item != "" {
+				bqItems = append(bqItems, applyInline(template.HTMLEscapeString(item)))
+			}
+		} else if trimmed == "" {
+			flushList()
+			flushBq()
+			flushPending()
+		} else {
+			if len(listItems) > 0 {
+				flushList()
+			}
+			if len(bqItems) > 0 {
+				flushBq()
+			}
+			pending = append(pending, line)
+		}
+	}
+	flushList()
+	flushBq()
+	flushPending()
+
+	return template.HTML(strings.Join(result, "\n"))
 }
 
 // --- FUNGSI FETCH SUPABASE ---
