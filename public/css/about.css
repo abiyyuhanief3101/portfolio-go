@@ -108,6 +108,15 @@
   font-size: 18px;
 }
 
+.about-github-btn {
+  background: #24292e;
+  border: 1.5px solid #444c56;
+}
+
+.about-github-btn:hover {
+  background: #2f363d;
+}
+
 /* Headshot */
 .about-headshot-wrap {
   flex-shrink: 0;
