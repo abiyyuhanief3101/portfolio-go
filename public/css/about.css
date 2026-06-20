@@ -7,7 +7,13 @@
 .about-container {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 4px;
+  padding: 0 24px;
+}
+
+.about-container--wide {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 .about-footer-space {
@@ -19,20 +25,107 @@
   padding: 14px 0 16px;
 }
 
-.about-hero-inner {
+/* ── BENTO GRID ──────────────────────────────────────────────── */
+.about-bento {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  column-gap: 16px;
+  row-gap: 10px;
+}
+
+.bento-card {
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.6);
+  padding: 20px 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+}
+
+/* A: Name card */
+.bento-name {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
-  align-items: center;
-  gap: 56px;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 10px;
+  flex-direction: column;
 }
 
-.about-bio {
+/* B: Headshot — spans all 3 rows on right column */
+.bento-headshot {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-headshot .about-headshot {
   flex: 1;
-  min-width: 0;
+  width: 100%;
+  min-height: 380px;
+  object-fit: cover;
+  border-radius: 20px;
+  display: block;
+  position: relative;
+  z-index: 1;
 }
 
+.bento-headshot .about-headshot-bg {
+  position: absolute;
+  inset: 12px -12px -12px 12px;
+  border-radius: 20px;
+  background: #e8e0d0;
+  z-index: 0;
+}
+
+/* C: Status pill (compact) */
+.bento-status-pill {
+  grid-column: 1;
+  grid-row: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: start;
+  width: fit-content;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  color: #888;
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 999px;
+  padding: 6px 14px 6px 10px;
+}
+
+.bento-status-pill a {
+  color: #3F756C;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* D: CTA row */
+.bento-cta-row {
+  grid-column: 1;
+  grid-row: 3;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* E: What I Do — full-width bottom row */
+.bento-whatido-row {
+  grid-column: 1 / -1;
+  grid-row: 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── BENTO CONTENT ───────────────────────────────────────────── */
 .about-eyebrow {
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
@@ -40,7 +133,7 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #999;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .about-name {
@@ -57,32 +150,103 @@
   font-weight: 400;
 }
 
-.about-role {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  color: #888;
-  margin-bottom: 16px;
-  letter-spacing: 0.01em;
+.bento-hook {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #3F756C;
+  margin: 0 0 14px;
 }
 
-.about-bio-text {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 36px;
+.bento-role-tag {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #aaa;
+  margin-bottom: 14px;
 }
 
-.about-bio-text p {
+.bento-bio-line {
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.75;
   color: inherit;
-  margin: 0;
-  opacity: 0.85;
+  opacity: 0.72;
+  margin: 0 0 10px;
 }
 
-/* LinkedIn CTA */
+.bento-bio-expand {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bento-bio-expand.open {
+  max-height: 400px;
+}
+
+.bento-bio-expand p {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.75;
+  color: inherit;
+  opacity: 0.72;
+  margin: 0;
+}
+
+.bento-readmore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3F756C;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+
+.bento-readmore-btn:hover {
+  opacity: 0.75;
+}
+
+.bento-readmore-btn i {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.bento-readmore-btn.open i {
+  transform: rotate(180deg);
+}
+
+
+/* Status dot */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: blink-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* LinkedIn / GitHub CTAs */
 .about-linkedin-btn {
   display: inline-flex;
   align-items: center;
@@ -96,7 +260,6 @@
   border-radius: 8px;
   text-decoration: none;
   transition: background 0.2s ease, transform 0.15s ease;
-  margin-bottom: 40px;
 }
 
 .about-linkedin-btn:hover {
@@ -117,31 +280,6 @@
   background: #2f363d;
 }
 
-/* Headshot */
-.about-headshot-wrap {
-  flex-shrink: 0;
-  position: relative;
-  width: 240px;
-}
-
-.about-headshot {
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  border-radius: 16px;
-  position: relative;
-  z-index: 1;
-  display: block;
-}
-
-.about-headshot-bg {
-  position: absolute;
-  inset: 12px -12px -12px 12px;
-  border-radius: 16px;
-  background: #e8e0d0;
-  z-index: 0;
-}
-
 /* ── SECTIONS ────────────────────────────────────────────────── */
 .about-section {
   padding: 64px 0;
@@ -158,6 +296,55 @@
   font-weight: 600;
   margin: 0 0 40px;
   line-height: 1.1;
+}
+
+/* ── WHAT I DO ───────────────────────────────────────────────── */
+.whatido-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.whatido-card {
+  padding: 28px 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.07);
+  background: rgba(255,255,255,0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.whatido-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.07);
+}
+
+.whatido-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(63, 117, 108, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #3F756C;
+  margin-bottom: 16px;
+}
+
+.whatido-title {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: inherit;
+}
+
+.whatido-desc {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #888;
+  margin: 0;
 }
 
 /* ── TIMELINE ────────────────────────────────────────────────── */
@@ -426,37 +613,6 @@
   cursor: default;
 }
 
-/* ── STATUS BADGE ────────────────────────────────────────────── */
-.about-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 24px;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  flex-shrink: 0;
-  animation: blink-dot 1.5s ease-in-out infinite;
-}
-
-@keyframes blink-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.2; }
-}
-
-.about-status-badge a {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
 /* ── NUMBERS SECTION ─────────────────────────────────────────── */
 .about-numbers {
   background: rgba(0,0,0,0.02);
@@ -583,14 +739,37 @@
 
 /* ── RESPONSIVE ──────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  .about-hero-inner {
-    flex-direction: column-reverse;
-    gap: 32px;
+  .about-bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
   }
 
-  .about-headshot-wrap {
+  .bento-headshot {
+    grid-column: 1;
+    grid-row: 1;
     width: 160px;
-    align-self: center;
+    margin: 0 auto;
+  }
+
+  .bento-headshot .about-headshot {
+    min-height: unset;
+    height: auto;
+    aspect-ratio: 3/4;
+  }
+
+  .bento-name {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .bento-status-pill {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .bento-cta-row {
+    grid-column: 1;
+    grid-row: 4;
   }
 
   .timeline-header {
@@ -628,6 +807,16 @@
     height: 34px;
     font-size: 15px;
   }
+
+  .bento-whatido-row {
+    grid-column: 1;
+    grid-row: 5;
+    grid-template-columns: 1fr;
+  }
+
+  .whatido-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 480px) {
@@ -642,4 +831,5 @@
   .gallery-item {
     width: 160px;
   }
+
 }
