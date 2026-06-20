@@ -4,48 +4,75 @@
 
 {{ define "content" }}
 
-<!-- ═══════════════════════════════════════ HERO / BIO ══ -->
+<!-- ═══════════════════════════════════════ HERO / BENTO ══ -->
 <section class="about-hero reveal">
-  <div class="about-container">
-    <div class="about-hero-inner">
+  <div class="about-container about-container--wide">
+    <div class="about-bento">
 
-      <div class="about-bio">
+      <!-- A: Name + hook + bio -->
+      <div class="bento-card bento-name">
         <p class="about-eyebrow">About</p>
         <h1 class="about-name">Abi</h1>
-        <p class="about-role">Product Implementor &amp; Fullstack Developer</p>
+        <p class="bento-hook">"I build things that work — in code, in the field, and for people."</p>
+        <p class="bento-role-tag">Product Implementor &amp; Fullstack Developer</p>
+        <p class="bento-bio-line">Information Systems grad from UI — distributed IDR 200M in grants, built helpdesk ecosystems for 2,800+ students, shipped production code in Go, Python &amp; Django.</p>
 
-        <div class="about-status-badge">
-          <span class="status-dot"></span>
-          Currently: Product Implementation Specialist @<a href="https://nusatek.id" target="_blank" rel="noopener noreferrer">Nusatek</a>
-        </div>
-
-        <div class="about-bio-text">
-          <p>I'm Abi — someone who builds things to solve problem, whether that's a full-stack system or a community program from scratch.</p>
+        <div class="bento-bio-expand" id="bentoBioExpand">
+          <p>I'm Abi — someone who builds things to solve problems, whether that's a full-stack system or a community program from scratch.</p>
           <p>My background sits at the intersection of technology and people. I studied Information Systems at Universitas Indonesia, but the real education happened in the field: distributing IDR 200 million in business grants to 70 local entrepreneurs in North Sumatra, architecting a helpdesk ecosystem for a school management platform serving 2,800+ students, and running fundraising campaigns that reached hundreds of thousands of people online.</p>
           <p>I believe the best solutions come from understanding the human problem first — then deciding whether the answer is a line of code, a program design, or both.</p>
         </div>
 
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-          <a href="https://linkedin.com/in/nafidz-abiyyuh-09660a15a"
-             target="_blank" rel="noopener noreferrer"
-             class="about-linkedin-btn">
-            <i class="ph ph-linkedin-logo"></i>
-            Connect on LinkedIn
-          </a>
-          <a href="https://github.com/abiyyuhanief3101"
-             target="_blank" rel="noopener noreferrer"
-             class="about-linkedin-btn about-github-btn">
-            <i class="ph ph-github-logo"></i>
-            GitHub
-          </a>
-        </div>
+        <button class="bento-readmore-btn" id="bentoBioToggle" aria-expanded="false">
+          Read more <i class="ph ph-caret-down"></i>
+        </button>
       </div>
 
-      <div class="about-headshot-wrap">
-        <!-- Place headshot at: /public/img/about/headshot.jpg -->
+      <!-- B: Headshot (spans all 3 rows) -->
+      <div class="bento-headshot">
         <img src="/img/abi_kartun.jpeg" alt="Nafidz Abiyyu Hanief" class="about-headshot">
         <div class="about-headshot-bg"></div>
-        <img src="/img/cute_cat_cabbage.png" alt="Cute Cat" style="position: absolute; bottom: -199px; right: -270px; width: 230px; z-index: 10;">
+      </div>
+
+      <!-- C: Status badge (compact) -->
+      <div class="bento-status-pill">
+        <span class="status-dot"></span>
+        <span>Product Implementation Specialist @<a href="https://nusatek.id" target="_blank" rel="noopener noreferrer">Nusatek</a></span>
+      </div>
+
+      <!-- D: CTAs -->
+      <div class="bento-cta-row">
+        <a href="https://linkedin.com/in/nafidz-abiyyuh-09660a15a"
+           target="_blank" rel="noopener noreferrer"
+           class="about-linkedin-btn">
+          <i class="ph ph-linkedin-logo"></i>
+          Connect on LinkedIn
+        </a>
+        <a href="https://github.com/abiyyuhanief3101"
+           target="_blank" rel="noopener noreferrer"
+           class="about-linkedin-btn about-github-btn">
+          <i class="ph ph-github-logo"></i>
+          GitHub
+        </a>
+      </div>
+
+      <!-- E: What I Do — full-width bottom row -->
+      <div class="bento-whatido-row">
+        <div class="whatido-card reveal-child">
+          <div class="whatido-icon"><i class="ph ph-compass"></i></div>
+          <h3 class="whatido-title">Ideate</h3>
+          <p class="whatido-desc">Map the whole before building any part — strategy, architecture, and stakeholder dynamics first.</p>
+        </div>
+        <div class="whatido-card reveal-child">
+          <div class="whatido-icon"><i class="ph ph-rocket-launch"></i></div>
+          <h3 class="whatido-title">Build & Execute</h3>
+          <p class="whatido-desc">Bridge idea and reality. Concepts don't count until they're shipped — and I have the real cases to prove it.</p>
+        </div>
+        <div class="whatido-card reveal-child">
+          <div class="whatido-icon"><i class="ph ph-handshake"></i></div>
+          <h3 class="whatido-title">Facilitate</h3>
+          <p class="whatido-desc">Lead with empathy. Understand people before designing solutions — because the human problem always comes first.</p>
+        </div>
       </div>
 
     </div>
@@ -273,7 +300,8 @@
           <span class="chip">Vercel</span>
           <span class="chip">Figma</span>
           <span class="chip">Odoo</span>
-          <span class="chip">Resend API</span>
+          <span class="chip">API</span>
+          <span class="chip">ERP</span>
         </div>
       </div>
 
@@ -322,14 +350,14 @@
           Recommended: 6–12 photos, landscape or portrait both work.
           Suggested ratio: 3:4 or 4:3 for visual consistency.
         -->
-        <div class="gallery-item"><img src="/img/about/gallery/photo-1.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-2.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-3.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-4.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-5.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-6.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-7.jpg" alt=""></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-8.jpg" alt=""></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-1.jpg" alt="Abi at a community program moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-2.jpg" alt="Abi during eco-farming program in North Sumatra"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-3.jpg" alt="Abi at a field program activity"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-4.jpg" alt="Abi with program participants"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-5.jpg" alt="Abi at a workshop or event"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-6.jpg" alt="Abi at community gathering"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-7.jpg" alt="Abi during a program activity"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-8.jpg" alt="Abi at a memorable moment"></div>
       </div>
     </div>
     <button class="gallery-nav gallery-nav--next" aria-label="Next photo">
@@ -401,6 +429,19 @@
       if (t < 1) requestAnimationFrame(frame);
     }
     requestAnimationFrame(frame);
+  }
+
+  /* ── Bio read more ──────────────────────────────────────────── */
+  var bioToggle = document.getElementById('bentoBioToggle');
+  var bioExpand = document.getElementById('bentoBioExpand');
+  if (bioToggle && bioExpand) {
+    bioToggle.addEventListener('click', function () {
+      var isOpen = bioExpand.classList.contains('open');
+      bioExpand.classList.toggle('open', !isOpen);
+      bioToggle.classList.toggle('open', !isOpen);
+      bioToggle.setAttribute('aria-expanded', String(!isOpen));
+      bioToggle.childNodes[0].textContent = isOpen ? 'Read more ' : 'Read less ';
+    });
   }
 
   /* ── Accordion ───────────────────────────────────────────── */
