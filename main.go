@@ -60,19 +60,14 @@ type Metric struct {
 	TechTags   []string `json:"tech_tags"` // Array untuk tag bahasa pemrograman
 }
 
-// Struktur baru untuk menampung gambar galeri
-type GalleryImage struct {
-	URL     string `json:"url"`
-	Caption string `json:"caption"` // Keterangan di bawah gambar (seperti 'dashboard overview')
-}
-
-// Struct SmallWin yang sudah di-update
 type SmallWin struct {
-	Title          string         `json:"title"`
-	TitleHighlight string         `json:"title_highlight"`
-	Subtitle       string         `json:"subtitle"`
-	Metrics        []Metric       `json:"metrics"`
-	Gallery        []GalleryImage `json:"gallery"` // 👈 TAMBAHAN BARU: Wadah untuk tumpukan gambar
+	Title          string   `json:"title"`
+	TitleHighlight string   `json:"title_highlight"`
+	Subtitle       string   `json:"subtitle"`
+	Metrics        []Metric `json:"metrics"`
+	DemoURL        string   `json:"demo_url"`
+	GitHubURL      string   `json:"github_url"`
+	EmbedDemo      bool     `json:"-"`
 }
 
 // Mesin Markdown Parser
@@ -208,12 +203,11 @@ func handleHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleWins(w http.ResponseWriter, r *http.Request) {
-	// 1. Daftarkan fungsi 'mod'
 	funcMap := template.FuncMap{
 		"mod": func(i, j int) int { return i % j },
+		"add": func(i, j int) int { return i + j },
 	}
 
-	// 2. Parse file HTML
 	tmpl := template.New("base.html").Funcs(funcMap)
 	tmpl, err := tmpl.ParseFiles("api/base.html", "api/wins.html")
 	if err != nil {
@@ -221,10 +215,24 @@ func handleWins(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 3. TARIK DATA DARI SUPABASE (Tidak ada lagi data manual di sini!)
+	wins := fetchWinsFromSupabase()
+	for i := range wins {
+		full := strings.TrimSpace(wins[i].Title + " " + wins[i].TitleHighlight)
+		if strings.Contains(full, "Support Operations") {
+			wins[i].DemoURL = "/demos/cs-dashboard.html"
+			wins[i].EmbedDemo = true
+		} else if strings.Contains(full, "Local-First Business") {
+			wins[i].DemoURL = "/demos/mammos.html"
+			wins[i].EmbedDemo = true
+		} else if strings.Contains(full, "AI-Powered Customer") {
+			wins[i].DemoURL = "/demos/cs-dashboard.html"
+			wins[i].EmbedDemo = false
+		}
+	}
+
 	data := map[string]interface{}{
-		"Title":     "Small Wins | Abiyyu Hanief",
-		"SmallWins": fetchWinsFromSupabase(), // 👈 Memanggil fungsi fetcher yang baru dibuat
+		"Title":     "Projects | Abiyyu Hanief",
+		"SmallWins": wins,
 	}
 
 	tmpl.ExecuteTemplate(w, "base", data)
@@ -422,9 +430,13 @@ func main() {
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("public/css"))))
 	http.Handle("/js/", http.StripPrefix("/js/", http.FileServer(http.Dir("public/js"))))
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("public/img"))))
+	http.Handle("/demos/", http.StripPrefix("/demos/", http.FileServer(http.Dir("public/demos"))))
 
 	// Routing Halaman Utama
-	http.HandleFunc("/wins", handleWins)
+	http.HandleFunc("/wins", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/projects", http.StatusMovedPermanently)
+	})
+	http.HandleFunc("/projects", handleWins)
 	http.HandleFunc("/layers", handleLayers)
 	http.HandleFunc("/blog/", handlePost)
 	http.HandleFunc("/", handleHome)
