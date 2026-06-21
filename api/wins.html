@@ -1,272 +1,552 @@
 {{ define "content" }}
 <style>
-    /* --- CSS KHUSUS GALLERY STACK --- */
-    .win-gallery-section {
-        margin-top: 40px;
-        width: 100%;
+    /* ===== PAGE SHELL ===== */
+    .projects-page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 84px 5% 140px;
     }
-    
-    .gallery-stack {
+
+    /* ===== HEADER (editorial masthead) ===== */
+    .ph-head {
+        display: grid;
+        grid-template-columns: 1.55fr 1fr;
+        gap: 56px;
+        align-items: start;
+        margin-bottom: 8px;
+    }
+
+    .reveal { opacity: 0; transform: translateY(14px); animation: phRise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+    @keyframes phRise { to { opacity: 1; transform: none; } }
+    .d1 { animation-delay: .05s; } .d2 { animation-delay: .13s; } .d3 { animation-delay: .21s; }
+    .d4 { animation-delay: .30s; } .d5 { animation-delay: .40s; }
+
+    .ph-kicker {
+        display: inline-flex; align-items: center; gap: 10px;
+        font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+        color: var(--text-secondary); margin-bottom: 20px;
+    }
+    .ph-kicker::before { content: ""; width: 24px; height: 2px; background: var(--terracotta); display: block; }
+
+    .ph-title {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 4.4rem; font-weight: 700; line-height: .96; letter-spacing: -.03em;
+        color: var(--green-deep); margin-bottom: 20px;
+    }
+    .ph-title .dot { color: var(--terracotta); }
+
+    .ph-lead { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.65; max-width: 440px; }
+    .ph-lead b { color: var(--text-primary); font-weight: 600; }
+
+    .ph-stats { display: flex; margin-top: 42px; border-top: 1px solid var(--border-color); padding-top: 30px; }
+    .ph-stat { padding: 0 30px; }
+    .ph-stat:first-child { padding-left: 0; }
+    .ph-stat + .ph-stat { border-left: 1px solid var(--border-color); }
+    .ph-stat .n {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 2.4rem; font-weight: 600; line-height: 1; letter-spacing: -.02em;
+        color: var(--green-deep); display: block; margin-bottom: 8px;
+    }
+    .ph-stat .l { font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); }
+
+    .ph-aside {
+        border: 1px solid var(--border-color); border-radius: 16px;
+        background: var(--card-bg); padding: 26px 28px; margin-top: 6px;
+    }
+    .ph-statusline { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .ph-dot {
+        width: 9px; height: 9px; border-radius: 50%;
+        background: #4F9D69; position: relative; flex-shrink: 0;
+    }
+    .ph-dot::after {
+        content: ""; position: absolute; inset: -5px; border-radius: 50%;
+        border: 1px solid #4F9D69; opacity: .5; animation: phPulse 2.4s ease-out infinite;
+    }
+    @keyframes phPulse { 0% { transform: scale(.6); opacity: .6; } 100% { transform: scale(1.5); opacity: 0; } }
+    .ph-statusline span { font-size: .92rem; font-weight: 600; color: var(--text-primary); }
+    .ph-row { display: flex; justify-content: space-between; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--border-color); }
+    .ph-row .k { font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); }
+    .ph-row .v { font-size: .9rem; font-weight: 600; color: var(--text-primary); text-align: right; }
+    .ph-cta { display: flex; gap: 9px; margin-top: 20px; }
+    .ph-cta a {
+        flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+        padding: 10px; border-radius: 9px; font-size: .82rem; font-weight: 600; text-decoration: none;
+        border: 1px solid var(--border-color); color: var(--text-secondary); transition: .2s;
+    }
+    .ph-cta a.primary { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
+    .ph-cta a.linkedin { background: #0A66C2; border-color: #0A66C2; color: #fff; }
+    .ph-cta a:hover { border-color: var(--green-deep); color: var(--green-deep); transform: translateY(-1px); }
+    .ph-cta a.primary:hover { opacity: .88; color: #fff; }
+    .ph-cta a.linkedin:hover { opacity: .88; color: #fff; border-color: #0A66C2; transform: translateY(-1px); }
+
+    .ph-divider { border: none; border-top: 1px solid var(--border-color); margin: 64px 0 0; }
+
+    /* ===== PROJECT CARD ===== */
+    .project-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .project-card {
+        padding: 60px 0;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .project-card:last-child {
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* ===== CARD HEADER ===== */
+    .project-card-header {
+        margin-bottom: 32px;
+    }
+
+    .project-num {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: var(--terracotta);
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .project-card-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+        margin-bottom: 10px;
+    }
+
+    .project-card-sub {
+        color: var(--text-secondary);
+        font-size: 0.93rem;
+        line-height: 1.75;
+        margin-bottom: 20px;
+        max-width: 540px;
+    }
+
+    .project-card-links {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .project-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 18px;
+        border-radius: 8px;
+        font-size: 0.83rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 1px solid var(--border-color);
+        color: var(--text-secondary);
+        background: transparent;
+    }
+
+    .project-link-btn:hover {
+        border-color: var(--green-deep);
+        color: var(--green-deep);
+        transform: translateY(-1px);
+    }
+
+    .project-link-btn.primary {
+        background: var(--green-deep);
+        border-color: var(--green-deep);
+        color: white;
+    }
+
+    .project-link-btn.primary:hover {
+        opacity: 0.85;
+        transform: translateY(-1px);
+    }
+
+    /* ===== DEMO EMBED (desktop) ===== */
+    .demo-window {
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 8px 48px rgba(0,0,0,0.08);
+        margin-bottom: 32px;
+    }
+
+    .demo-chrome {
+        background: var(--card-bg);
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .chrome-dots {
+        display: flex;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+
+    .chrome-dots span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+    }
+
+    .chrome-dots span:nth-child(1) { background: #FF5F57; }
+    .chrome-dots span:nth-child(2) { background: #FFBD2E; }
+    .chrome-dots span:nth-child(3) { background: #28C840; }
+
+    .chrome-label {
+        flex: 1;
+        background: var(--bg);
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 4px 12px;
+        font-size: 0.73rem;
+        color: var(--text-secondary);
+        text-align: center;
+        letter-spacing: 0.02em;
+    }
+
+    .demo-frame {
         position: relative;
         width: 100%;
-        /* Menjaga proporsi gambar landscape (16:9) */
-        aspect-ratio: 16 / 9; 
-        perspective: 1000px;
-        /* Tambahan margin bawah agar tumpukan kartu tidak menabrak kontrol */
-        margin-bottom: 35px; 
+        aspect-ratio: 16 / 9;
+        background: var(--bg);
     }
-    
-    .gallery-card {
+
+    .demo-frame iframe {
         position: absolute;
         top: 0; left: 0;
         width: 100%; height: 100%;
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-        opacity: 0;
-        visibility: hidden;
-        background: var(--card-bg);
-        cursor: pointer;
+        border: none;
     }
-    
-    .gallery-card img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
+
+    /* ===== MOBILE: swap iframe → button ===== */
+    .demo-mobile-cta {
+        display: none;
+        margin-bottom: 28px;
     }
-    
-    .gallery-card:hover img {
-        transform: scale(1.05); /* Efek zoom tipis saat di-hover */
-    }
-    
-    .gallery-caption {
-        position: absolute;
-        bottom: 15px; left: 15px; right: 15px;
-        background: rgba(30, 30, 30, 0.75);
-        backdrop-filter: blur(5px);
-        color: white;
-        padding: 10px 15px;
-        border-radius: 10px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    /* LOGIKA POSISI 3D STACK */
-    .gallery-card.active {
-        opacity: 1; visibility: visible;
-        transform: translateY(0) scale(1) translateZ(0);
-        z-index: 3;
-    }
-    .gallery-card.next-1 {
-        opacity: 0.6; visibility: visible;
-        transform: translateY(15px) scale(0.95) translateZ(-50px);
-        z-index: 2;
-    }
-    .gallery-card.next-2 {
-        opacity: 0.3; visibility: visible;
-        transform: translateY(30px) scale(0.90) translateZ(-100px);
-        z-index: 1;
-    }
-    
-    /* KONTROL & PAGINATION */
-    .gallery-controls {
+
+    .demo-mobile-cta a {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 20px;
-    }
-    
-    .gallery-btn {
-        background: transparent;
+        gap: 10px;
+        padding: 16px 20px;
+        background: var(--card-bg);
         border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: var(--text-primary, #2d3436);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s;
+    }
+
+    .demo-mobile-cta a:hover {
+        border-color: var(--green-deep);
+        color: var(--green-deep);
+    }
+
+    /* ===== PROJECT BODY: demo + metrics side by side ===== */
+    .project-body {
+        display: grid;
+        gap: 28px;
+    }
+
+    /* when demo is embedded: 3:2 split, demo left, metrics right */
+    .project-body.has-demo {
+        grid-template-columns: 3fr 2fr;
+        align-items: start;
+    }
+
+    /* metrics column: swipeable carousel when demo is present */
+    .project-body.has-demo .metrics-section {
+        position: relative;
+        overflow: hidden;
+    }
+    .project-body.has-demo .sleek-metrics-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scroll-snap-type: y mandatory;
+        scrollbar-width: none;
+        gap: 0 !important;
+    }
+    .project-body.has-demo .sleek-metrics-grid::-webkit-scrollbar { display: none; }
+    .project-body.has-demo .sleek-metrics-grid .sleek-card {
+        flex: 0 0 auto !important;
+        scroll-snap-align: start;
+        grid-column: span 1 !important;
+        box-sizing: border-box;
+    }
+    /* dots nav */
+    .metrics-dots {
+        display: none;
+        justify-content: center;
+        gap: 6px;
+        margin-top: 12px;
+    }
+    .project-body.has-demo .metrics-dots { display: flex; }
+    .metrics-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--border-color); cursor: pointer;
+        transition: background .2s, transform .2s;
+        border: none; padding: 0;
+    }
+    .metrics-dot.active { background: var(--green-deep); transform: scale(1.3); }
+
+    /* ===== IMPACT LABEL ===== */
+    .impact-label {
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
         color: var(--text-secondary);
-        width: 40px; height: 40px;
-        border-radius: 50%;
-        display: flex; justify-content: center; align-items: center;
-        cursor: pointer; transition: 0.2s;
-        font-size: 1.2rem;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: block;
     }
-    
-    .gallery-btn:hover { 
-        background: var(--green-deep); 
-        color: white; 
-        border-color: var(--green-deep); 
-        transform: scale(1.1);
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 820px) {
+        .ph-head { grid-template-columns: 1fr; gap: 36px; }
+        .ph-title { font-size: 3rem; }
+        .ph-aside { margin-top: 0; }
     }
-    
-    .gallery-dots { 
-        display: flex; 
-        gap: 8px; 
-        align-items: center;
-    }
-    
-    .gallery-dots .dot { 
-        width: 8px; height: 8px; 
-        border-radius: 50%; 
-        background: var(--border-color); 
-        transition: 0.3s; 
-    }
-    
-    .gallery-dots .dot.active { 
-        background: var(--terracotta); 
-        width: 24px; 
-        border-radius: 4px; 
+
+    @media (max-width: 680px) {
+        .projects-page {
+            padding: 60px 5% 80px;
+        }
+
+        .ph-title { font-size: 2.4rem; }
+        .ph-stats { flex-wrap: wrap; gap: 24px 0; }
+        .ph-stat { flex: 1 0 50%; padding: 0 20px; }
+        .ph-stat:first-child, .ph-stat:nth-child(3) { padding-left: 0; }
+        .ph-stat + .ph-stat { border-left: none; }
+
+        .project-card {
+            padding: 44px 0;
+        }
+
+        .project-card-title {
+            font-size: 1.7rem;
+        }
+
+        /* collapse side-by-side to vertical */
+        .project-body.has-demo {
+            grid-template-columns: 1fr;
+        }
+
+        /* hide iframe, show button */
+        .demo-window {
+            display: none;
+        }
+
+        .demo-mobile-cta {
+            display: block;
+        }
+
+        /* stack metric cards on mobile */
+        .sleek-metrics-grid {
+            grid-template-columns: 1fr !important;
+        }
     }
 </style>
 
-    <main>
-        <section class="win-section">
-            {{ range $index, $win := .SmallWins }}
-            <div class="win-container {{ if eq (mod $index 2) 1 }}reverse-layout{{ end }}">
-                
-                <div class="win-content-left">
-                    <div class="win-badge">
-                        🏆 Achievement Unlocked
-                    </div>
-                    
-                    <h2 class="win-title">{{ $win.Title }} <span class="text-terracotta">{{ $win.TitleHighlight }}</span></h2>
-                    <p class="win-subtitle">
-                        {{ $win.Subtitle }}
-                    </p>
-                </div>
+<main>
+    <div class="projects-page">
+        <div class="ph-head">
 
-                <div class="win-content-right">
-                    
-                    <div class="sleek-metrics-grid layout-{{ len $win.Metrics }}">
-                        {{ range $win.Metrics }}
-                        <div class="sleek-card">
-                            <span class="sleek-label">{{ .Label }}</span>
-                            <div class="sleek-value {{ .ValueColor }}">{{ .Value }}</div>
-                            <p class="sleek-desc">{{ .Desc }}</p>
-                            
-                            {{ if .TechTags }}
-                            <div class="sleek-tech-tags" style="margin-top: 20px;">
-                                {{ range .TechTags }}
-                                <span>{{ . }}</span>
-                                {{ end }}
-                            </div>
-                            {{ end }}
-                        </div>
+            <div>
+                <span class="ph-kicker reveal d1">Selected Work · 2022 — 2026</span>
+                <h1 class="ph-title reveal d2">Projects<span class="dot">.</span></h1>
+                <p class="ph-lead reveal d3">Things I've built — from tools for grassroots communities to systems that move data for <b>thousands of users</b>. Each one shipped, measured, and still running.</p>
+
+                <div class="ph-stats reveal d4">
+                    <div class="ph-stat"><span class="n">{{ len .SmallWins }}</span><span class="l">Projects</span></div>
+                    <div class="ph-stat"><span class="n">5671+</span><span class="l">Users maintained</span></div>
+                    <div class="ph-stat"><span class="n">12+</span><span class="l">Schools involved</span></div>
+                    <div class="ph-stat"><span class="n">3+</span><span class="l">Industries</span></div>
+                </div>
+            </div>
+
+            <aside class="ph-aside reveal d5">
+                <div class="ph-statusline">
+                    <span class="ph-dot"></span>
+                    <span>Open to opportunities</span>
+                </div>
+                <div class="ph-row"><span class="k">Role</span><span class="v">Product / Fullstack</span></div>
+                <div class="ph-row"><span class="k">Stack</span><span class="v">Go · Django · React</span></div>
+                <div class="ph-row"><span class="k">Based in</span><span class="v">Bogor, ID · Remote</span></div>
+                <div class="ph-cta">
+                    <a class="primary" href="/about" target="_blank" rel="noopener">About</a>
+                    <a class="linkedin" href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" rel="noopener">LinkedIn</a>
+                </div>
+            </aside>
+
+        </div>
+
+        <hr class="ph-divider">
+
+        <div class="project-list" style="margin-top: 64px;">
+            {{ range $index, $win := .SmallWins }}
+            <article class="project-card">
+
+                <!-- Header -->
+                <div class="project-card-header">
+                    <span class="project-num">{{ printf "%02d" (add $index 1) }}</span>
+                    <h2 class="project-card-title">{{ $win.Title }} <span class="text-terracotta">{{ $win.TitleHighlight }}</span></h2>
+                    <p class="project-card-sub">{{ $win.Subtitle }}</p>
+
+                    <div class="project-card-links">
+                        {{ if $win.GitHubURL }}
+                        <a href="{{ $win.GitHubURL }}" target="_blank" rel="noopener noreferrer" class="project-link-btn">
+                            <i class="ph ph-github-logo"></i> GitHub
+                        </a>
+                        {{ end }}
+                        {{ if $win.DemoURL }}
+                        <a href="{{ $win.DemoURL }}" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">
+                            <i class="ph ph-arrow-square-out"></i> Open Demo
+                        </a>
                         {{ end }}
                     </div>
+                </div>
 
-                    {{ if .Gallery }}
-                    <div class="win-gallery-section">
-                        <div class="gallery-stack" id="gallery-{{ $index }}">
-                            {{ range $gIndex, $img := .Gallery }}
-                            <div class="gallery-card {{ if eq $gIndex 0 }}active{{ else if eq $gIndex 1 }}next-1{{ else if eq $gIndex 2 }}next-2{{ else }}hidden{{ end }}" 
-                                 onclick="rotateGallery('gallery-{{ $index }}', 'next')">
-                                <img src="{{ .URL }}" alt="{{ .Caption }}" loading="lazy">
-                                {{ if .Caption }}
-                                <div class="gallery-caption">
-                                    <i class="ph ph-image"></i> {{ .Caption }}
+                <div class="project-body {{ if $win.EmbedDemo }}has-demo{{ end }}">
+
+                    {{ if and $win.DemoURL $win.EmbedDemo }}
+                    <div class="demo-section">
+                        <!-- Desktop: embedded iframe -->
+                        <div class="demo-window">
+                            <div class="demo-chrome">
+                                <div class="chrome-dots">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <div class="chrome-label">Interactive Demo</div>
+                            </div>
+                            <div class="demo-frame">
+                                <iframe src="{{ $win.DemoURL }}"
+                                        sandbox="allow-scripts allow-same-origin"
+                                        loading="lazy"
+                                        title="{{ $win.Title }} Demo">
+                                </iframe>
+                            </div>
+                        </div>
+                        <!-- Mobile: button only -->
+                        <div class="demo-mobile-cta">
+                            <a href="{{ $win.DemoURL }}" target="_blank" rel="noopener noreferrer">
+                                <i class="ph ph-play-circle" style="font-size:1.2rem;"></i>
+                                View Interactive Demo
+                                <i class="ph ph-arrow-square-out" style="font-size:0.85rem; opacity:0.6;"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {{ end }}
+
+                    {{ if $win.Metrics }}
+                    <div class="metrics-section">
+                        <span class="impact-label">Impact</span>
+                        <div class="sleek-metrics-grid layout-{{ len $win.Metrics }}">
+                            {{ range $win.Metrics }}
+                            <div class="sleek-card">
+                                <span class="sleek-label">{{ .Label }}</span>
+                                <div class="sleek-value {{ .ValueColor }}">{{ .Value }}</div>
+                                <p class="sleek-desc">{{ .Desc }}</p>
+                                {{ if .TechTags }}
+                                <div class="sleek-tech-tags" style="margin-top: 20px;">
+                                    {{ range .TechTags }}
+                                    <span>{{ . }}</span>
+                                    {{ end }}
                                 </div>
                                 {{ end }}
                             </div>
                             {{ end }}
                         </div>
-                        
-                        {{ if gt (len .Gallery) 1 }}
-                        <div class="gallery-controls">
-                            <button class="gallery-btn" onclick="rotateGallery('gallery-{{ $index }}', 'prev')"><i class="ph ph-caret-left"></i></button>
-                            <div class="gallery-dots" id="dots-gallery-{{ $index }}">
-                                {{ range $gIndex, $img := .Gallery }}
-                                <span class="dot {{ if eq $gIndex 0 }}active{{ end }}"></span>
-                                {{ end }}
-                            </div>
-                            <button class="gallery-btn" onclick="rotateGallery('gallery-{{ $index }}', 'next')"><i class="ph ph-caret-right"></i></button>
-                        </div>
-                        {{ end }}
+                        <div class="metrics-dots"></div>
                     </div>
                     {{ end }}
-                    </div>
 
-            </div>
+                </div>
+
+            </article>
             {{ else }}
-            <div style="text-align: center; padding: 100px 20px;">
-                <p style="color: #888;">Belum ada pencapaian yang tercatat.</p>
+            <div style="text-align:center; padding: 80px 0; color: var(--text-secondary);">
+                <p>Belum ada project yang tercatat.</p>
             </div>
             {{ end }}
-        </section>
-    </main>
+        </div>
+    </div>
+</main>
 
 <script>
-    function rotateGallery(galleryId, direction) {
-        const stack = document.getElementById(galleryId);
-        const cards = Array.from(stack.querySelectorAll('.gallery-card'));
-        const dotsContainer = document.getElementById('dots-' + galleryId);
-        const dots = dotsContainer ? Array.from(dotsContainer.querySelectorAll('.dot')) : [];
-        
-        if (cards.length <= 1) return;
+(function () {
+    document.querySelectorAll('.project-body.has-demo').forEach(function (body) {
+        var section = body.querySelector('.metrics-section');
+        if (!section) return;
 
-        // Cari index kartu yang sedang 'active'
-        let activeIdx = cards.findIndex(card => card.classList.contains('active'));
-        
-        // Kalkulasi index selanjutnya berdasarkan tombol yang ditekan (Prev/Next)
-        if (direction === 'next') {
-            activeIdx = (activeIdx + 1) % cards.length;
-        } else {
-            activeIdx = (activeIdx - 1 + cards.length) % cards.length;
+        var grid = section.querySelector('.sleek-metrics-grid');
+        var cards = section.querySelectorAll('.sleek-card');
+        var dotsEl = section.querySelector('.metrics-dots');
+        if (!grid || cards.length < 2 || !dotsEl) return;
+
+        var current = 0;
+        var timer = null;
+
+        // measure tallest card, cap grid to that height
+        function syncHeight() {
+            cards.forEach(function (c) { c.style.height = ''; });
+            var maxH = 0;
+            cards.forEach(function (c) { maxH = Math.max(maxH, c.offsetHeight); });
+            cards.forEach(function (c) { c.style.height = maxH + 'px'; });
+            grid.style.maxHeight = maxH + 'px';
+        }
+        syncHeight();
+        if (window.ResizeObserver) {
+            new ResizeObserver(syncHeight).observe(grid.parentElement);
         }
 
-        // Terapkan ulang class ke setiap kartu
-        cards.forEach((card, i) => {
-            // Bersihkan class lama
-            card.className = 'gallery-card';
-            if (dots[i]) dots[i].className = 'dot';
-            
-            // Setel class baru sesuai urutan tumpukan 3D
-            if (i === activeIdx) {
-                card.classList.add('active');
-                if (dots[i]) dots[i].classList.add('active');
-            } else if (i === (activeIdx + 1) % cards.length) {
-                card.classList.add('next-1');
-            } else if (i === (activeIdx + 2) % cards.length) {
-                card.classList.add('next-2');
-            } else {
-                card.classList.add('hidden');
-            }
+        // build dots
+        var dots = [];
+        cards.forEach(function (_, i) {
+            var btn = document.createElement('button');
+            btn.className = 'metrics-dot' + (i === 0 ? ' active' : '');
+            btn.setAttribute('aria-label', 'Metric ' + (i + 1));
+            btn.addEventListener('click', function () { goTo(i); restartAuto(); });
+            dotsEl.appendChild(btn);
+            dots.push(btn);
         });
-        
-    }
-    // --- TAHAP 3: LOGIKA SWIPE UNTUK MOBILE ---
-    document.addEventListener('DOMContentLoaded', () => {
-        const stacks = document.querySelectorAll('.gallery-stack');
-        
-        stacks.forEach(stack => {
-            let startX = 0;
-            let endX = 0;
-            const galleryId = stack.id;
 
-            // Deteksi saat jari mulai menyentuh layar
-            stack.addEventListener('touchstart', (e) => {
-                startX = e.changedTouches[0].screenX;
-            }, {passive: true});
+        function goTo(i) {
+            current = (i + cards.length) % cards.length;
+            grid.scrollTo({ top: cards[current].offsetTop, behavior: 'smooth' });
+            dots.forEach(function (d, idx) { d.classList.toggle('active', idx === current); });
+        }
 
-            // Deteksi saat jari diangkat dari layar
-            stack.addEventListener('touchend', (e) => {
-                endX = e.changedTouches[0].screenX;
-                handleSwipe();
-            }, {passive: true});
+        function next() { goTo(current + 1); }
 
-            function handleSwipe() {
-                const swipeThreshold = 50; // Minimal jarak gesekan (50px) agar tidak sensitif
-                
-                if (startX - endX > swipeThreshold) {
-                    // Jari geser ke KIRI = Gambar selanjutnya (Next)
-                    rotateGallery(galleryId, 'next');
-                } else if (endX - startX > swipeThreshold) {
-                    // Jari geser ke KANAN = Gambar sebelumnya (Prev)
-                    rotateGallery(galleryId, 'prev');
-                }
-            }
-        });
+        function startAuto() {
+            if (timer) clearInterval(timer);
+            timer = setInterval(next, 3500);
+        }
+
+        function restartAuto() {
+            clearInterval(timer);
+            startAuto();
+        }
+
+        // pause on hover
+        section.addEventListener('mouseenter', function () { clearInterval(timer); });
+        section.addEventListener('mouseleave', startAuto);
+
+        startAuto();
     });
+})();
 </script>
+
 {{ end }}
