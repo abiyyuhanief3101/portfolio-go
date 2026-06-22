@@ -358,6 +358,14 @@
         <div class="gallery-item"><img src="/img/about/gallery/photo-6.jpg" alt="Abi at community gathering"></div>
         <div class="gallery-item"><img src="/img/about/gallery/photo-7.jpg" alt="Abi during a program activity"></div>
         <div class="gallery-item"><img src="/img/about/gallery/photo-8.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-9.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-10.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-11.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-12.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-13.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-14.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-15.jpg" alt="Abi at a memorable moment"></div>
+        <div class="gallery-item"><img src="/img/about/gallery/photo-16.jpg" alt="Abi at a memorable moment"></div>
       </div>
     </div>
     <button class="gallery-nav gallery-nav--next" aria-label="Next photo">
@@ -407,6 +415,17 @@
     }, { passive: true });
 
     window.addEventListener('resize', function () { goTo(current); });
+
+    /* shuffle Fisher-Yates tiap session */
+    var arr = Array.from(items);
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
+    }
+    arr.forEach(function(el) { track.appendChild(el); });
+    items = track.querySelectorAll('.gallery-item');
+    total = items.length;
+
     goTo(0);
   }
 
