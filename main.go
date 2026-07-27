@@ -52,6 +52,14 @@ type EmailRequest struct {
 	Desc3 string `json:"desc_3"`
 }
 
+type ContactRequest struct {
+	Name              string `json:"name"`
+	Email             string `json:"email"`
+	Message           string `json:"message"`
+	CollaborationType string `json:"collaboration_type"`
+	Website           string `json:"website"` // honeypot: must stay empty
+}
+
 type Metric struct {
 	Label      string   `json:"label"`
 	Value      string   `json:"value"`
@@ -349,6 +357,151 @@ func handleAbout(w http.ResponseWriter, r *http.Request) {
 	tmpl.ExecuteTemplate(w, "base", data)
 }
 
+func handleCollaboration(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("api/base.html", "api/collaboration.html")
+	if err != nil {
+		http.Error(w, "Error loading HTML: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	data := map[string]interface{}{
+		"Title": "Collaboration — Abiyyu Hanief",
+	}
+	tmpl.ExecuteTemplate(w, "base", data)
+}
+
+func handleContactSubmit(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+
+	var req ContactRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Bad request"})
+		return
+	}
+
+	// Honeypot: bots fill hidden fields, humans never see this one
+	if strings.TrimSpace(req.Website) != "" {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+		return
+	}
+
+	req.Name = strings.TrimSpace(req.Name)
+	req.Email = strings.TrimSpace(req.Email)
+	req.Message = strings.TrimSpace(req.Message)
+
+	emailRe := regexp.MustCompile(`^[^\s@]+@[^\s@]+\.[^\s@]+$`)
+	if req.Name == "" || req.Email == "" || req.Message == "" || !emailRe.MatchString(req.Email) {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Please fill in your name, a valid email, and a message."})
+		return
+	}
+
+	submission := map[string]interface{}{
+		"name":               req.Name,
+		"email":              req.Email,
+		"message":            req.Message,
+		"collaboration_type": req.CollaborationType,
+	}
+	payloadBytes, _ := json.Marshal(submission)
+
+	insertReq, _ := http.NewRequest("POST", supabaseUrl+"/rest/v1/contact_submissions", bytes.NewBuffer(payloadBytes))
+	insertReq.Header.Add("apikey", supabaseKey)
+	insertReq.Header.Add("Authorization", "Bearer "+supabaseKey)
+	insertReq.Header.Add("Content-Type", "application/json")
+	insertReq.Header.Add("Prefer", "return=representation")
+
+	client := &http.Client{}
+	insertResp, err := client.Do(insertReq)
+	if err != nil || insertResp.StatusCode >= 300 {
+		log.Println("Error persisting contact submission:", err)
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(map[string]string{"error": "Could not save your message. Please try again."})
+		return
+	}
+	defer insertResp.Body.Close()
+
+	var inserted []map[string]interface{}
+	body, _ := io.ReadAll(insertResp.Body)
+	json.Unmarshal(body, &inserted)
+
+	var insertedID string
+	if len(inserted) > 0 {
+		if id, ok := inserted[0]["id"].(string); ok {
+			insertedID = id
+		}
+	}
+
+	go sendContactNotification(req, insertedID)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(map[string]bool{"ok": true})
+}
+
+func markContactEmailSent(id string) {
+	if id == "" {
+		return
+	}
+	payload, _ := json.Marshal(map[string]bool{"email_sent": true})
+	req, _ := http.NewRequest("PATCH", supabaseUrl+"/rest/v1/contact_submissions?id=eq."+id, bytes.NewBuffer(payload))
+	req.Header.Add("apikey", supabaseKey)
+	req.Header.Add("Authorization", "Bearer "+supabaseKey)
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Prefer", "return=minimal")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Println("Error marking contact submission as email_sent:", err)
+		return
+	}
+	defer resp.Body.Close()
+}
+
+func sendContactNotification(req ContactRequest, submissionID string) {
+	htmlBody := fmt.Sprintf(`
+	<div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#333; max-width:600px; margin:0 auto;">
+		<h2 style="color:#3F756C;">New Collaboration Inquiry</h2>
+		<p><strong>Name:</strong> %s</p>
+		<p><strong>Email:</strong> %s</p>
+		<p><strong>Type:</strong> %s</p>
+		<p><strong>Message:</strong><br>%s</p>
+	</div>`, req.Name, req.Email, req.CollaborationType, req.Message)
+
+	resendPayload := map[string]interface{}{
+		"from":    "hello@abiyyuhanief.id",
+		"to":      []string{"nafidzabiyyu@gmail.com"},
+		"subject": "New Collaboration Inquiry from " + req.Name,
+		"html":    htmlBody,
+	}
+
+	resendApiKey := os.Getenv("RESEND_API_KEY")
+	payloadBytes, _ := json.Marshal(resendPayload)
+
+	client := &http.Client{}
+	httpReq, _ := http.NewRequest("POST", "https://api.resend.com/emails", bytes.NewBuffer(payloadBytes))
+	httpReq.Header.Set("Authorization", "Bearer "+resendApiKey)
+	httpReq.Header.Set("Content-Type", "application/json")
+
+	resp, err := client.Do(httpReq)
+	if err != nil {
+		log.Println("Error sending contact notification via Resend:", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode < 300 {
+		markContactEmailSent(submissionID)
+	} else {
+		log.Println("Resend returned non-2xx status for contact notification:", resp.StatusCode)
+	}
+}
+
 // FUNGSI BARU: Menangani Halaman Cleaning Mode
 func handleClean(w http.ResponseWriter, r *http.Request) {
 	// Karena ini halaman mandiri, kita tidak menggunakan base.html
@@ -437,6 +590,8 @@ func main() {
 		http.Redirect(w, r, "/projects", http.StatusMovedPermanently)
 	})
 	http.HandleFunc("/projects", handleWins)
+	http.HandleFunc("/collaboration", handleCollaboration)
+	http.HandleFunc("/api/contact", handleContactSubmit)
 	http.HandleFunc("/layers", handleLayers)
 	http.HandleFunc("/blog/", handlePost)
 	http.HandleFunc("/", handleHome)
