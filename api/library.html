@@ -1,211 +1,33 @@
 {{ define "content" }}
 
-<style>
-    /* Styling khusus untuk Badge Rating Baru */
-    .rating-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 2px;
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 800;
-        margin-bottom: 15px;
-        backdrop-filter: blur(5px);
-        transition: all 0.3s ease;
-    }
-    
-    .rating-badge i { font-size: 1rem; }
-    
-    .rating-high { 
-        color: var(--green-deep, #5A9A8F); 
-        background-color: rgba(90, 154, 143, 0.15); 
-        border: 1px solid rgba(90, 154, 143, 0.3); 
-    }
-    .rating-mid { 
-        color: var(--terracotta, #C6743E); 
-        background-color: rgba(198, 116, 62, 0.15); 
-        border: 1px solid rgba(198, 116, 62, 0.3); 
-    }
+<section class="container page-head">
+    <p class="label">Library</p>
+    <h1 class="h1">What I've been reading</h1>
+    <p class="lead">My way of thought, maybe. Books I've finished, with a rating and a few honest lines about each. Pinned ones come first; the rest shuffle on every visit.</p>
+</section>
 
-    /* 🔖 MODIFIKASI: Indikator Bookmark (Cartoon Style & Palette Matched) */
-    .book-card {
-        position: relative;
-    }
-
-    .bookmark-badge {
-        position: absolute;
-        top: 10px;      
-        right: 15px;    
-        
-        /* Menggunakan warna Terracotta agar serasi dengan website */
-        background-color: var(--terracotta, #C6743E); 
-        color: white; 
-        
-        width: 48px;     
-        height: 48px;    
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-        /* Bayangan lembut khas gaya kartun */
-        box-shadow: 0 6px 15px rgba(198, 116, 62, 0.4); 
-        
-        z-index: 10;
-        font-size: 1.8rem;   
-        
-        /* Sedikit rotasi agar terlihat dinamis */
-        transform: rotate(-5deg); 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        
-        /* Border putih tebal untuk mempertegas kesan ilustrasi */
-        border: 3px solid white; 
-    }
-
-    .book-card:hover .bookmark-badge {
-        transform: rotate(0deg) scale(1.15);
-    }
-
-    /* Indikator Buku Punya Jurnal */
-    .note-indicator {
-        margin-top: 15px; 
-        background: rgba(255, 255, 255, 0.15); 
-        padding: 8px 16px; 
-        border-radius: 20px; 
-        font-size: 0.85rem; 
-        font-weight: 700; 
-        backdrop-filter: blur(4px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        transition: all 0.2s ease;
-        display: inline-block;
-    }
-    .note-indicator:hover {
-        background: var(--green-deep);
-        color: white;
-        transform: scale(1.05);
-    }
-    .note-indicator:active {
-        transform: scale(0.95);
-    }
-
-    .book-card.has-note:hover .note-indicator {
-        background: var(--green-deep);
-        color: white;
-    }
-
-    /* Loader Spinner untuk Pop-up */
-    .book-loader {
-        width: 40px; height: 40px; 
-        border: 4px solid #f0f0f0; 
-        border-top: 4px solid var(--green-deep); 
-        border-radius: 50%; 
-        animation: spin 1s linear infinite; 
-        margin: 40px auto;
-    }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-</style>
-
-<div class="library-header" style="margin-bottom: 40px;">
-    <h1>Digital Library.</h1>
-    <p>My way of thought, maybe.</p>
-    
-    <div class="illustration-absolute hide-on-mobile">
-        <img src="/img/library_illustration_transparent.png" alt="Library Illustration" class="floating-img" loading="lazy" style="animation-delay: 1s;">
-    </div>
-</div>
-
-<div class="library-grid">
-    {{ range .Books }}
-    <div class="book-card">
-        
-        {{ if .IsPinned }}
-        <div class="bookmark-badge" title="Masterpiece / Highlight">
-            <i class="ph-fill ph-bookmark-simple"></i>
-        </div>
-        {{ end }}
-
-        <img src="{{ .CoverURL }}" alt="{{ .Title }}" class="book-cover" onerror="this.src='/img/undraw_continuous-learning_a1ld.svg';">
-        
-        <div class="book-overlay">
-            <h3>{{ .Title }}</h3>
-            <p class="author">by {{ .Author }}</p>
-            
-            <div class="rating-badge dynamic-rating" data-rating="{{ .Rating }}"></div>
-            
-            <p class="review-text">"{{ .Review }}"</p>
-
-            {{ if .PostSlug }}
-            <div class="note-indicator" 
-                 onclick="openBookNote('{{ .PostSlug }}'); event.stopPropagation();" 
-                 style="cursor: pointer;">
-                📝 Read Long Notes
+<section class="container section section--flush-top" aria-label="Books">
+    <ul class="shelf">
+        {{ range .Books }}
+        <li class="book">
+            <div class="book__cover">
+                <img src="{{ .CoverURL }}" alt="Cover of {{ .Title }}" loading="lazy" decoding="async" width="400" height="600" onerror="this.onerror=null;this.src='/img/undraw_continuous-learning_a1ld.svg';this.classList.add('is-fallback');">
             </div>
-            {{ end }}
-        </div>
-    </div>
-    {{ else }}
-    <p style="text-align: center; color: #888;">No books found in the library.</p>
-    {{ end }}
-</div>
-
-<div id="notionModal" class="notion-modal" onclick="closeModal(event)">
-    <div class="notion-modal-content" onclick="event.stopPropagation()">
-        <span class="notion-close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalBody"></div>
-    </div>
-</div>
-
-<script>
-    // Skrip Rating Bintang
-    document.addEventListener("DOMContentLoaded", function() {
-        const ratingBadges = document.querySelectorAll('.dynamic-rating');
-        ratingBadges.forEach(badge => {
-            const rawRating = parseFloat(badge.getAttribute('data-rating')) || 0;
-            const fullStars = Math.floor(rawRating); 
-            const hasHalfStar = (rawRating % 1) >= 0.5; 
-            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); 
-            let starsHTML = '';
-            for (let i = 0; i < fullStars; i++) starsHTML += '<i class="ph-fill ph-star"></i>';
-            if (hasHalfStar) starsHTML += '<i class="ph-fill ph-star-half"></i>';
-            for (let i = 0; i < emptyStars; i++) starsHTML += '<i class="ph ph-star"></i>'; 
-            badge.innerHTML = starsHTML + '<span style="margin-left: 6px;">' + rawRating.toFixed(1) + '</span>';
-            if (rawRating >= 4.0) badge.classList.add('rating-high');
-            else badge.classList.add('rating-mid');
-        });
-    });
-
-    // Skrip Modal & Fetch Data Blog
-    async function openBookNote(slug) {
-        const modal = document.getElementById('notionModal');
-        const modalBody = document.getElementById('modalBody');
-        
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; 
-        modalBody.innerHTML = '<div style=\"text-align:center;\"><div class=\"book-loader\"></div><p style=\"color:#888;\">Membuka lembaran catatan...</p></div>';
-
-        try {
-            const response = await fetch('/blog/' + slug);
-            const htmlText = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            const contentDiv = doc.getElementById('content-' + slug);
-            
-            if (contentDiv) {
-                modalBody.innerHTML = contentDiv.innerHTML;
-            } else {
-                modalBody.innerHTML = '<div style=\"text-align:center; padding: 40px; color:#888;\">Catatan tidak ditemukan.</div>';
-            }
-        } catch (error) {
-            modalBody.innerHTML = '<div style=\"text-align:center; padding: 40px; color:#888;\">Gagal memuat catatan. Periksa koneksi internetmu.</div>';
-        }
-    }
-
-    function closeModal() {
-        document.getElementById('notionModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; 
-    }
-</script>
+            <div class="book__info">
+                <p class="book__meta meta">
+                    <span class="book__rating" aria-label="Rated {{ printf "%.1f" .Rating }} out of 5">{{ printf "%.1f" .Rating }} / 5</span>
+                    {{ if .IsPinned }}<span class="book__pinned">Pinned</span>{{ end }}
+                </p>
+                <h2 class="book__title">{{ .Title }}</h2>
+                <p class="book__author">{{ .Author }}</p>
+                {{ with .Review }}<p class="book__review">{{ . }}</p>{{ end }}
+                {{ if .PostSlug }}<a href="/blog/{{ .PostSlug }}" class="link-arrow">Read long notes</a>{{ end }}
+            </div>
+        </li>
+        {{ else }}
+        <li class="empty">No books found in the library.</li>
+        {{ end }}
+    </ul>
+</section>
 
 {{ end }}

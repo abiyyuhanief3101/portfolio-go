@@ -1,4 +1,4 @@
-const CACHE_NAME = 'abiyyu-portfolio-v1';
+const CACHE_NAME = 'abiyyu-portfolio-v2';
 const STATIC_ASSETS = [
     '/',
     '/css/style.css',
@@ -9,9 +9,16 @@ const STATIC_ASSETS = [
 // Install Service Worker & Cache aset awal
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(STATIC_ASSETS);
-        })
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    );
+});
+
+// Buang cache versi lama supaya aset desain lama tidak tertinggal
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((keys) => Promise.all(
+            keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        ))
     );
 });
 
@@ -21,7 +28,7 @@ self.addEventListener('fetch', (event) => {
         fetch(event.request)
             .then((response) => {
                 // Simpan ke cache jika sukses untuk dibaca saat offline nanti
-                if (response.status === 200 && event.request.method === 'GET') {
+                if (response.status === 200 && event.request.method === 'GET' && event.request.url.startsWith(self.location.origin)) {
                     const responseClone = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseClone);

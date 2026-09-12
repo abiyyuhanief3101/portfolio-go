@@ -1,205 +1,219 @@
 {{ define "content" }}
-<main>
 
 <!-- HERO -->
-<section class="section collab-hero">
-  <div class="sec-label">Collaboration</div>
-  <h1 class="hero-title">Let's Build <em>Something</em> Together.</h1>
-  <p class="hero-sub" style="max-width:640px;">
-    I believe in Empowering Technology: the right system doesn't create new dependency — it multiplies the
-    capacity you already have, so the same effort produces a much bigger outcome, much faster.
-  </p>
-  <div class="actions">
-    <a href="#contact" class="btn btn-primary">Tell me what you're working on →</a>
-    <a href="#track-record" class="btn btn-ghost">See the track record</a>
-  </div>
+<section class="container page-head">
+    <p class="label">Collaboration</p>
+    <h1 class="h1">Let's build something <span class="serif">together.</span></h1>
+    <p class="lead">
+        I believe in Empowering Technology: the right system doesn't create new dependency — it multiplies the
+        capacity you already have, so the same effort produces a much bigger outcome, much faster.
+    </p>
+    <div class="actions">
+        <a href="#contact" class="btn btn--primary">Tell me what you're working on</a>
+        <a href="#track-record" class="btn btn--secondary">See the track record</a>
+    </div>
 </section>
 
-<!-- TWO TRACKS -->
-<div class="section">
-  <div class="sec-label">How I Can Help</div>
-  <h2 class="sec-heading">Two ways I usually get pulled in.</h2>
+<!-- TWO PATHS -->
+<section class="container section section--flush-top" aria-labelledby="approach-title">
+    <header class="section-head">
+        <div>
+            <p class="label">The approach</p>
+            <h2 class="h2" id="approach-title">Two solution paths, two kinds of business</h2>
+            <p class="section-head__lead">
+                Not every business needs the same build. Across the projects I've shipped, the requests sort themselves into
+                two paths with opposite architectures — one built to stay accurate under daily pressure, the other built to be
+                found and remembered. Most people already know which one they are by the second paragraph below.
+            </p>
+        </div>
+    </header>
 
-  <div class="collab-track-grid">
-    <div class="collab-track-card collab-track-card--ops">
-      <div class="collab-track-num">01</div>
-      <div class="collab-track-icon">⚙️</div>
-      <h3 class="collab-track-title">Keeping Operations Accurate &amp; Fast</h3>
-      <p class="collab-track-desc">
-        For the daily-grind side of a business — order taking, stock, cash flow, reporting. Built to run on your
-        own device: zero server cost, your data stays with you, works even offline.
-      </p>
-      <ul class="collab-track-fit">
-        <li>Cafés, retail stores, small production houses</li>
-        <li>In-house cashier &amp; order recording</li>
-        <li>Multi-location stock management</li>
-        <li>Daily financial reporting dashboard</li>
-      </ul>
-      <div class="collab-track-metrics">
-        <div><strong>45%</strong> faster transactions</div>
-        <div><strong>&lt;2 min</strong> per-transaction logging</div>
-      </div>
-    </div>
+    <div class="paths">
+        <article class="path">
+            <p class="work-item__meta"><span class="index">Path 01</span> The Kitchen</p>
+            <h3 class="h3">Business Operations</h3>
+            <p class="path__sub">For the engine room your business actually runs on.</p>
 
-    <div class="collab-track-card collab-track-card--brand">
-      <div class="collab-track-num">02</div>
-      <div class="collab-track-icon">🌐</div>
-      <h3 class="collab-track-title">Digital Presence &amp; Branding</h3>
-      <p class="collab-track-desc">
-        For showing up well online — portfolio sites, community pages, content platforms. Global reach from day
-        one, publishing content without needing a developer on standby.
-      </p>
-      <ul class="collab-track-fit">
-        <li>Company profile &amp; professional portfolio</li>
-        <li>Personal branding &amp; content platforms</li>
-        <li>Community or event landing pages</li>
-        <li>Global audience engagement</li>
-      </ul>
-      <div class="collab-track-metrics">
-        <div><strong>&lt;1s</strong> response time</div>
-        <div><strong>Rp 0</strong> server cost on free tier</div>
-      </div>
+            <p class="path__label">Built for</p>
+            <ul class="bullets">
+                <li>Cafés, retail stores, small production houses</li>
+                <li>In-house cashier &amp; order entry</li>
+                <li>Multi-location stock &amp; warehouse control</li>
+                <li>Daily financial reporting dashboards</li>
+            </ul>
+
+            <p class="path__label">What success looks like</p>
+            <ul class="bullets">
+                <li>Transactions <strong>45% faster</strong> than the manual flow it replaces</li>
+                <li>Manual logging errors designed out, not trained around</li>
+                <li>Sensitive financial data never leaves your premises</li>
+                <li>End-of-day reconciliation in a single click</li>
+            </ul>
+
+            <p class="path__callout"><strong>Server cost: Rp 0/month</strong> — the system runs on your own device, and keeps running when the internet doesn't.</p>
+            <p class="stack">Golang · SQLite · Cloudflare Tunnel</p>
+        </article>
+
+        <article class="path">
+            <p class="work-item__meta"><span class="index">Path 02</span> The Storefront</p>
+            <h3 class="h3">Community &amp; Branding</h3>
+            <p class="path__sub">For the digital storefront that carries your identity.</p>
+
+            <p class="path__label">Built for</p>
+            <ul class="bullets">
+                <li>Company profiles &amp; professional portfolios</li>
+                <li>Personal branding &amp; content platforms</li>
+                <li>Community, campaign, or event landing pages</li>
+                <li>Organizations speaking to a global audience</li>
+            </ul>
+
+            <p class="path__label">What success looks like</p>
+            <ul class="bullets">
+                <li>A visual identity that looks deliberate, not templated</li>
+                <li>Sub-second loads worldwide over an edge CDN</li>
+                <li><strong>Lighthouse 99–100</strong> on shipped sites — verifiable below</li>
+                <li>Your team publishing content without a developer on standby</li>
+            </ul>
+
+            <p class="path__callout"><strong>Global reach from day one</strong> — on infrastructure that stays free at the scale most organizations actually operate at.</p>
+            <p class="stack">Next.js / Go · Supabase · Vercel</p>
+        </article>
     </div>
-  </div>
-</div>
+</section>
 
 <!-- PROCESS -->
-<div class="section">
-  <div class="sec-label">Process</div>
-  <h2 class="sec-heading">From problem to a working product.</h2>
-  <div class="collab-process">
-    <div class="collab-process-step">
-      <span class="collab-process-num">01</span>
-      <div><strong>Discovery</strong> — understand the actual friction, not just the symptom.</div>
+<section class="container section" aria-labelledby="process-title">
+    <div class="split">
+        <p class="label split__aside">Process</p>
+        <div>
+            <h2 class="h2" id="process-title">From problem to a working product.</h2>
+            <ol class="steps">
+                <li><span class="index">01</span><div><strong>Discovery</strong> — understand the actual friction, not just the symptom.</div></li>
+                <li><span class="index">02</span><div><strong>Spec</strong> — pick the right track, scope it, no surprise costs mid-way.</div></li>
+                <li><span class="index">03</span><div><strong>Sprint</strong> — build iteratively, you see progress from day one.</div></li>
+                <li><span class="index">04</span><div><strong>Deployment</strong> — handed over with docs, you're never locked to me.</div></li>
+                <li><span class="index">05</span><div><strong>Support</strong> — a clear channel for bug fixes and the next iteration.</div></li>
+            </ol>
+        </div>
     </div>
-    <div class="collab-process-step">
-      <span class="collab-process-num">02</span>
-      <div><strong>Spec</strong> — pick the right track, scope it, no surprise costs mid-way.</div>
-    </div>
-    <div class="collab-process-step">
-      <span class="collab-process-num">03</span>
-      <div><strong>Sprint</strong> — build iteratively, you see progress from day one.</div>
-    </div>
-    <div class="collab-process-step">
-      <span class="collab-process-num">04</span>
-      <div><strong>Deployment</strong> — handed over with docs, you're never locked to me.</div>
-    </div>
-    <div class="collab-process-step">
-      <span class="collab-process-num">05</span>
-      <div><strong>Support</strong> — a clear channel for bug fixes and the next iteration.</div>
-    </div>
-  </div>
-</div>
+</section>
 
-<!-- PROOF / TRACK RECORD -->
-<div class="section" id="track-record">
-  <div class="sec-label">Track Record</div>
-  <h2 class="sec-heading">Things I've built that actually shipped.</h2>
+<!-- TRACK RECORD -->
+<section class="container section" id="track-record" aria-labelledby="record-title">
+    <header class="section-head">
+        <div>
+            <p class="label">Track record</p>
+            <h2 class="h2" id="record-title">Things I've built that actually shipped.</h2>
+        </div>
+        <a href="/projects" class="link-arrow">Full project notes</a>
+    </header>
 
-  <div class="wins-grid collab-proof-grid">
-    <div class="win-card">
-      <div class="win-badge">🏆 Live</div>
-      <div class="win-title">Mammo's Home Bakery — POS System</div>
-      <div class="win-metric">45%</div>
-      <div class="win-metric-sub">Faster transaction processing, atomic DB transactions</div>
-      <div class="win-metric-sub">1-click daily reconciliation (was 30–50 min manual)</div>
+    <div class="table-wrap">
+        <table class="records-table">
+            <thead>
+                <tr>
+                    <th scope="col">Project</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Lighthouse <span class="muted">Perf · A11y · BP · SEO</span></th>
+                    <th scope="col"><span class="visually-hidden">Link</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ range .Projects }}
+                <tr>
+                    <th scope="row">
+                        <a href="/projects#{{ .Slug }}" class="records-table__title">{{ .Title }}</a>
+                        {{ with .Client }}<span class="records-table__client">{{ . }}</span>{{ end }}
+                    </th>
+                    <td>{{ .Category }}</td>
+                    <td class="meta">{{ with .Scores }}{{ .Performance }} · {{ .Accessibility }} · {{ .BestPractices }} · {{ .SEO }}{{ else }}<span class="muted">—</span>{{ end }}</td>
+                    <td class="records-table__link">
+                        {{ if .Self }}<span class="muted">This site</span>
+                        {{ else if .URL }}<a href="{{ .URL }}" class="link-arrow link-arrow--ext" target="_blank" rel="noopener noreferrer">{{ .URLLabel }}</a>
+                        {{ else if .DemoURL }}<a href="{{ .DemoURL }}" class="link-arrow link-arrow--ext" target="_blank" rel="noopener noreferrer">Demo</a>
+                        {{ else if .Private }}<span class="muted">Private deployment</span>{{ end }}
+                    </td>
+                </tr>
+                {{ end }}
+            </tbody>
+        </table>
     </div>
-
-    <div class="win-card">
-      <div class="win-badge">🏆 Live</div>
-      <div class="win-title">Diversity of Sumatra — Inventory System</div>
-      <div class="win-metric">&lt;2 min</div>
-      <div class="win-metric-sub">Per-transaction logging, from fully manual</div>
-      <div class="win-metric-sub">0 stockout incidents post-launch</div>
-    </div>
-
-    <div class="win-card">
-      <div class="win-badge">🏆 Live</div>
-      <div class="win-title">CS Dashboard — Siswamedia/Tooks</div>
-      <div class="win-metric">10–18×</div>
-      <div class="win-metric-sub">Faster financial reconciliation</div>
-      <div class="win-metric-sub">55–65% faster prototype handoff</div>
-    </div>
-
-    <div class="win-card">
-      <div class="win-badge">🏆 Live</div>
-      <div class="win-title">abiyyuhanief.id — Portfolio Platform</div>
-      <div class="win-metric">&lt;1s</div>
-      <div class="win-metric-sub">Server response time, Go + Vercel edge</div>
-      <div class="win-metric-sub">Rp 0 monthly server cost</div>
-    </div>
-  </div>
-</div>
+    <p class="fine-print">Lighthouse via PageSpeed Insights, Aug 2026 — reproducible on the live URL. LAKSA Bogor's performance is held down by destination imagery still served from a third-party source; everything I control scores 96+.</p>
+</section>
 
 <!-- VALUE BEYOND MONEY -->
-<div class="section">
-  <div class="sec-label">Beyond the Invoice</div>
-  <h2 class="sec-heading">I give value, and I take value too.</h2>
-  <p class="collab-value-text" style="max-width:680px;">
-    A good collaboration creates value on both sides. Beyond a transparent development cost, I'm genuinely
-    looking for the things that come with a project — a meaningful network, industry insight I wouldn't get
-    otherwise, and, where it fits, a real impact beyond the business itself.
-  </p>
-</div>
+<section class="container section" aria-labelledby="value-title">
+    <div class="split">
+        <p class="label split__aside">Beyond the invoice</p>
+        <div>
+            <h2 class="h2" id="value-title">I give value, and I take value too.</h2>
+            <p class="lead">
+                A good collaboration creates value on both sides. Beyond a transparent development cost, I'm genuinely
+                looking for the things that come with a project — a meaningful network, industry insight I wouldn't get
+                otherwise, and, where it fits, a real impact beyond the business itself.
+            </p>
+        </div>
+    </div>
+</section>
 
 <!-- CONTACT FORM -->
-<div class="section" id="contact">
-  <div class="collab-contact-grid">
-    <div class="collab-contact-intro">
-      <div class="sec-label">Get in Touch</div>
-      <h2 class="sec-heading">Tell me what<br>you're working on.</h2>
-      <p class="collab-contact-text">
-        A short message is enough — I'll follow up to figure out the details together. First discovery
-        conversation is free and doesn't commit you to anything.
-      </p>
-      <a href="mailto:nafidzabiyyu@gmail.com" class="collab-contact-email">
-        <i class="ph ph-envelope-simple"></i> nafidzabiyyu@gmail.com
-      </a>
+<section class="container section" id="contact" aria-labelledby="contact-title">
+    <div class="contact-grid">
+        <div class="contact-intro">
+            <p class="label">Get in touch</p>
+            <h2 class="h2" id="contact-title">Tell me what you're working on.</h2>
+            <p>
+                A short message is enough — I'll follow up to figure out the details together. First discovery
+                conversation is free and doesn't commit you to anything.
+            </p>
+            <ul class="contact-links">
+                <li><span class="meta">Email</span><a href="mailto:nafidzabiyyu@gmail.com">nafidzabiyyu@gmail.com</a></li>
+                <li><span class="meta">LinkedIn</span><a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" rel="noopener noreferrer">Nafidz Abiyyu Hanief <span aria-hidden="true">↗</span></a></li>
+                <li><span class="meta">GitHub</span><a href="https://github.com/abiyyuhanief3101" target="_blank" rel="noopener noreferrer">abiyyuhanief3101 <span aria-hidden="true">↗</span></a></li>
+            </ul>
+        </div>
+
+        <form id="collabForm" class="form" novalidate>
+            <div class="form__grid">
+                <div class="field">
+                    <label for="cf-name">Name</label>
+                    <input type="text" id="cf-name" name="name" autocomplete="name" required aria-describedby="cf-name-error">
+                    <span class="field__error" id="cf-name-error" data-for="name"></span>
+                </div>
+                <div class="field">
+                    <label for="cf-email">Email</label>
+                    <input type="email" id="cf-email" name="email" autocomplete="email" required aria-describedby="cf-email-error">
+                    <span class="field__error" id="cf-email-error" data-for="email"></span>
+                </div>
+            </div>
+            <div class="field">
+                <label for="cf-type">Type of collaboration <span class="muted">(optional)</span></label>
+                <select id="cf-type" name="collaboration_type">
+                    <option value="">Not sure yet</option>
+                    <option value="business_ops">Business Operations</option>
+                    <option value="branding">Branding &amp; Community</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="cf-message">Message</label>
+                <textarea id="cf-message" name="message" rows="6" required aria-describedby="cf-message-error"></textarea>
+                <span class="field__error" id="cf-message-error" data-for="message"></span>
+            </div>
+
+            <!-- Honeypot: real users never see or fill this -->
+            <div class="form__honeypot" aria-hidden="true">
+                <label for="cf-website">Website</label>
+                <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form__footer">
+                <button type="submit" class="btn btn--primary" id="collabFormSubmit">Send message</button>
+                <p id="collabFormStatus" class="form__status" role="status" aria-live="polite"></p>
+            </div>
+        </form>
     </div>
+</section>
 
-    <form id="collabForm" class="collab-form-card" novalidate>
-      <div class="collab-form-grid">
-        <div class="collab-form-row">
-          <label for="cf-name">Name</label>
-          <input type="text" id="cf-name" name="name" required>
-          <span class="collab-form-error" data-for="name"></span>
-        </div>
-        <div class="collab-form-row">
-          <label for="cf-email">Email</label>
-          <input type="email" id="cf-email" name="email" required>
-          <span class="collab-form-error" data-for="email"></span>
-        </div>
-      </div>
-      <div class="collab-form-row">
-        <label for="cf-type">Type of collaboration (optional)</label>
-        <select id="cf-type" name="collaboration_type">
-          <option value="">Not sure yet</option>
-          <option value="business_ops">Business Operations</option>
-          <option value="branding">Branding &amp; Community</option>
-          <option value="unsure">Not sure yet</option>
-        </select>
-      </div>
-      <div class="collab-form-row">
-        <label for="cf-message">Message</label>
-        <textarea id="cf-message" name="message" rows="5" required></textarea>
-        <span class="collab-form-error" data-for="message"></span>
-      </div>
-
-      <!-- Honeypot: real users never see or fill this -->
-      <div class="collab-form-honeypot" aria-hidden="true">
-        <label for="cf-website">Website</label>
-        <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
-      </div>
-
-      <div class="collab-form-footer">
-        <button type="submit" class="btn btn-primary" id="collabFormSubmit">Send Message</button>
-        <div id="collabFormStatus" class="collab-form-status" role="status" aria-live="polite"></div>
-      </div>
-    </form>
-  </div>
-</div>
-
-</main>
 {{ end }}
 
 {{ define "scripts" }}
@@ -211,8 +225,13 @@
   var statusEl = document.getElementById('collabFormStatus');
 
   function setError(field, msg) {
-    var el = form.querySelector('.collab-form-error[data-for="' + field + '"]');
+    var el = form.querySelector('.field__error[data-for="' + field + '"]');
     if (el) el.textContent = msg || '';
+    var input = form.elements[field];
+    if (input) {
+      if (msg) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
   }
 
   function validate(data) {
@@ -234,12 +253,16 @@
       collaboration_type: form.collaboration_type.value,
       website: form.website.value
     };
-    if (!validate(data)) return;
+    if (!validate(data)) {
+      var firstInvalid = form.querySelector('[aria-invalid="true"]');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
 
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending...';
+    submitBtn.textContent = 'Sending…';
     statusEl.textContent = '';
-    statusEl.className = 'collab-form-status';
+    statusEl.className = 'form__status';
 
     fetch('/api/contact', {
       method: 'POST',
@@ -250,20 +273,20 @@
       .then(function (result) {
         if (result.ok) {
           statusEl.textContent = "Thanks — I'll get back to you soon.";
-          statusEl.className = 'collab-form-status collab-form-status--success';
+          statusEl.className = 'form__status form__status--success';
           form.reset();
         } else {
           statusEl.textContent = result.body.error || 'Something went wrong. Please try again.';
-          statusEl.className = 'collab-form-status collab-form-status--error';
+          statusEl.className = 'form__status form__status--error';
         }
       })
       .catch(function () {
         statusEl.textContent = 'Network error. Please try again.';
-        statusEl.className = 'collab-form-status collab-form-status--error';
+        statusEl.className = 'form__status form__status--error';
       })
       .finally(function () {
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Send Message';
+        submitBtn.textContent = 'Send message';
       });
   });
 })();

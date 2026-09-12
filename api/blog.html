@@ -1,100 +1,73 @@
 {{ define "content" }}
-<section id="journal" class="journal-section">
-    <div class="journal-container">
-        <div class="journal-header" style="margin-bottom: 40px;">
-            <h1 style="font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: var(--green-deep);">Notes.</h1>
-            <p>Documenting process, thoughts, and efficiency.</p>
-            
-            <div class="illustration-absolute hide-on-mobile">
-                <img src="/img/journal_illustration_transparent.png" alt="Journal Illustration" class="floating-img" loading="lazy">
-            </div>
-        </div>
+{{ if .Post }}{{ with .Post }}
 
-        <div class="journal-grid">
-            {{ range .Posts }}
-            <div class="journal-card" onclick="openPost('{{ .Slug }}')">
-                <div>
-                    <div class="tag-container" style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-                        <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
-                        
-                        {{ range .Category }}
-                            <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Book" }}book{{ else if eq . "Code" }}code{{ else }}default{{ end }}">
-                                {{ . }}
-                            </span>
-                        {{ end }}
-                    </div>
+<article class="container article" lang="{{ if .Language }}{{ .Language }}{{ else }}id{{ end }}">
+    <header class="article__head">
+        <p class="article__back"><a href="/blog" class="link-back">Notes</a></p>
+        <h1 class="article__title">{{ .Title }}</h1>
+        <p class="article__meta meta">
+            <time datetime="{{ .Date }}">{{ .Date }}</time>
+            <span aria-hidden="true">·</span> {{ .ReadMinutes }} min read
+            {{ range .Category }}<span aria-hidden="true">·</span> {{ . }} {{ end }}
+            {{ if .Language }}<span aria-hidden="true">·</span> <span class="upper">{{ .Language }}</span>{{ end }}
+        </p>
+    </header>
+    <div class="prose">
+        {{ .Content }}
+    </div>
+</article>
 
-                    <h3>{{ .Title }}</h3>
-
-                    <p class="post-preview">{{ .Summary }}</p>
-                </div>
-                
-                <div class="card-footer">
-                    <span class="journal-date" style="margin: 0;">{{ .Date }}</span>
-                    <span style="color: var(--green-deep); font-weight: 700; font-size: 0.9rem;">Read &rarr;</span>
-                </div>
-
-                <div id="content-{{ .Slug }}" style="display: none;">
-                    <div class="modal-header">
-                        <div class="modal-meta" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
-                            <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
-                            {{ range .Category }}
-                                <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Book" }}book{{ else if eq . "Code" }}code{{ else }}default{{ end }}">
-                                    {{ . }}
-                                </span>
-                            {{ end }}
-                            <span style="color: #888; font-size: 0.9rem; margin-left: 5px;">• {{ .Date }}</span>
-                        </div>
-
-                        <h1>{{ .Title }}</h1>
-                    </div>
-                    <div class="modal-body">
-                        {{ .Content }}
-                    </div>
-                </div>
-            </div>
-            {{ else }}
-            <div style="text-align: center; color: #888; padding: 40px;">
-                <p>No posts found yet.</p>
-            </div>
+{{ end }}
+{{ with .More }}
+<aside class="container section section--tight more-notes" aria-labelledby="more-title">
+    <div class="article-width">
+        <header class="section-head section-head--compact">
+            <h2 class="h3" id="more-title">More notes</h2>
+            <a href="/blog" class="link-arrow">All notes</a>
+        </header>
+        <ul class="note-list">
+            {{ range . }}
+            <li class="note-row">
+                <a href="/blog/{{ .Slug }}" class="note-row__link">
+                    <span class="note-row__date meta">{{ .Date }}</span>
+                    <span class="note-row__body"><span class="note-row__title">{{ .Title }}</span></span>
+                    <span class="note-row__read meta">{{ .ReadMinutes }} min</span>
+                </a>
+            </li>
             {{ end }}
-        </div>
+        </ul>
+    </div>
+</aside>
+{{ end }}
 
+{{ else }}
+
+<section class="container page-head">
+    <p class="label">Notebook</p>
+    <h1 class="h1">Notes</h1>
+    <p class="lead">Documenting process, thoughts, and efficiency — reflections, book reviews, and things learned along the way. Mostly in Indonesian.</p>
+</section>
+
+<section class="container section section--flush-top" aria-label="All notes">
+    {{ $year := "" }}
+    <div class="notebook">
+        {{ range .Posts }}
+        {{ if ne (year .Date) $year }}{{ $year = year .Date }}
+        <h2 class="notebook__year meta">{{ $year }}</h2>
+        {{ end }}
+        <a href="/blog/{{ .Slug }}" class="notebook__entry">
+            <span class="notebook__date meta">{{ slice .Date 5 }}</span>
+            <span class="notebook__body">
+                <span class="notebook__title">{{ .Title }}</span>
+                {{ with .Summary }}<span class="notebook__summary">{{ . }}</span>{{ end }}
+                <span class="notebook__tags meta">{{ range $i, $c := .Category }}{{ if $i }} · {{ end }}{{ $c }}{{ end }}{{ if .Language }} · <span class="upper">{{ .Language }}</span>{{ end }} · {{ .ReadMinutes }} min</span>
+            </span>
+        </a>
+        {{ else }}
+        <p class="empty">No posts found yet.</p>
+        {{ end }}
     </div>
 </section>
 
-<div id="notionModal" class="notion-modal" onclick="closeModal(event)">
-    <div class="notion-modal-content" onclick="event.stopPropagation()">
-        <span class="notion-close-btn" onclick="closeModal()">&times;</span>
-        <div id="modalBody">
-            </div>
-    </div>
-</div>
-
-<script>
-    function openPost(slug) {
-        const content = document.getElementById('content-' + slug).innerHTML;
-        document.getElementById('modalBody').innerHTML = content;
-        document.getElementById('notionModal').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Lock scroll
-        
-        window.history.pushState({}, '', '/blog/' + slug);
-    }
-
-    function closeModal() {
-        document.getElementById('notionModal').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Unlock scroll
-        window.history.pushState({}, '', '/blog');
-    }
-
-    window.onload = () => {
-        const path = window.location.pathname;
-        if (path.startsWith('/blog/')) {
-            const slug = path.split('/').pop();
-            if (slug && document.getElementById('content-' + slug)) {
-                openPost(slug);
-            }
-        }
-    };
-</script>
+{{ end }}
 {{ end }}
