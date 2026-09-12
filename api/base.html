@@ -3,109 +3,103 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ if .Title }}{{ .Title }}{{ else }}Abiyyu Hanief | Portfolio{{ end }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ if .Title }}{{ .Title }}{{ else }}Abiyyu Hanief{{ end }}</title>
+    {{ if .Description }}<meta name="description" content="{{ .Description }}">{{ end }}
+    {{ if .NoIndex }}<meta name="robots" content="noindex">{{ else if .Path }}<link rel="canonical" href="https://abiyyuhanief.id{{ .Path }}">{{ end }}
 
-    <!-- PWA Requirements -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/img/icon-192x192.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#F8F4EC">
-    <link rel="apple-touch-icon" href="/img/icon-192x192.png">
+    <meta name="theme-color" content="#F7F7F5">
+
+    <meta property="og:site_name" content="Abiyyu Hanief">
+    <meta property="og:type" content="{{ if .OGType }}{{ .OGType }}{{ else }}website{{ end }}">
+    <meta property="og:title" content="{{ if .Title }}{{ .Title }}{{ else }}Abiyyu Hanief{{ end }}">
+    {{ if .Description }}<meta property="og:description" content="{{ .Description }}">{{ end }}
+    <meta property="og:url" content="https://abiyyuhanief.id{{ .Path }}">
+    <meta property="og:image" content="https://abiyyuhanief.id/img/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-
-    <meta property="og:title" content="Abiyyu Hanief — Tech &amp; Community">
-    <meta property="og:description" content="A problem-solver who uses technology and process to empower communities.">
-    <meta property="og:image" content="https://abiyyuhanief.id/img/thumbnail.png">
-    <meta property="og:url" content="https://abiyyuhanief.id">
-    <meta property="og:type" content="website">
 
     {{ block "head" . }}{{ end }}
 </head>
 
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- NAVIGATION -->
-    <nav>
-        <a href="/" class="nav-logo">Abi.</a>
-        <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/library">Library</a></li>
-            <li><a href="/blog">Journal</a></li>
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/collaboration">Collaboration</a></li>
-        </ul>
-    </nav>
+    <header class="site-header">
+        <div class="container site-header__inner">
+            <a href="/" class="wordmark"{{ if eq .Nav "home" }} aria-current="page"{{ end }}>Abiyyu Hanief</a>
+            <nav class="site-nav" aria-label="Primary">
+                <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list">
+                    <span class="nav-toggle__label">Menu</span>
+                    <span class="nav-toggle__icon" aria-hidden="true"></span>
+                </button>
+                <ul class="nav-list" id="nav-list">
+                    <li><a href="/projects"{{ if eq .Nav "projects" }} aria-current="page"{{ end }}>Projects</a></li>
+                    <li><a href="/blog"{{ if eq .Nav "notes" }} aria-current="page"{{ end }}>Notes</a></li>
+                    <li><a href="/library"{{ if eq .Nav "library" }} aria-current="page"{{ end }}>Library</a></li>
+                    <li><a href="/about"{{ if eq .Nav "about" }} aria-current="page"{{ end }}>About</a></li>
+                    <li><a href="/collaboration"{{ if eq .Nav "collaboration" }} aria-current="page"{{ end }}>Collaborate</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    {{ block "content" . }}{{ end }}
+    <main id="main">
+        {{ block "content" . }}{{ end }}
+    </main>
 
-    <!-- SITE FOOTER -->
     <footer class="site-footer">
-        <a href="/" class="foot-logo">Abi.</a>
-        <span>Work smart, pray more. Crafted with Go by Abi. ✨</span>
-        <ul class="foot-links">
-            <li><a href="/collaboration">Collaboration</a></li>
-            <li><a href="mailto:nafidzabiyyu@gmail.com">Email</a></li>
-            <li><a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-            <li><a href="https://github.com/abiyyuhanief3101" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-        </ul>
-        <span class="foot-copyright">© 2026 Nafidz Abiyyu Hanief</span>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-intro">
+                    <a href="/" class="wordmark">Abiyyu Hanief</a>
+                    <p>Work smart, pray more.</p>
+                </div>
+                <div>
+                    <p class="footer-heading">Site</p>
+                    <ul class="footer-links">
+                        <li><a href="/projects">Projects</a></li>
+                        <li><a href="/blog">Notes</a></li>
+                        <li><a href="/library">Library</a></li>
+                        <li><a href="/about">About</a></li>
+                        <li><a href="/collaboration">Collaboration</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Elsewhere</p>
+                    <ul class="footer-links">
+                        <li><a href="mailto:nafidzabiyyu@gmail.com">Email</a></li>
+                        <li><a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="ext" aria-hidden="true">↗</span></a></li>
+                        <li><a href="https://github.com/abiyyuhanief3101" target="_blank" rel="noopener noreferrer">GitHub <span class="ext" aria-hidden="true">↗</span></a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-heading">Experiments</p>
+                    <ul class="footer-links">
+                        <li><a href="/layers">3 Layers</a></li>
+                        <li><a href="/clean">Clean Keyboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-base">
+                <span>© 2026 Nafidz Abiyyu Hanief</span>
+                <span>Crafted with Go by Abi.</span>
+            </div>
+        </div>
     </footer>
 
-    <!-- MODAL "SOMETHING IS BREWING" GLOBAL -->
-    <div id="modal" class="modal-overlay">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <img src="/img/undraw_idea-sketching_rifv.svg" alt="Cooking" class="modal-img">
-            <h2>Something is Brewing! ☕</h2>
-            <p>I'm currently crafting this section to be perfect.<br>Please stay tuned for updates!</p>
-            <button class="btn-primary close-action">Okay, got it!</button>
-        </div>
-    </div>
-
-    <script src="/js/script.js"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-
-    <!-- PWA Service Worker Registration -->
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker Registered!', reg.scope))
-                    .catch(err => console.error('Service Worker Registration Failed!', err));
-            });
-        }
-    </script>
-
+    <script src="/js/script.js" defer></script>
     {{ block "scripts" . }}{{ end }}
-    <script>
-    (function(){
-        var btn = document.getElementById('navHamburger');
-        var links = document.getElementById('navLinks');
-        if (!btn || !links) return;
-        btn.addEventListener('click', function(){
-            var open = links.classList.toggle('open');
-            btn.classList.toggle('open', open);
-            btn.setAttribute('aria-expanded', open);
-        });
-        links.querySelectorAll('a').forEach(function(a){
-            a.addEventListener('click', function(){
-                links.classList.remove('open');
-                btn.classList.remove('open');
-                btn.setAttribute('aria-expanded', 'false');
-            });
-        });
-    })();
-    </script>
 </body>
 </html>
 {{ end }}

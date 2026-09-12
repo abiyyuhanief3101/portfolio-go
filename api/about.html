@@ -1,505 +1,249 @@
-{{ define "head" }}
-<link rel="stylesheet" href="/css/about.css">
-{{ end }}
-
 {{ define "content" }}
 
-<!-- ═══════════════════════════════════════ HERO / BENTO ══ -->
-<section class="about-hero reveal">
-  <div class="about-container about-container--wide">
-    <div class="about-bento">
-
-      <!-- A: Name + hook + bio -->
-      <div class="bento-card bento-name">
-        <p class="about-eyebrow">About</p>
-        <h1 class="about-name">Abi</h1>
-        <p class="bento-hook">"I build things that work — in code, in the field, and for people."</p>
-        <p class="bento-role-tag">Product Implementor &amp; Fullstack Developer</p>
-        <p class="bento-bio-line">Information Systems grad from UI — distributed IDR 200M in grants, built helpdesk ecosystems for 2,800+ students, shipped production code in Go, Python &amp; Django.</p>
-
-        <div class="bento-bio-expand" id="bentoBioExpand">
-          <p>I'm Abi — someone who builds things to solve problems, whether that's a full-stack system or a community program from scratch.</p>
-          <p>My background sits at the intersection of technology and people. I studied Information Systems at Universitas Indonesia, but the real education happened in the field: distributing IDR 200 million in business grants to 70 local entrepreneurs in North Sumatra, architecting a helpdesk ecosystem for a school management platform serving 2,800+ students, and running fundraising campaigns that reached hundreds of thousands of people online.</p>
-          <p>I believe the best solutions come from understanding the human problem first — then deciding whether the answer is a line of code, a program design, or both.</p>
+<!-- INTRO -->
+<section class="container page-head about-intro">
+    <div class="about-intro__text">
+        <p class="label">About</p>
+        <h1 class="h1">Hi, I'm Abi.</h1>
+        <p class="lead">Product Implementation Specialist at <a href="https://nusatek.id" target="_blank" rel="noopener noreferrer">Nusatek</a>. Information Systems graduate of Universitas Indonesia. I build things to solve problems — whether that's a full-stack system or a community program from scratch.</p>
+        <div class="prose prose--compact">
+            <p>My background sits at the intersection of technology and people. I studied Information Systems at Universitas Indonesia, but the real education happened in the field: distributing IDR 200 million in business grants to 70 local entrepreneurs in North Sumatra, architecting a helpdesk ecosystem for a school management platform serving 2,800+ students, and running fundraising campaigns that reached hundreds of thousands of people online.</p>
+            <p>I believe the best solutions come from understanding the human problem first — then deciding whether the answer is a line of code, a program design, or both.</p>
         </div>
-
-        <button class="bento-readmore-btn" id="bentoBioToggle" aria-expanded="false">
-          Read more <i class="ph ph-caret-down"></i>
-        </button>
-      </div>
-
-      <!-- B: Headshot (spans all 3 rows) -->
-      <div class="bento-headshot">
-        <img src="/img/abi_kartun.jpeg" alt="Nafidz Abiyyu Hanief" class="about-headshot">
-        <div class="about-headshot-bg"></div>
-      </div>
-
-      <!-- C: Status badge (compact) -->
-      <div class="bento-status-pill">
-        <span class="status-dot"></span>
-        <span>Product Implementation Specialist @<a href="https://nusatek.id" target="_blank" rel="noopener noreferrer">Nusatek</a></span>
-      </div>
-
-      <!-- D: CTAs -->
-      <div class="bento-cta-row">
-        <a href="https://linkedin.com/in/nafidz-abiyyuh-09660a15a"
-           target="_blank" rel="noopener noreferrer"
-           class="about-linkedin-btn">
-          <i class="ph ph-linkedin-logo"></i>
-          Connect on LinkedIn
-        </a>
-        <a href="https://github.com/abiyyuhanief3101"
-           target="_blank" rel="noopener noreferrer"
-           class="about-linkedin-btn about-github-btn">
-          <i class="ph ph-github-logo"></i>
-          GitHub
-        </a>
-      </div>
-
-      <!-- E: What I Do — full-width bottom row -->
-      <div class="bento-whatido-row">
-        <div class="whatido-card reveal-child">
-          <div class="whatido-icon"><i class="ph ph-compass"></i></div>
-          <h3 class="whatido-title">Ideate</h3>
-          <p class="whatido-desc">Map the whole before building any part — strategy, architecture, and stakeholder dynamics first.</p>
+        <div class="actions">
+            <a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" rel="noopener noreferrer" class="btn btn--primary">Connect on LinkedIn <span aria-hidden="true">↗</span></a>
+            <a href="https://github.com/abiyyuhanief3101" target="_blank" rel="noopener noreferrer" class="btn btn--secondary">GitHub <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="whatido-card reveal-child">
-          <div class="whatido-icon"><i class="ph ph-rocket-launch"></i></div>
-          <h3 class="whatido-title">Build & Execute</h3>
-          <p class="whatido-desc">Bridge idea and reality. Concepts don't count until they're shipped — and I have the real cases to prove it.</p>
-        </div>
-        <div class="whatido-card reveal-child">
-          <div class="whatido-icon"><i class="ph ph-handshake"></i></div>
-          <h3 class="whatido-title">Facilitate</h3>
-          <p class="whatido-desc">Lead with empathy. Understand people before designing solutions — because the human problem always comes first.</p>
-        </div>
-      </div>
-
     </div>
-  </div>
+    <figure class="about-intro__portrait">
+        <img src="/img/web/abi-portrait.webp" width="900" height="1613" alt="Illustrated portrait of Nafidz Abiyyu Hanief" fetchpriority="high">
+        <figcaption class="meta">Nafidz Abiyyu Hanief — “Abi”</figcaption>
+    </figure>
 </section>
 
-<!-- ═══════════════════════════════════ BY THE NUMBERS ══ -->
-<section class="about-section about-numbers reveal">
-  <div class="about-container">
-    <h2 class="about-section-title">By the numbers</h2>
-    <div class="numbers-grid">
-
-      <div class="stat-card reveal-child">
-        <div class="stat-value">
-          <span class="stat-count" data-target="70" data-suffix="+">0</span>
+<!-- HOW I WORK -->
+<section class="container section section--flush-top" aria-labelledby="work-title">
+    <header class="section-head">
+        <div>
+            <p class="label">How I work</p>
+            <h2 class="h2" id="work-title">I build things that work — in code, in the field, and for people.</h2>
         </div>
-        <div class="stat-label">Entrepreneurs Empowered</div>
-      </div>
-
-      <div class="stat-card reveal-child">
-        <div class="stat-value">
-          <span class="stat-prefix-label">IDR</span><span class="stat-count" data-target="200" data-suffix="M">0</span>
+    </header>
+    <div class="principles">
+        <div class="principle">
+            <p class="index">01</p>
+            <h3 class="h4">Ideate</h3>
+            <p>Map the whole before building any part — strategy, architecture, and stakeholder dynamics first.</p>
         </div>
-        <div class="stat-label">Business Grants Distributed</div>
-      </div>
-
-      <div class="stat-card reveal-child">
-        <div class="stat-value">
-          <span class="stat-count" data-target="3351" data-format="comma" data-suffix="+">0</span>
+        <div class="principle">
+            <p class="index">02</p>
+            <h3 class="h4">Build &amp; execute</h3>
+            <p>Bridge idea and reality. Concepts don't count until they're shipped — and I have the real cases to prove it.</p>
         </div>
-        <div class="stat-label">Students & Teachers in Onboard Systems</div>
-      </div>
-
-      <div class="stat-card reveal-child">
-        <div class="stat-value">
-          <span class="stat-count" data-target="12" data-suffix="+">0</span>
+        <div class="principle">
+            <p class="index">03</p>
+            <h3 class="h4">Facilitate</h3>
+            <p>Lead with empathy. Understand people before designing solutions — because the human problem always comes first.</p>
         </div>
-        <div class="stat-label">Schools Implemented</div>
-      </div>
-
-      <div class="stat-card reveal-child">
-        <div class="stat-value">
-          <span class="stat-count" data-target="130" data-suffix="K">0</span>
-        </div>
-        <div class="stat-label">Campaign Reach (Instagram views)</div>
-      </div>
-
     </div>
-  </div>
 </section>
 
-<!-- ══════════════════════════════════ EXPERIENCE ══ -->
-<section class="about-section reveal">
-  <div class="about-container">
-    <h2 class="about-section-title">Experience</h2>
+<!-- NUMBERS -->
+<section class="container section" aria-labelledby="numbers-title">
+    <div class="split">
+        <h2 class="label split__aside" id="numbers-title">In numbers</h2>
+        <dl class="ledger">
+            <div><dt>Entrepreneurs empowered</dt><dd>70+</dd></div>
+            <div><dt>Business grants distributed</dt><dd>IDR 200M</dd></div>
+            <div><dt>Students &amp; teachers in onboarded systems</dt><dd>3,351+</dd></div>
+            <div><dt>Schools implemented</dt><dd>12+</dd></div>
+            <div><dt>Campaign reach (Instagram views)</dt><dd>130K</dd></div>
+        </dl>
+    </div>
+</section>
 
-    <div class="about-timeline">
+<!-- EXPERIENCE -->
+<section class="container section" aria-labelledby="experience-title">
+    <div class="split">
+        <h2 class="label split__aside" id="experience-title">Experience</h2>
+        <ol class="timeline">
+            <li class="timeline__item">
+                <p class="timeline__when meta">Dec 2025 — Present<br><span class="muted">Jakarta</span></p>
+                <div>
+                    <h3 class="h4">Product Implementation Specialist</h3>
+                    <p class="timeline__org">PT Nusantara Sukses Teknologi</p>
+                    <ul class="bullets">
+                        <li>Orchestrated LMS &amp; SMS deployment for 12 schools — 2,851 students, 301+ teachers, 4,200+ parents</li>
+                        <li>Built support.siswamedia.com from scratch: Mekari Qontak + Google Sheets API pipelines, eliminating 100% of manual chat extraction and saving 20+ hours/month</li>
+                        <li>Implemented Gemini &amp; Groq AI pipelines for automated sentiment analysis and executive summaries — slashed insight generation from days to real-time</li>
+                        <li>Built Health Score dashboards &amp; financial reconciliation tools (Python/Pandas) — &gt;60% monitoring efficiency gain</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="timeline__item">
+                <p class="timeline__when meta">Apr — Dec 2025<br><span class="muted">Langkat, North Sumatra</span></p>
+                <div>
+                    <h3 class="h4">Sustainability Business &amp; Eco-Farming Program Coordinator</h3>
+                    <p class="timeline__org">Yayasan Bukit Lawang Trust</p>
+                    <ul class="bullets">
+                        <li>Managed end-to-end business grant program — IDR 200M distributed to 70 entrepreneurs across 5 locations</li>
+                        <li>Designed and delivered a 10-week curriculum on business model creation and financial execution</li>
+                        <li>Built a full-stack cashier &amp; inventory app (Django) — 80% reduction in order processing time, near-zero order errors</li>
+                        <li>Directed Eco-Farming Program: 60 students recruited, 3 harvests completed, 7+ vertical gardens created</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="timeline__item">
+                <p class="timeline__when meta">Jun 2024 — Jul 2025<br><span class="muted">Jakarta</span></p>
+                <div>
+                    <h3 class="h4">Fundraising Program &amp; Partnership</h3>
+                    <p class="timeline__org">Gerakan Indonesia Mengajar</p>
+                    <ul class="bullets">
+                        <li>Designed campaign activation for pengajar muda programs in remote areas</li>
+                        <li>Collaborated with 2 influencers (290k+ combined followers) — 130k+ Instagram views</li>
+                        <li>Raised IDR 11.843.000 in one month during National Children's Day 2024</li>
+                    </ul>
+                </div>
+            </li>
+            <li class="timeline__item">
+                <p class="timeline__when meta">2021 — 2023<br><span class="muted">Depok</span></p>
+                <div>
+                    <h3 class="h4">Multiple roles — community &amp; social impact</h3>
+                    <p class="timeline__org">Gerakan UI Mengajar · BEM UI · Depok Kita · Sadewa</p>
+                    <ul class="bullets">
+                        <li>GUIM — Social Services Assistant and Accommodation coordinator for field programs in remote areas</li>
+                        <li>BEM UI — Staff of Social Community Department; coordinated community outreach programs</li>
+                        <li>Depok Kita — Program Coordinator (May–Dec 2022)</li>
+                        <li>Sadewa (IT Lead) — Launched sadewaind.org (865 page views, 344 sessions in month one); managed 30+ Google Workspace accounts across 8 divisions</li>
+                    </ul>
+                </div>
+            </li>
+        </ol>
+    </div>
+</section>
 
-      <div class="timeline-entry">
-        <div class="timeline-marker">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-body">
-          <button class="timeline-toggle" aria-expanded="false">
-            <div class="timeline-header">
-              <div class="timeline-title-group">
-                <p class="timeline-company">PT Nusantara Sukses Teknologi</p>
-                <p class="timeline-role">Product Implementation Specialist</p>
-              </div>
-              <div class="timeline-meta">
-                <span><i class="ph ph-calendar-blank"></i> Dec 2025 – Present</span>
-                <span><i class="ph ph-map-pin"></i> Jakarta</span>
-              </div>
+<!-- EDUCATION -->
+<section class="container section" aria-labelledby="education-title">
+    <div class="split">
+        <h2 class="label split__aside" id="education-title">Education</h2>
+        <ol class="timeline timeline--compact">
+            <li class="timeline__item">
+                <p class="timeline__when meta">2020 — 2024</p>
+                <div>
+                    <h3 class="h4">Universitas Indonesia</h3>
+                    <p class="timeline__org">Bachelor of Computer Science — Information System</p>
+                </div>
+            </li>
+            <li class="timeline__item">
+                <p class="timeline__when meta">2024</p>
+                <div>
+                    <h3 class="h4">Binar Academy</h3>
+                    <p class="timeline__org">Product Management — Digital Product Course</p>
+                </div>
+            </li>
+        </ol>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="container section" aria-labelledby="skills-title">
+    <div class="split">
+        <h2 class="label split__aside" id="skills-title">Skills</h2>
+        <div class="skills">
+            <div>
+                <h3 class="skills__heading">Tech stack</h3>
+                <ul class="plain-list">
+                    <li>Go</li><li>Python</li><li>Django</li><li>JavaScript</li><li>React</li><li>HTML &amp; CSS</li><li>PostgreSQL</li><li>Supabase</li><li>Git</li><li>Vercel</li><li>Figma</li><li>Odoo</li><li>API</li><li>ERP</li>
+                </ul>
             </div>
-            <span class="timeline-chevron" aria-hidden="true">▾</span>
-          </button>
-          <div class="timeline-content">
-            <ul class="timeline-highlights">
-              <li>Orchestrated LMS &amp; SMS deployment for 12 schools — 2,851 students, 301+ teachers, 4,200+ parents</li>
-              <li>Built support.siswamedia.com from scratch: Mekari Qontak + Google Sheets API pipelines, eliminating 100% of manual chat extraction and saving 20+ hours/month</li>
-              <li>Implemented Gemini &amp; Groq AI pipelines for automated sentiment analysis and executive summaries — slashed insight generation from days to real-time</li>
-              <li>Built Health Score dashboards &amp; financial reconciliation tools (Python/Pandas) → >60% monitoring efficiency gain</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-entry">
-        <div class="timeline-marker">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-body">
-          <button class="timeline-toggle" aria-expanded="false">
-            <div class="timeline-header">
-              <div class="timeline-title-group">
-                <p class="timeline-company">Yayasan Bukit Lawang Trust</p>
-                <p class="timeline-role">Sustainability Business &amp; Eco-Farming Program Coordinator</p>
-              </div>
-              <div class="timeline-meta">
-                <span><i class="ph ph-calendar-blank"></i> Apr – Dec 2025</span>
-                <span><i class="ph ph-map-pin"></i> Langkat, North Sumatra</span>
-              </div>
+            <div>
+                <h3 class="skills__heading">Product &amp; process</h3>
+                <ul class="plain-list">
+                    <li>Product Management</li><li>PRD Writing</li><li>Scrum / Agile</li><li>Usability Testing</li><li>ERP Configuration</li><li>IT Project Management</li><li>System Architecture</li>
+                </ul>
             </div>
-            <span class="timeline-chevron" aria-hidden="true">▾</span>
-          </button>
-          <div class="timeline-content">
-            <ul class="timeline-highlights">
-              <li>Managed end-to-end business grant program — IDR 200M distributed to 70 entrepreneurs across 5 locations</li>
-              <li>Designed and delivered a 10-week curriculum on business model creation and financial execution</li>
-              <li>Built a full-stack cashier &amp; inventory app (Django) → 80% reduction in order processing time, near-zero order errors</li>
-              <li>Directed Eco-Farming Program: 60 students recruited, 3 harvests completed, 7+ vertical gardens created</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="timeline-entry">
-        <div class="timeline-marker">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-body">
-          <button class="timeline-toggle" aria-expanded="false">
-            <div class="timeline-header">
-              <div class="timeline-title-group">
-                <p class="timeline-company">Gerakan Indonesia Mengajar</p>
-                <p class="timeline-role">Fundraising Program &amp; Partnership</p>
-              </div>
-              <div class="timeline-meta">
-                <span><i class="ph ph-calendar-blank"></i> Jun 2024 – Jul 2025</span>
-                <span><i class="ph ph-map-pin"></i> Jakarta</span>
-              </div>
+            <div>
+                <h3 class="skills__heading">Community &amp; program</h3>
+                <ul class="plain-list">
+                    <li>Program Design</li><li>Curriculum Development</li><li>Fundraising</li><li>Community Facilitation</li><li>Grant Management</li><li>Partnership Development</li>
+                </ul>
             </div>
-            <span class="timeline-chevron" aria-hidden="true">▾</span>
-          </button>
-          <div class="timeline-content">
-            <ul class="timeline-highlights">
-              <li>Designed campaign activation for pengajar muda programs in remote areas</li>
-              <li>Collaborated with 2 influencers (290k+ combined followers) → 130k+ Instagram views</li>
-              <li>Raised IDR 11.843.000 in one month during National Children's Day 2024</li>
-            </ul>
-          </div>
         </div>
-      </div>
+    </div>
+</section>
 
-      <div class="timeline-entry timeline-entry--last">
-        <div class="timeline-marker">
-          <div class="timeline-dot"></div>
-        </div>
-        <div class="timeline-body">
-          <button class="timeline-toggle" aria-expanded="false">
-            <div class="timeline-header">
-              <div class="timeline-title-group">
-                <p class="timeline-company">Gerakan UI Mengajar · BEM UI · Depok Kita · Sadewa</p>
-                <p class="timeline-role">Multiple Roles — Community &amp; Social Impact</p>
-              </div>
-              <div class="timeline-meta">
-                <span><i class="ph ph-calendar-blank"></i> 2021 – 2023</span>
-                <span><i class="ph ph-map-pin"></i> Depok</span>
-              </div>
+<!-- MOMENTS -->
+<section class="section moments" aria-labelledby="moments-title">
+    <div class="container">
+        <header class="section-head">
+            <div>
+                <p class="label">Moments</p>
+                <h2 class="h2" id="moments-title">From the field</h2>
             </div>
-            <span class="timeline-chevron" aria-hidden="true">▾</span>
-          </button>
-          <div class="timeline-content">
-            <ul class="timeline-highlights">
-              <li>GUIM — Social Services Assistant and Accommodation coordinator for field programs in remote areas</li>
-              <li>BEM UI — Staff of Social Community Department; coordinated community outreach programs</li>
-              <li>Depok Kita — Program Coordinator (May–Dec 2022)</li>
-              <li>Sadewa (IT Lead) — Launched sadewaind.org (865 page views, 344 sessions in month one); managed 30+ Google Workspace accounts across 8 divisions</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
+            <div class="gallery-controls">
+                <button type="button" class="icon-btn" data-gallery="prev" aria-label="Scroll photos left">←</button>
+                <button type="button" class="icon-btn" data-gallery="next" aria-label="Scroll photos right">→</button>
+            </div>
+        </header>
     </div>
-  </div>
+    <ul class="gallery" id="aboutGallery" tabindex="0" aria-label="Photo gallery, scrollable">
+        <li><img src="/img/about/gallery/photo-1.webp" width="1400" height="788" loading="lazy" decoding="async" alt="Large group photo outdoors in front of a green tent at a community event"></li>
+        <li><img src="/img/about/gallery/photo-2.webp" width="1400" height="867" loading="lazy" decoding="async" alt="Students in uniform holding sticky-note posters in a classroom"></li>
+        <li><img src="/img/about/gallery/photo-3.webp" width="675" height="1200" loading="lazy" decoding="async" alt="Abi with two young students in front of a school building"></li>
+        <li><img src="/img/about/gallery/photo-4.webp" width="1400" height="934" loading="lazy" decoding="async" alt="A group of young people posing together outside a building"></li>
+        <li><img src="/img/about/gallery/photo-5.webp" width="675" height="1200" loading="lazy" decoding="async" alt="Abi with a café owner behind a kitchen counter"></li>
+        <li><img src="/img/about/gallery/photo-6.webp" width="1400" height="934" loading="lazy" decoding="async" alt="A close-up group selfie with students by the water"></li>
+        <li><img src="/img/about/gallery/photo-7.webp" width="675" height="1200" loading="lazy" decoding="async" alt="Abi with two friends in a garden"></li>
+        <li><img src="/img/about/gallery/photo-8.webp" width="1400" height="929" loading="lazy" decoding="async" alt="Abi posing with arms outstretched in front of a building"></li>
+        <li><img src="/img/about/gallery/photo-9.webp" width="1400" height="788" loading="lazy" decoding="async" alt="A student writing on a board while Abi watches"></li>
+        <li><img src="/img/about/gallery/photo-10.webp" width="1400" height="788" loading="lazy" decoding="async" alt="Students and teachers lined up in front of a school"></li>
+        <li><img src="/img/about/gallery/photo-11.webp" width="1400" height="934" loading="lazy" decoding="async" alt="A close-up group selfie with students in brown uniforms"></li>
+        <li><img src="/img/about/gallery/photo-12.webp" width="901" height="1200" loading="lazy" decoding="async" alt="A team in matching green shirts posing on a pier"></li>
+        <li><img src="/img/about/gallery/photo-13.webp" width="1400" height="934" loading="lazy" decoding="async" alt="Community members holding a banner in front of a house"></li>
+        <li><img src="/img/about/gallery/photo-14.webp" width="1400" height="935" loading="lazy" decoding="async" alt="Group photo of participants outside a building"></li>
+        <li><img src="/img/about/gallery/photo-15.webp" width="1400" height="934" loading="lazy" decoding="async" alt="Workshop participants holding up sticky-note boards"></li>
+        <li><img src="/img/about/gallery/photo-16.webp" width="675" height="1200" loading="lazy" decoding="async" alt="A selfie of Abi with friends at a lookout under a blue sky"></li>
+    </ul>
 </section>
 
-<!-- ══════════════════════════════════ EDUCATION ══ -->
-<section class="about-section about-section--tinted reveal">
-  <div class="about-container">
-    <h2 class="about-section-title">Education</h2>
-    <div class="about-education">
-
-      <div class="edu-card">
-        <div class="edu-left">
-          <p class="edu-institution">Universitas Indonesia</p>
-          <p class="edu-degree">Bachelor of Computer Science — Information System</p>
+<!-- CLOSING -->
+<section class="container section contact-band" aria-labelledby="about-cta">
+    <div class="split">
+        <p class="label split__aside">Say hello</p>
+        <div>
+            <h2 class="h2" id="about-cta">Working on something where people and systems meet?</h2>
+            <p class="lead">I'd love to hear about it.</p>
+            <div class="actions">
+                <a href="/collaboration#contact" class="btn btn--primary">Get in touch</a>
+                <a href="/projects" class="btn btn--secondary">See projects</a>
+            </div>
         </div>
-        <span class="edu-year">2020 – 2024</span>
-      </div>
-
-      <div class="edu-card">
-        <div class="edu-left">
-          <p class="edu-institution">Binar Academy</p>
-          <p class="edu-degree">Product Management — Digital Product Course</p>
-        </div>
-        <span class="edu-year">2024</span>
-      </div>
-
     </div>
-  </div>
 </section>
-
-<!-- ══════════════════════════════════ SKILLS ══ -->
-<section class="about-section reveal">
-  <div class="about-container">
-    <h2 class="about-section-title">Skills</h2>
-    <div class="about-skills">
-
-      <div class="skill-group">
-        <p class="skill-group-label">Tech Stack</p>
-        <div class="skill-chips">
-          <span class="chip">Go</span>
-          <span class="chip">Python</span>
-          <span class="chip">Django</span>
-          <span class="chip">JavaScript</span>
-          <span class="chip">React</span>
-          <span class="chip">HTML &amp; CSS</span>
-          <span class="chip">PostgreSQL</span>
-          <span class="chip">Supabase</span>
-          <span class="chip">Git</span>
-          <span class="chip">Vercel</span>
-          <span class="chip">Figma</span>
-          <span class="chip">Odoo</span>
-          <span class="chip">API</span>
-          <span class="chip">ERP</span>
-        </div>
-      </div>
-
-      <div class="skill-group">
-        <p class="skill-group-label">Product &amp; Process</p>
-        <div class="skill-chips">
-          <span class="chip">Product Management</span>
-          <span class="chip">PRD Writing</span>
-          <span class="chip">Scrum / Agile</span>
-          <span class="chip">Usability Testing</span>
-          <span class="chip">ERP Configuration</span>
-          <span class="chip">IT Project Management</span>
-          <span class="chip">System Architecture</span>
-        </div>
-      </div>
-
-      <div class="skill-group">
-        <p class="skill-group-label">Community &amp; Program</p>
-        <div class="skill-chips">
-          <span class="chip">Program Design</span>
-          <span class="chip">Curriculum Development</span>
-          <span class="chip">Fundraising</span>
-          <span class="chip">Community Facilitation</span>
-          <span class="chip">Grant Management</span>
-          <span class="chip">Partnership Development</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════ GALLERY ══ -->
-<section class="about-section about-gallery-section reveal">
-  <div class="about-container">
-    <h2 class="about-section-title">Moments</h2>
-  </div>
-  <div class="gallery-wrapper">
-    <button class="gallery-nav gallery-nav--prev" aria-label="Previous photo">
-      <i class="ph ph-arrow-left"></i>
-    </button>
-    <div class="gallery-track-outer">
-      <div class="gallery-track" id="aboutGalleryTrack">
-        <!--
-          Place photos in: /public/img/about/gallery/
-          Recommended: 6–12 photos, landscape or portrait both work.
-          Suggested ratio: 3:4 or 4:3 for visual consistency.
-        -->
-        <div class="gallery-item"><img src="/img/about/gallery/photo-1.jpg" alt="Abi at a community program moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-2.jpg" alt="Abi during eco-farming program in North Sumatra"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-3.jpg" alt="Abi at a field program activity"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-4.jpg" alt="Abi with program participants"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-5.jpg" alt="Abi at a workshop or event"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-6.jpg" alt="Abi at community gathering"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-7.jpg" alt="Abi during a program activity"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-8.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-9.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-10.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-11.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-12.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-13.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-14.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-15.jpg" alt="Abi at a memorable moment"></div>
-        <div class="gallery-item"><img src="/img/about/gallery/photo-16.jpg" alt="Abi at a memorable moment"></div>
-      </div>
-    </div>
-    <button class="gallery-nav gallery-nav--next" aria-label="Next photo">
-      <i class="ph ph-arrow-right"></i>
-    </button>
-  </div>
-</section>
-
-<div class="about-footer-space"></div>
 
 {{ end }}
-
 
 {{ define "scripts" }}
 <script>
 (function () {
+  var track = document.getElementById('aboutGallery');
+  if (!track) return;
 
-  /* ── Gallery ─────────────────────────────────────────────── */
-  var track = document.getElementById('aboutGalleryTrack');
-  if (track) {
-    var items = track.querySelectorAll('.gallery-item');
-    var prevBtn = document.querySelector('.gallery-nav--prev');
-    var nextBtn = document.querySelector('.gallery-nav--next');
-    var current = 0;
-    var total = items.length;
-
-    function gap() { return parseInt(getComputedStyle(track).gap) || 16; }
-    function itemW() { return items[0].offsetWidth + gap(); }
-    function visibleCount() { return Math.round(track.parentElement.offsetWidth / itemW()) || 1; }
-    function maxIndex() { return Math.max(0, total - visibleCount()); }
-
-    function goTo(idx) {
-      current = Math.max(0, Math.min(idx, maxIndex()));
-      track.style.transform = 'translateX(-' + (current * itemW()) + 'px)';
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = current >= maxIndex();
-    }
-
-    prevBtn.addEventListener('click', function () { goTo(current - 1); });
-    nextBtn.addEventListener('click', function () { goTo(current + 1); });
-
-    var touchStartX = 0;
-    track.addEventListener('touchstart', function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', function (e) {
-      var diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 48) { diff > 0 ? goTo(current + 1) : goTo(current - 1); }
-    }, { passive: true });
-
-    window.addEventListener('resize', function () { goTo(current); });
-
-    /* shuffle Fisher-Yates tiap session */
-    var arr = Array.from(items);
-    for (var i = arr.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
-    }
-    arr.forEach(function(el) { track.appendChild(el); });
-    items = track.querySelectorAll('.gallery-item');
-    total = items.length;
-
-    goTo(0);
+  /* shuffle Fisher-Yates tiap session */
+  var items = Array.prototype.slice.call(track.children);
+  for (var i = items.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = items[i]; items[i] = items[j]; items[j] = tmp;
   }
+  items.forEach(function (el) { track.appendChild(el); });
 
-  /* ── Counter animation ───────────────────────────────────── */
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-
-  function animateCounter(el) {
-    var target = parseInt(el.dataset.target, 10);
-    var suffix = el.dataset.suffix || '';
-    var format = el.dataset.format || '';
-    var duration = 1500;
-    var start = null;
-
-    function frame(ts) {
-      if (!start) start = ts;
-      var t = Math.min((ts - start) / duration, 1);
-      var value = Math.round(easeOut(t) * target);
-      var display = format === 'comma' ? value.toLocaleString() : String(value);
-      el.textContent = display + suffix;
-      if (t < 1) requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-  }
-
-  /* ── Bio read more ──────────────────────────────────────────── */
-  var bioToggle = document.getElementById('bentoBioToggle');
-  var bioExpand = document.getElementById('bentoBioExpand');
-  if (bioToggle && bioExpand) {
-    bioToggle.addEventListener('click', function () {
-      var isOpen = bioExpand.classList.contains('open');
-      bioExpand.classList.toggle('open', !isOpen);
-      bioToggle.classList.toggle('open', !isOpen);
-      bioToggle.setAttribute('aria-expanded', String(!isOpen));
-      bioToggle.childNodes[0].textContent = isOpen ? 'Read more ' : 'Read less ';
-    });
-  }
-
-  /* ── Accordion ───────────────────────────────────────────── */
-  document.querySelectorAll('.timeline-toggle').forEach(function (btn) {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-gallery]').forEach(function (btn) {
     btn.addEventListener('click', function () {
-      var entry = this.closest('.timeline-entry');
-      var isOpen = entry.classList.contains('open');
-      document.querySelectorAll('.timeline-entry.open').forEach(function (e) {
-        e.classList.remove('open');
-        e.querySelector('.timeline-toggle').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        entry.classList.add('open');
-        this.setAttribute('aria-expanded', 'true');
-      }
+      var dir = btn.getAttribute('data-gallery') === 'next' ? 1 : -1;
+      track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: reduce ? 'auto' : 'smooth' });
     });
   });
-
-  /* ── Scroll reveal ───────────────────────────────────────── */
-  var revealObs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('visible');
-      var children = entry.target.querySelectorAll('.reveal-child');
-      children.forEach(function (child, i) {
-        setTimeout(function () {
-          child.classList.add('visible');
-          var counter = child.querySelector('.stat-count');
-          if (counter) animateCounter(counter);
-        }, i * 120);
-      });
-      revealObs.unobserve(entry.target);
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.reveal').forEach(function (el) {
-    revealObs.observe(el);
-  });
-
 })();
 </script>
 {{ end }}

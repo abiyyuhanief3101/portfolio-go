@@ -1,21 +1,13 @@
 {
-  "name": "Abiyyu Hanief | Portfolio",
+  "name": "Abiyyu Hanief",
   "short_name": "Abiyyu",
-  "description": "Portfolio of Abiyyu Hanief",
+  "description": "Portfolio, notes and library of Abiyyu Hanief.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F6EECD",
-  "theme_color": "#F6EECD",
+  "background_color": "#F7F7F5",
+  "theme_color": "#F7F7F5",
   "icons": [
-    {
-      "src": "/img/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/img/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/img/icon-512x512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

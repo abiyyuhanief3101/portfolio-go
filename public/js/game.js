@@ -11,9 +11,9 @@ const i18n = {
     id: {
         title: "Discover Your 3 Layers.",
         desc: "Eksplorasi psikologi singkat (60 detik) untuk melihat bagaimana kamu memandang dirimu sendiri dan dunia.",
-        discTitle: "💡 Catatan:",
+        discTitle: "Catatan:",
         discText: "Ini adalah icebreaker psikologi populer yang didasarkan pada Efek Barnum. Dirancang murni untuk seru-seruan dan refleksi diri, bukan diagnosis klinis.",
-        startBtn: "Start the Journey 🚀",
+        startBtn: "Start the Journey",
         labelAnimal: "Hewan apa itu?",
         labelReason: "Satu alasan utama kenapa kamu menyukainya?",
         btnNext: "Lanjut",
@@ -23,19 +23,19 @@ const i18n = {
             "Terakhir, sebutkan hewan favorit ketigamu (No. 3). Pastikan berbeda dari yang sebelumnya ya. Hewan apa itu?"
         ],
         loadingTxt: "Menganalisis pola pikirmu...",
-        formTitle: "Analisis Selesai! 🧠",
+        formTitle: "Analisis Selesai!",
         formDesc: "Kami menemukan pola menarik dari jawabanmu. Masukkan nama dan profesimu. (Masukkan emailmu jika ingin kami mengirimkan salinan hasilnya!).",
         lName: "Nama / Panggilan",
         lRole: "Profesi / Role",
         lEmail: "Email (Opsional)",
-        btnReveal: "Reveal My Profile 🔓"
+        btnReveal: "Reveal My Profile"
     },
     en: {
         title: "Discover Your 3 Layers.",
         desc: "A 60-second psychological exploration to see how you truly view yourself and the world.",
-        discTitle: "💡 Disclaimer:",
+        discTitle: "Disclaimer:",
         discText: "This is a popular psychological icebreaker based on the Barnum Effect. It's designed purely for fun and introspection, not clinical diagnosis.",
-        startBtn: "Start the Journey 🚀",
+        startBtn: "Start the Journey",
         labelAnimal: "What animal is it?",
         labelReason: "Give one main reason why you like it.",
         btnNext: "Next",
@@ -45,12 +45,12 @@ const i18n = {
             "Lastly, name your third favorite animal (No. 3). Make sure it's different from the previous two. What is it?"
         ],
         loadingTxt: "Analyzing your thought patterns...",
-        formTitle: "Analysis Complete! 🧠",
+        formTitle: "Analysis Complete!",
         formDesc: "We found interesting patterns in your answers. Enter your details below. (Include your email if you'd like a copy of the results sent to you!).",
         lName: "Name / Nickname",
         lRole: "Profession / Role",
         lEmail: "Email (Optional)",
-        btnReveal: "Reveal My Profile 🔓"
+        btnReveal: "Reveal My Profile"
     }
 };
 
