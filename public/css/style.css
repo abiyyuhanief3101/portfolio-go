@@ -2561,6 +2561,10 @@ nav {
 }
 .sticker--value { width: 100%; transform: rotate(-2deg); }
 
+.sticker--contact { width: 180px; margin-top: var(--space-6); transform: rotate(-3deg); }
+.about-gallery-section .about-container { position: relative; }
+.sticker--moments { position: absolute; right: 0; top: 50%; width: 120px; transform: translateY(-50%) rotate(4deg); }
+
 @media (max-width: 1000px) {
   .sticker--teaser { position: static; width: 130px; margin: 0 0 var(--space-5); }
   .collab-value { grid-template-columns: 1fr; gap: var(--space-6); }
