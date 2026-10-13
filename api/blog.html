@@ -1,8 +1,8 @@
 {{ define "content" }}
 <section id="journal" class="journal-section">
     <div class="journal-container">
-        <div class="journal-header" style="margin-bottom: 40px;">
-            <h1 style="font-family: 'Fraunces', serif; font-size: 3rem; font-weight: 700; color: var(--green-deep);">Notes.</h1>
+        <div class="journal-header" style="margin-bottom: var(--space-10);">
+            <h1 style="font-family: var(--font-display); font-size: var(--text-hero); font-weight: 600; color: var(--action);">Notes.</h1>
             <p>Documenting process, thoughts, and efficiency.</p>
             
             <div class="illustration-absolute hide-on-mobile">
@@ -14,7 +14,7 @@
             {{ range .Posts }}
             <div class="journal-card" onclick="openPost('{{ .Slug }}')">
                 <div>
-                    <div class="tag-container" style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                    <div class="tag-container" style="margin-bottom: var(--space-3); display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center;">
                         <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
                         
                         {{ range .Category }}
@@ -31,19 +31,19 @@
                 
                 <div class="card-footer">
                     <span class="journal-date" style="margin: 0;">{{ .Date }}</span>
-                    <span style="color: var(--green-deep); font-weight: 700; font-size: 0.9rem;">Read &rarr;</span>
+                    <span style="color: var(--action); font-weight: 600; font-size: var(--text-sm);">Read &rarr;</span>
                 </div>
 
                 <div id="content-{{ .Slug }}" style="display: none;">
                     <div class="modal-header">
-                        <div class="modal-meta" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+                        <div class="modal-meta" style="display: flex; gap: var(--space-2); flex-wrap: wrap; align-items: center; margin-bottom: var(--space-5);">
                             <span class="lang-badge lang-{{ .Language }}" style="margin: 0;">{{ .Language }}</span>
                             {{ range .Category }}
                                 <span class="tag tag-{{ if eq . "Tech" }}tech{{ else if eq . "Diary" }}diary{{ else if eq . "Book" }}book{{ else if eq . "Code" }}code{{ else }}default{{ end }}">
                                     {{ . }}
                                 </span>
                             {{ end }}
-                            <span style="color: #888; font-size: 0.9rem; margin-left: 5px;">• {{ .Date }}</span>
+                            <span style="color: var(--fg-muted); font-size: var(--text-sm); margin-left: var(--space-1);">• {{ .Date }}</span>
                         </div>
 
                         <h1>{{ .Title }}</h1>
@@ -54,7 +54,7 @@
                 </div>
             </div>
             {{ else }}
-            <div style="text-align: center; color: #888; padding: 40px;">
+            <div style="text-align: center; color: var(--fg-muted); padding: var(--space-10);">
                 <p>No posts found yet.</p>
             </div>
             {{ end }}

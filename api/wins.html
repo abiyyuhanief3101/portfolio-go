@@ -4,82 +4,73 @@
     .projects-page {
         max-width: 1100px;
         margin: 0 auto;
-        padding: 84px 5% 140px;
+        padding: var(--space-12) 5% var(--space-12);
     }
 
     /* ===== HEADER (editorial masthead) ===== */
     .ph-head {
         display: grid;
         grid-template-columns: 1.55fr 1fr;
-        gap: 56px;
+        gap: var(--space-12);
         align-items: start;
-        margin-bottom: 8px;
+        margin-bottom: var(--space-2);
     }
 
-    .reveal { opacity: 0; transform: translateY(14px); animation: phRise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+    .reveal { opacity: 0; transform: translateY(8px); animation: phRise var(--motion-slow) var(--ease-out) forwards; }
     @keyframes phRise { to { opacity: 1; transform: none; } }
-    .d1 { animation-delay: .05s; } .d2 { animation-delay: .13s; } .d3 { animation-delay: .21s; }
-    .d4 { animation-delay: .30s; } .d5 { animation-delay: .40s; }
+    .d1 { animation-delay: 0ms; } .d2 { animation-delay: 60ms; } .d3 { animation-delay: 120ms; }
+    .d4 { animation-delay: 180ms; } .d5 { animation-delay: 240ms; }
 
     .ph-kicker {
-        display: inline-flex; align-items: center; gap: 10px;
-        font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
-        color: var(--text-secondary); margin-bottom: 20px;
+        display: inline-flex; align-items: center; gap: var(--space-2);
+        font-size: var(--text-xs); font-weight: 600; letter-spacing: .16em; text-transform: uppercase;
+        color: var(--fg-muted); margin-bottom: var(--space-5);
     }
-    .ph-kicker::before { content: ""; width: 24px; height: 2px; background: var(--terracotta); display: block; }
+    .ph-kicker::before { content: ""; width: 24px; height: 2px; background: var(--accent-ink); display: block; }
 
     .ph-title {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 4.4rem; font-weight: 700; line-height: .96; letter-spacing: -.03em;
-        color: var(--green-deep); margin-bottom: 20px;
+         margin-bottom: var(--space-5);
     }
-    .ph-title .dot { color: var(--terracotta); }
+    .ph-title .dot { color: var(--accent-ink); }
 
-    .ph-lead { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.65; max-width: 440px; }
-    .ph-lead b { color: var(--text-primary); font-weight: 600; }
+    .ph-lead { color: var(--fg-muted); font-size: var(--text-lg); line-height: 1.65; max-width: 440px; }
+    .ph-lead b { color: var(--fg); font-weight: 600; }
 
-    .ph-stats { display: flex; margin-top: 42px; border-top: 1px solid var(--border-color); padding-top: 30px; }
-    .ph-stat { padding: 0 30px; }
+    .ph-stats { display: flex; margin-top: var(--space-10); border-top: 1px solid var(--border); padding-top: var(--space-8); }
+    .ph-stat { padding: 0 var(--space-8); }
     .ph-stat:first-child { padding-left: 0; }
-    .ph-stat + .ph-stat { border-left: 1px solid var(--border-color); }
+    .ph-stat + .ph-stat { border-left: 1px solid var(--border); }
     .ph-stat .n {
-        font-family: 'Fraunces', Georgia, serif;
-        font-size: 2.4rem; font-weight: 600; line-height: 1; letter-spacing: -.02em;
-        color: var(--green-deep); display: block; margin-bottom: 8px;
+         display: block; margin-bottom: var(--space-2);
     }
-    .ph-stat .l { font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-secondary); }
+    .ph-stat .l { font-size: var(--text-xs); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-muted); }
 
     .ph-aside {
-        border: 1px solid var(--border-color); border-radius: 16px;
-        background: var(--card-bg); padding: 26px 28px; margin-top: 6px;
+          margin-top: var(--space-1);
     }
-    .ph-statusline { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .ph-statusline { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); }
     .ph-dot {
         width: 9px; height: 9px; border-radius: 50%;
-        background: #4F9D69; position: relative; flex-shrink: 0;
+        background: var(--action); position: relative; flex-shrink: 0;
     }
-    .ph-dot::after {
-        content: ""; position: absolute; inset: -5px; border-radius: 50%;
-        border: 1px solid #4F9D69; opacity: .5; animation: phPulse 2.4s ease-out infinite;
-    }
-    @keyframes phPulse { 0% { transform: scale(.6); opacity: .6; } 100% { transform: scale(1.5); opacity: 0; } }
-    .ph-statusline span { font-size: .92rem; font-weight: 600; color: var(--text-primary); }
-    .ph-row { display: flex; justify-content: space-between; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--border-color); }
-    .ph-row .k { font-size: .74rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-secondary); }
-    .ph-row .v { font-size: .9rem; font-weight: 600; color: var(--text-primary); text-align: right; }
-    .ph-cta { display: flex; gap: 9px; margin-top: 20px; }
+    .ph-statusline span { font-size: var(--text-sm); font-weight: 600; color: var(--fg); }
+    .ph-row { display: flex; justify-content: space-between; align-items: baseline; padding: var(--space-3) 0; border-top: 1px solid var(--border); }
+    .ph-row .k { font-size: var(--text-xs); letter-spacing: .05em; text-transform: uppercase; color: var(--fg-muted); }
+    .ph-row .v { font-size: var(--text-sm); font-weight: 600; color: var(--fg); text-align: right; }
+    .ph-cta { display: flex; gap: var(--space-2); margin-top: var(--space-5); }
     .ph-cta a {
-        flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-        padding: 10px; border-radius: 9px; font-size: .82rem; font-weight: 600; text-decoration: none;
-        border: 1px solid var(--border-color); color: var(--text-secondary); transition: .2s;
+        flex: 1;    
     }
-    .ph-cta a.primary { background: var(--green-deep); border-color: var(--green-deep); color: #fff; }
-    .ph-cta a.linkedin { background: #0A66C2; border-color: #0A66C2; color: #fff; }
-    .ph-cta a:hover { border-color: var(--green-deep); color: var(--green-deep); transform: translateY(-1px); }
-    .ph-cta a.primary:hover { opacity: .88; color: #fff; }
-    .ph-cta a.linkedin:hover { opacity: .88; color: #fff; border-color: #0A66C2; transform: translateY(-1px); }
+    .ph-cta a.primary {    }
+    .ph-cta a.linkedin {    }
+    .ph-cta a:hover {    }
+    .ph-cta a.primary:hover {   }
+    .ph-cta a.linkedin:hover {     }
 
-    .ph-divider { border: none; border-top: 1px solid var(--border-color); margin: 64px 0 0; }
+    .ph-divider { border: none; border-top: 1px solid var(--border); margin: var(--space-12) 0 0; }
+    .ph-group {
+         margin-bottom: var(--space-5);
+    }
 
     /* ===== PROJECT CARD ===== */
     .project-list {
@@ -88,104 +79,79 @@
     }
 
     .project-card {
-        padding: 60px 0;
-        border-top: 1px solid var(--border-color);
+        padding: var(--space-12) 0;
+        border-top: 1px solid var(--border);
     }
 
     .project-card:last-child {
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border);
     }
 
     /* ===== CARD HEADER ===== */
     .project-card-header {
-        margin-bottom: 32px;
+        margin-bottom: var(--space-8);
     }
 
     .project-num {
-        font-size: 0.72rem;
-        font-weight: 700;
+        font-size: var(--text-xs);
+        font-weight: 600;
         letter-spacing: 0.18em;
-        color: var(--terracotta);
+        color: var(--accent-ink);
         text-transform: uppercase;
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: var(--space-2);
     }
 
     .project-card-title {
-        font-size: 2.2rem;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        line-height: 1.15;
-        margin-bottom: 10px;
+        margin-bottom: var(--space-2);
     }
 
     .project-card-sub {
-        color: var(--text-secondary);
-        font-size: 0.93rem;
+        color: var(--fg-muted);
+        font-size: var(--text-sm);
         line-height: 1.75;
-        margin-bottom: 20px;
+        margin-bottom: var(--space-5);
         max-width: 540px;
     }
 
     .project-card-links {
         display: flex;
-        gap: 10px;
+        gap: var(--space-2);
         flex-wrap: wrap;
     }
 
     .project-link-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 9px 18px;
-        border-radius: 8px;
-        font-size: 0.83rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s ease;
-        border: 1px solid var(--border-color);
-        color: var(--text-secondary);
-        background: transparent;
     }
 
     .project-link-btn:hover {
-        border-color: var(--green-deep);
-        color: var(--green-deep);
-        transform: translateY(-1px);
     }
 
     .project-link-btn.primary {
-        background: var(--green-deep);
-        border-color: var(--green-deep);
-        color: white;
     }
 
     .project-link-btn.primary:hover {
-        opacity: 0.85;
-        transform: translateY(-1px);
     }
 
     /* ===== DEMO EMBED (desktop) ===== */
     .demo-window {
-        border-radius: 14px;
+        border-radius: var(--radius-card);
         overflow: hidden;
-        border: 1px solid var(--border-color);
-        box-shadow: 0 8px 48px rgba(0,0,0,0.08);
-        margin-bottom: 32px;
+        border: 1px solid var(--border);
+        margin-bottom: var(--space-8);
     }
 
     .demo-chrome {
-        background: var(--card-bg);
-        padding: 10px 16px;
-        border-bottom: 1px solid var(--border-color);
+        background: var(--surface);
+        padding: var(--space-2) var(--space-4);
+        border-bottom: 1px solid var(--border);
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: var(--space-3);
     }
 
     .chrome-dots {
         display: flex;
-        gap: 6px;
+        gap: var(--space-1);
         flex-shrink: 0;
     }
 
@@ -195,18 +161,16 @@
         border-radius: 50%;
     }
 
-    .chrome-dots span:nth-child(1) { background: #FF5F57; }
-    .chrome-dots span:nth-child(2) { background: #FFBD2E; }
-    .chrome-dots span:nth-child(3) { background: #28C840; }
+    .chrome-dots span { background: var(--edge); }
 
     .chrome-label {
         flex: 1;
         background: var(--bg);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        padding: 4px 12px;
-        font-size: 0.73rem;
-        color: var(--text-secondary);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: var(--space-1) var(--space-3);
+        font-size: var(--text-xs);
+        color: var(--fg-muted);
         text-align: center;
         letter-spacing: 0.02em;
     }
@@ -228,34 +192,19 @@
     /* ===== MOBILE: swap iframe → button ===== */
     .demo-mobile-cta {
         display: none;
-        margin-bottom: 28px;
+        margin-bottom: var(--space-6);
     }
 
     .demo-mobile-cta a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 16px 20px;
-        background: var(--card-bg);
-        border: 1px solid var(--border-color);
-        border-radius: 12px;
-        color: var(--text-primary, #2d3436);
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: all 0.2s;
     }
 
     .demo-mobile-cta a:hover {
-        border-color: var(--green-deep);
-        color: var(--green-deep);
     }
 
     /* ===== PROJECT BODY: demo + metrics side by side ===== */
     .project-body {
         display: grid;
-        gap: 28px;
+        gap: var(--space-6);
     }
 
     /* when demo is embedded: 3:2 split, demo left, metrics right */
@@ -289,53 +238,52 @@
     .metrics-dots {
         display: none;
         justify-content: center;
-        gap: 6px;
-        margin-top: 12px;
+        gap: var(--space-1);
+        margin-top: var(--space-3);
     }
     .project-body.has-demo .metrics-dots { display: flex; }
     .metrics-dot {
         width: 6px; height: 6px; border-radius: 50%;
-        background: var(--border-color); cursor: pointer;
-        transition: background .2s, transform .2s;
+        background: var(--border); cursor: pointer;
+        transition: background var(--motion-base), transform var(--motion-base);
         border: none; padding: 0;
     }
-    .metrics-dot.active { background: var(--green-deep); transform: scale(1.3); }
+    .metrics-dot.active { background: var(--action); transform: scale(1.3); }
 
     /* ===== IMPACT LABEL ===== */
     .impact-label {
-        font-size: 0.72rem;
-        font-weight: 700;
+        font-size: var(--text-xs);
+        font-weight: 600;
         letter-spacing: 0.14em;
-        color: var(--text-secondary);
+        color: var(--fg-muted);
         text-transform: uppercase;
-        margin-bottom: 16px;
+        margin-bottom: var(--space-4);
         display: block;
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 820px) {
-        .ph-head { grid-template-columns: 1fr; gap: 36px; }
-        .ph-title { font-size: 3rem; }
+        .ph-head { grid-template-columns: 1fr; gap: var(--space-8); }
+        .ph-title {  }
         .ph-aside { margin-top: 0; }
     }
 
     @media (max-width: 680px) {
         .projects-page {
-            padding: 60px 5% 80px;
+            padding: var(--space-12) 5% var(--space-12);
         }
 
-        .ph-title { font-size: 2.4rem; }
-        .ph-stats { flex-wrap: wrap; gap: 24px 0; }
-        .ph-stat { flex: 1 0 50%; padding: 0 20px; }
+        .ph-title {  }
+        .ph-stats { flex-wrap: wrap; gap: var(--space-6) 0; }
+        .ph-stat { flex: 1 0 50%; padding: 0 var(--space-5); }
         .ph-stat:first-child, .ph-stat:nth-child(3) { padding-left: 0; }
         .ph-stat + .ph-stat { border-left: none; }
 
         .project-card {
-            padding: 44px 0;
+            padding: var(--space-10) 0;
         }
 
         .project-card-title {
-            font-size: 1.7rem;
         }
 
         /* collapse side-by-side to vertical */
@@ -357,6 +305,21 @@
             grid-template-columns: 1fr !important;
         }
     }
+
+    /* Design-system bindings specific to this page */
+    .ph-cta a { flex: 1; }
+    .ph-title .dot { color: var(--accent-ink); }
+    .ph-statusline {
+        display: inline-flex; padding: var(--space-1) var(--space-3);
+        background: var(--ok-surface); border-radius: var(--radius-pill);
+    }
+    .ph-statusline span { color: var(--ok-ink); }
+    .ph-dot { background: var(--ok-ink); }
+    .ph-stat .n { display: block; margin-bottom: var(--space-2); }
+    .project-card-title { font-size: var(--text-xl); margin-bottom: var(--space-2); }
+    .project-card-sub { font-size: var(--text-md); line-height: var(--leading-body); }
+    .metrics-dot { width: 12px; height: 12px; }
+    .demo-window { border-radius: var(--radius-card); }
 </style>
 
 <main>
@@ -369,9 +332,9 @@
                 <p class="ph-lead reveal d3">Things I've built — from tools for grassroots communities to systems that move data for <b>thousands of users</b>. Each one shipped, measured, and still running.</p>
 
                 <div class="ph-stats reveal d4">
-                    <div class="ph-stat"><span class="n">{{ len .SmallWins }}</span><span class="l">Projects</span></div>
+                    <div class="ph-stat"><span class="n">{{ add (len .SmallWins) 5 }}</span><span class="l">Projects</span></div>
                     <div class="ph-stat"><span class="n">5671+</span><span class="l">Users maintained</span></div>
-                    <div class="ph-stat"><span class="n">12+</span><span class="l">Schools involved</span></div>
+                    <div class="ph-stat"><span class="n">14</span><span class="l">Schools involved</span></div>
                     <div class="ph-stat"><span class="n">3+</span><span class="l">Industries</span></div>
                 </div>
             </div>
@@ -394,7 +357,68 @@
 
         <hr class="ph-divider">
 
-        <div class="project-list" style="margin-top: 64px;">
+        <h2 class="ph-group" style="margin-top: var(--space-12);">Products &amp; client work, 2026</h2>
+        <div class="project-list">
+
+            <article class="project-card">
+                <div class="project-card-header">
+                    <span class="project-num">Decaf · Founder &amp; CTO · Aug 2026 – Present</span>
+                    <h3 class="project-card-title">Decaf PoS</h3>
+                    <p class="project-card-sub">A multi-tenant point-of-sale system for cafés and small F&amp;B businesses. The cashier keeps working when the internet drops and syncs once it returns, and owners see recipe cost and profit per product next to cash flow. It took real transactions on its first day in production (21 Aug 2026) and is now used by 4 F&amp;B businesses.</p>
+                    <div class="project-card-links">
+                        <a href="https://decaf.id" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">decaf.id</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-card-header">
+                    <span class="project-num">Client · Solo developer · Jul 2026 – Present</span>
+                    <h3 class="project-card-title">Gernas Tastaka</h3>
+                    <p class="project-card-sub">A national teacher literacy and numeracy movement whose every content change depended on WordPress and a developer. I moved the site to Next.js and Payload CMS in 11 days, so staff now build pages themselves in an Indonesian-language dashboard, and added a Teacher Resource Library with 79 PDFs, 6 videos, and 20 interactive activities.</p>
+                    <div class="project-card-links">
+                        <a href="https://gernastastaka.org" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">gernastastaka.org</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-card-header">
+                    <span class="project-num">Client · Solo developer · Jul – Aug 2026</span>
+                    <h3 class="project-card-title">LAKSA Bogor</h3>
+                    <p class="project-card-sub">The official tourism information site for the Bogor City Tourism &amp; Culture Office. The city's tourism information lived inside a chatbot iframe that Google could not index. In three phases over 14 days I took search-indexable pages from 0 to 76, built a back office where staff manage 55 destinations themselves, and added a directory of 250 official health facilities.</p>
+                    <div class="project-card-links">
+                        <a href="https://laksabogor.info" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">laksabogor.info</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-card-header">
+                    <span class="project-num">Client · Solo developer · Aug – Sep 2026</span>
+                    <h3 class="project-card-title">Waca Bajo</h3>
+                    <p class="project-card-sub">A community literacy movement in Labuan Bajo that existed only on Instagram. I built its first website in Indonesian and English, a 17-question needs-assessment survey designed for phones, and a back office where the team can read results without exporting anything.</p>
+                    <div class="project-card-links">
+                        <a href="https://wacabajo.org" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">wacabajo.org</a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-card-header">
+                    <span class="project-num">Sadewa · Product owner &amp; solo developer · Jul 2026 – Present</span>
+                    <h3 class="project-card-title">Sadewa</h3>
+                    <p class="project-card-sub">Replaced a Wix site with one the foundation's non-technical board can update on its own, built in 4 weeks across two releases. It brings 15 years of program records into one structure, documenting 10 Gerakan UI Mengajar cohorts, and measures visits without cookies or third-party scripts.</p>
+                    <div class="project-card-links">
+                        <a href="https://sadewaind.org" target="_blank" rel="noopener noreferrer" class="project-link-btn primary">sadewaind.org</a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <h2 class="ph-group" style="margin-top: var(--space-12);">Tools &amp; analyses</h2>
+        <div class="project-list">
             {{ range $index, $win := .SmallWins }}
             <article class="project-card">
 
@@ -441,9 +465,9 @@
                         <!-- Mobile: button only -->
                         <div class="demo-mobile-cta">
                             <a href="{{ $win.DemoURL }}" target="_blank" rel="noopener noreferrer">
-                                <i class="ph ph-play-circle" style="font-size:1.2rem;"></i>
+                                <i class="ph ph-play-circle" style="font-size: var(--text-section);"></i>
                                 View Interactive Demo
-                                <i class="ph ph-arrow-square-out" style="font-size:0.85rem; opacity:0.6;"></i>
+                                <i class="ph ph-arrow-square-out" style="font-size: var(--text-sm); opacity: 0.6;"></i>
                             </a>
                         </div>
                     </div>
@@ -459,7 +483,7 @@
                                 <div class="sleek-value {{ .ValueColor }}">{{ .Value }}</div>
                                 <p class="sleek-desc">{{ .Desc }}</p>
                                 {{ if .TechTags }}
-                                <div class="sleek-tech-tags" style="margin-top: 20px;">
+                                <div class="sleek-tech-tags" style="margin-top: var(--space-5);">
                                     {{ range .TechTags }}
                                     <span>{{ . }}</span>
                                     {{ end }}
@@ -476,7 +500,7 @@
 
             </article>
             {{ else }}
-            <div style="text-align:center; padding: 80px 0; color: var(--text-secondary);">
+            <div style="text-align: center; padding: var(--space-12) 0; color: var(--fg-muted);">
                 <p>Belum ada project yang tercatat.</p>
             </div>
             {{ end }}
@@ -496,7 +520,6 @@
         if (!grid || cards.length < 2 || !dotsEl) return;
 
         var current = 0;
-        var timer = null;
 
         // measure tallest card, cap grid to that height
         function syncHeight() {
@@ -517,7 +540,7 @@
             var btn = document.createElement('button');
             btn.className = 'metrics-dot' + (i === 0 ? ' active' : '');
             btn.setAttribute('aria-label', 'Metric ' + (i + 1));
-            btn.addEventListener('click', function () { goTo(i); restartAuto(); });
+            btn.addEventListener('click', function () { goTo(i); });
             dotsEl.appendChild(btn);
             dots.push(btn);
         });
@@ -528,23 +551,6 @@
             dots.forEach(function (d, idx) { d.classList.toggle('active', idx === current); });
         }
 
-        function next() { goTo(current + 1); }
-
-        function startAuto() {
-            if (timer) clearInterval(timer);
-            timer = setInterval(next, 3500);
-        }
-
-        function restartAuto() {
-            clearInterval(timer);
-            startAuto();
-        }
-
-        // pause on hover
-        section.addEventListener('mouseenter', function () { clearInterval(timer); });
-        section.addEventListener('mouseleave', startAuto);
-
-        startAuto();
     });
 })();
 </script>

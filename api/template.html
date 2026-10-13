@@ -2,7 +2,7 @@
 <main>
 
 <!-- HERO -->
-<section style="max-width:1200px;margin:0 auto;">
+<section style="max-width: 1200px;margin: 0 auto;">
   <div class="hero">
 
     <div class="hero-content">
@@ -30,12 +30,10 @@
     <div class="hero-visual">
       <div class="avatar-ring">
         <img
-          src="/img/abi_kartun.jpeg"
-          alt="Abi cartoon avatar"
-          class="avatar-img"
-          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+          src="/img/stickers/abi-suit.webp"
+          alt="Illustration of Abi in a navy suit, smiling with his hands in his pockets"
+          class="avatar-img avatar-img--sticker" width="586" height="900"
         >
-        <div style="display:none; width:100%;height:100%; border-radius:46% 54% 52% 48%/44% 48% 52% 56%; background:var(--green-light); align-items:center; justify-content:center; font-family:'Fraunces',serif; font-style:italic; font-size:4rem; color:var(--green);">Abi</div>
         <div class="avatar-badge">
           👋 Hi, I'm Abi!
           <small>Product × Fullstack Dev</small>
@@ -46,7 +44,7 @@
         <div class="stat-card-label">Impact snapshot</div>
         <div class="stat-row">
           <div class="stat">
-            <div class="stat-val">12</div>
+            <div class="stat-val">14</div>
             <div class="stat-lbl">Schools Implemented</div>
           </div>
           <div class="stat">
@@ -72,7 +70,7 @@
 <div class="story-section-wrap">
 <div class="section">
   <div class="sec-label">The Journey</div>
-  <h2 class="sec-heading" style="max-width:720px;">
+  <h2 class="sec-heading" style="max-width: 720px;">
     A CS grad who <em>almost quit tech</em><br>to serve the grassroots.
   </h2>
 
@@ -123,22 +121,22 @@
 
 <!-- SMALL WINS -->
 <div class="section">
-  <div style="display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:1rem;">
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4);">
     <div>
       <div class="sec-label">Projects</div>
       <h2 class="sec-heading">
         Things I've built that<br><span class="g">actually shipped.</span>
       </h2>
     </div>
-    <a href="/projects" style="font-size:.875rem; color:var(--green); font-weight:600; text-decoration:none; margin-bottom:.35rem;">View all →</a>
+    <a href="/projects" style="font-size: var(--text-sm); color: var(--action); font-weight: 600; text-decoration: none; margin-bottom: var(--space-1);">View all →</a>
   </div>
 
   <div class="wins-grid">
     <div class="win-card">
       <div class="win-badge">🏆 Live</div>
       <div class="win-title">Support Operations Automation</div>
-      <div class="win-metric">75%</div>
-      <div class="win-metric-sub">Drop in manual reporting time</div>
+      <div class="win-metric">14 schools</div>
+      <div class="win-metric-sub">Monitoring reports in 20 to 30 minutes (was 5 to 7 hours)</div>
       <div class="win-tags">
         <span class="tag">Django</span>
         <span class="tag">Docker</span>
@@ -161,7 +159,7 @@
     <div class="win-card">
       <div class="win-badge">🏆 Live</div>
       <div class="win-title">AI-Powered Customer Analytics</div>
-      <div class="win-metric" style="font-size:1.4rem;">Real-time</div>
+      <div class="win-metric" style="font-size: var(--text-xl);">Real-time</div>
       <div class="win-metric-sub">Insight generation (was: days)</div>
       <div class="win-tags">
         <span class="tag">Gemini</span>
@@ -176,7 +174,8 @@
 
 <!-- COLLABORATION TEASER -->
 <section id="collaboration" class="collab-teaser">
-  <div class="section">
+  <div class="section sticker-anchor">
+    <img src="/img/stickers/abi-spread-arms.webp" alt="" class="sticker sticker--teaser" width="710" height="900" loading="lazy">
     <div class="sec-label">Collaboration</div>
     <h2 class="sec-heading">Let's Build <span class="g">Something.</span></h2>
     <p class="collab-teaser-text">
@@ -226,24 +225,21 @@
 <script>
 const orgs = [
   "Universitas Indonesia","Nusatek.id","Bukit Lawang Trust",
-  "Indonesia Mengajar","Sadewa Indonesia","GUIM","BEM UI","Binar Academy","Penggerak Indonesia Cerdas","Gernastastaka"
+  "Indonesia Mengajar","Sadewa Indonesia","GUIM","BEM UI","Binar Academy","Penggerak Indonesia Cerdas","Gernas Tastaka","Decaf","LAKSA Bogor","Waca Bajo"
 ];
-const all = [...orgs,...orgs,...orgs,...orgs];
-document.getElementById("marquee").innerHTML = all.map(o =>
+document.getElementById("marquee").innerHTML = orgs.map(o =>
   `<span class="marquee-item"><span class="marquee-dot"></span>${o}</span>`
 ).join("");
 
 const observer = new IntersectionObserver(
   entries => entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = "1";
-      e.target.style.transform = "translateY(0)";
-    }
+    if (e.isIntersecting) { e.target.classList.add("is-in"); observer.unobserve(e.target); }
   }),
   { threshold: 0.12 }
 );
-document.querySelectorAll('.story-block, .win-card, .quote-inner > *').forEach(el => {
-  el.style.cssText += "opacity:0; transform:translateY(20px); transition:opacity .55s ease, transform .55s ease;";
+document.querySelectorAll('.story-block, .win-card, .quote-inner > *').forEach((el, i) => {
+  el.classList.add("ds-reveal");
+  el.style.animationDelay = (i % 3) * 60 + "ms";
   observer.observe(el);
 });
 </script>
