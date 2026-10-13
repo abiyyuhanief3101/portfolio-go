@@ -3,7 +3,7 @@
 {{ end }}
 
 {{ define "content" }}
-    <div style="padding: 40px 20px; display: flex; justify-content: center; min-height: calc(100vh - 80px);">
+    <div style="padding: var(--space-10) var(--space-5); display: flex; justify-content: center; min-height: calc(100vh - 80px);">
         <main id="spa-container" class="spa-card">
             
             <div id="screen-0" class="spa-screen active">
@@ -47,7 +47,7 @@
             </div>
 
             <div id="screen-4" class="spa-screen">
-                <div id="loading-section" style="text-align: center; padding: 40px 0;">
+                <div id="loading-section" style="text-align: center; padding: var(--space-10) 0;">
                     <div class="loader-spinner"></div>
                     <h2 class="spa-question mt-4" id="t-loading">Analyzing your thought patterns...</h2>
                 </div>
@@ -73,36 +73,36 @@
                 </div>
             </div>
 
-            <div id="screen-5" class="spa-screen" style="padding: 10px 0;">
-                <h2 class="spa-title" id="t-result-title" style="text-align: center; margin-bottom: 30px;">Your 3 Layers</h2>
+            <div id="screen-5" class="spa-screen" style="padding: var(--space-2) 0;">
+                <h2 class="spa-title" id="t-result-title" style="text-align: center; margin-bottom: var(--space-8);">Your 3 Layers</h2>
                 
                 <div class="results-grid">
                     <div class="result-card">
-                        <div class="badge-layer"><i class="ph-fill ph-mask-happy" style="margin-right: 5px;"></i> Layer 1: The Persona</div>
+                        <div class="badge-layer"><i class="ph-fill ph-mask-happy" style="margin-right: var(--space-1);"></i> Layer 1: The Persona</div>
                         <h3><span id="res-animal-1" class="text-terracotta"></span></h3>
                         <p id="res-desc-1" class="res-text">...</p>
                     </div>
 
                     <div class="result-card">
-                        <div class="badge-layer"><i class="ph-fill ph-eye" style="margin-right: 5px;"></i> Layer 2: The Impression</div>
+                        <div class="badge-layer"><i class="ph-fill ph-eye" style="margin-right: var(--space-1);"></i> Layer 2: The Impression</div>
                         <h3><span id="res-animal-2" class="text-terracotta"></span></h3>
                         <p id="res-desc-2" class="res-text">...</p>
                     </div>
 
                     <div class="result-card">
-                        <div class="badge-layer"><i class="ph-fill ph-sparkle" style="margin-right: 5px;"></i> Layer 3: The Core Self</div>
+                        <div class="badge-layer"><i class="ph-fill ph-sparkle" style="margin-right: var(--space-1);"></i> Layer 3: The Core Self</div>
                         <h3><span id="res-animal-3" class="text-terracotta"></span></h3>
                         <p id="res-desc-3" class="res-text">...</p>
                     </div>
                 </div>
 
-                <div class="disclaimer-box mt-6" style="border-left-color: var(--green); text-align: center;">
+                <div class="disclaimer-box mt-6" style="border-left-color: var(--action); text-align: center;">
                     <p id="t-closing">Sometimes we need to see things from 3 different perspectives. Just like how I build systems: from the user's side, business side, and technical side. <strong>Let's connect!</strong></p>
                 </div>
                 
-                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
-                    <button onclick="shareResult()" class="btn-primary spa-btn" style="width: auto; padding: 14px 30px; background: var(--orange);"><i class="ph-bold ph-share-network" style="margin-right: 8px;"></i> Share</button>
-                    <a href="https://linkedin.com/in/abiyyuhanief" target="_blank" class="btn-primary spa-btn" style="text-decoration: none; width: auto; padding: 14px 30px;"><i class="ph-bold ph-linkedin-logo" style="margin-right: 8px;"></i> Let's Connect</a>
+                <div style="display: flex; gap: var(--space-4); justify-content: center; margin-top: var(--space-6); flex-wrap: wrap;">
+                    <button onclick="shareResult()" class="btn-primary spa-btn" style="width: auto; padding: var(--space-3) var(--space-8); background: var(--accent-ink);"><i class="ph-bold ph-share-network" style="margin-right: var(--space-2);"></i> Share</button>
+                    <a href="https://www.linkedin.com/in/nafidz-abiyyu-h-09660a15a/" target="_blank" class="btn-primary spa-btn" style="text-decoration: none; width: auto; padding: var(--space-3) var(--space-8);"><i class="ph-bold ph-linkedin-logo" style="margin-right: var(--space-2);"></i> Let's Connect</a>
                 </div>
             </div>
 

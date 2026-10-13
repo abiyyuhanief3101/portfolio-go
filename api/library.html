@@ -7,26 +7,24 @@
         align-items: center;
         gap: 2px;
         background-color: rgba(255, 255, 255, 0.1);
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 800;
-        margin-bottom: 15px;
+        padding: var(--space-1) var(--space-3);
+        border-radius: var(--radius-card);
+        font-size: var(--text-sm);
+        font-weight: 600;
+        margin-bottom: var(--space-4);
         backdrop-filter: blur(5px);
-        transition: all 0.3s ease;
+        transition: color var(--motion-slow) var(--ease-out), background-color var(--motion-slow) var(--ease-out), border-color var(--motion-slow) var(--ease-out), opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
     }
-    
-    .rating-badge i { font-size: 1rem; }
-    
+    .rating-badge i { font-size: var(--text-md); }
     .rating-high { 
-        color: var(--green-deep, #5A9A8F); 
-        background-color: rgba(90, 154, 143, 0.15); 
-        border: 1px solid rgba(90, 154, 143, 0.3); 
+        color: var(--action, var(--action)); 
+        background-color: var(--action-soft); 
+        border: 1px solid var(--sage-400); 
     }
     .rating-mid { 
-        color: var(--terracotta, #C6743E); 
-        background-color: rgba(198, 116, 62, 0.15); 
-        border: 1px solid rgba(198, 116, 62, 0.3); 
+        color: var(--accent-ink, var(--accent-ink)); 
+        background-color: var(--accent-surface); 
+        border: 1px solid var(--accent); 
     }
 
     /* 🔖 MODIFIKASI: Indikator Bookmark (Cartoon Style & Palette Matched) */
@@ -38,28 +36,22 @@
         position: absolute;
         top: 10px;      
         right: 15px;    
-        
         /* Menggunakan warna Terracotta agar serasi dengan website */
-        background-color: var(--terracotta, #C6743E); 
-        color: white; 
-        
+        background-color: var(--accent-ink, var(--accent)); 
+        color: var(--action-ink); 
         width: 48px;     
         height: 48px;    
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        
         /* Bayangan lembut khas gaya kartun */
-        box-shadow: 0 6px 15px rgba(198, 116, 62, 0.4); 
         
         z-index: 10;
-        font-size: 1.8rem;   
-        
+        font-size: var(--text-2xl);   
         /* Sedikit rotasi agar terlihat dinamis */
         transform: rotate(-5deg); 
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        
+        transition: color var(--motion-slow) var(--ease-out), background-color var(--motion-slow) var(--ease-out), border-color var(--motion-slow) var(--ease-out), opacity var(--motion-slow) var(--ease-out), transform var(--motion-slow) var(--ease-out);
         /* Border putih tebal untuk mempertegas kesan ilustrasi */
         border: 3px solid white; 
     }
@@ -70,20 +62,20 @@
 
     /* Indikator Buku Punya Jurnal */
     .note-indicator {
-        margin-top: 15px; 
+        margin-top: var(--space-4); 
         background: rgba(255, 255, 255, 0.15); 
-        padding: 8px 16px; 
-        border-radius: 20px; 
-        font-size: 0.85rem; 
-        font-weight: 700; 
+        padding: var(--space-2) var(--space-4); 
+        border-radius: var(--radius-card); 
+        font-size: var(--text-sm); 
+        font-weight: 600; 
         backdrop-filter: blur(4px);
         border: 1px solid rgba(255, 255, 255, 0.3);
-        transition: all 0.2s ease;
+        transition: color var(--motion-base) var(--ease-out), background-color var(--motion-base) var(--ease-out), border-color var(--motion-base) var(--ease-out), opacity var(--motion-base) var(--ease-out), transform var(--motion-base) var(--ease-out);
         display: inline-block;
     }
     .note-indicator:hover {
-        background: var(--green-deep);
-        color: white;
+        background: var(--action);
+        color: var(--action-ink);
         transform: scale(1.05);
     }
     .note-indicator:active {
@@ -91,23 +83,22 @@
     }
 
     .book-card.has-note:hover .note-indicator {
-        background: var(--green-deep);
-        color: white;
+        background: var(--action);
+        color: var(--action-ink);
     }
 
     /* Loader Spinner untuk Pop-up */
     .book-loader {
         width: 40px; height: 40px; 
-        border: 4px solid #f0f0f0; 
-        border-top: 4px solid var(--green-deep); 
+        border: 4px solid var(--border); 
+        border-top: 4px solid var(--action); 
         border-radius: 50%; 
-        animation: spin 1s linear infinite; 
-        margin: 40px auto;
+        margin: var(--space-10) auto;
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
 
-<div class="library-header" style="margin-bottom: 40px;">
+<div class="library-header" style="margin-bottom: var(--space-10);">
     <h1>Digital Library.</h1>
     <p>My way of thought, maybe.</p>
     
@@ -146,7 +137,7 @@
         </div>
     </div>
     {{ else }}
-    <p style="text-align: center; color: #888;">No books found in the library.</p>
+    <p style="text-align: center; color: var(--fg-muted);">No books found in the library.</p>
     {{ end }}
 </div>
 
@@ -170,7 +161,7 @@
             for (let i = 0; i < fullStars; i++) starsHTML += '<i class="ph-fill ph-star"></i>';
             if (hasHalfStar) starsHTML += '<i class="ph-fill ph-star-half"></i>';
             for (let i = 0; i < emptyStars; i++) starsHTML += '<i class="ph ph-star"></i>'; 
-            badge.innerHTML = starsHTML + '<span style="margin-left: 6px;">' + rawRating.toFixed(1) + '</span>';
+            badge.innerHTML = starsHTML + '<span style="margin-left: var(--space-1);">' + rawRating.toFixed(1) + '</span>';
             if (rawRating >= 4.0) badge.classList.add('rating-high');
             else badge.classList.add('rating-mid');
         });

@@ -4,8 +4,8 @@
   "description": "Portfolio of Abiyyu Hanief",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F6EECD",
-  "theme_color": "#F6EECD",
+  "background_color": "#F6F0E4",
+  "theme_color": "#F6F0E4",
   "icons": [
     {
       "src": "/img/icon-192x192.png",
