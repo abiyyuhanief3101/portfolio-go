@@ -1,0 +1,88 @@
+/* ════════════════════════════════════════════════════════════════
+   HAZE (karhutla, Oct 2026)
+   Ambient nod to the forest fires in Kalimantan, Sumatra and Papua.
+   The brand palette stays untouched; the movement's three colours
+   (#CD2E0E fire, #F79301 ember, #D5D5D5 ash) live only in the effect:
+   smoke clouds, glow and embers drawn by haze.js, and the hero sticker swap.
+   To retire it, remove the haze.css and haze.js tags from base.html.
+   ════════════════════════════════════════════════════════════════ */
+
+/* Fog and embers sit behind the content; cards cover them, gaps show them */
+.haze-canvas {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── Sticker swap: suit → suit with mask → haze portrait, 24s cycle ──
+   The masked suit is drawn on the same frame as the suit, so it fades in
+   on top and the mask simply appears. The haze portrait is a different
+   drawing, so it trades places through a blur, like smoke passing. */
+@keyframes swap-a {
+  0%, 30% { opacity: 1; filter: blur(0); }
+  31%, 91% { opacity: 0; filter: blur(10px); }
+  98%, 100% { opacity: 1; filter: blur(0); }
+}
+@keyframes swap-b {
+  0%, 24% { opacity: 0; filter: blur(0); }
+  30%, 58% { opacity: 1; filter: blur(0); }
+  64%, 100% { opacity: 0; filter: blur(10px); }
+}
+@keyframes swap-c {
+  0%, 61% { opacity: 0; filter: blur(10px); }
+  67%, 90% { opacity: 1; filter: blur(0); }
+  96%, 100% { opacity: 0; filter: blur(10px); }
+}
+
+.sticker-swap { position: relative; }
+.sticker-swap .swap-a { animation: swap-a 24s ease-in-out infinite; }
+.sticker-swap .swap-b,
+.sticker-swap .swap-c { position: absolute; pointer-events: none; }
+.sticker-swap .swap-b { animation: swap-b 24s ease-in-out infinite; }
+.sticker-swap .swap-c { animation: swap-c 24s ease-in-out infinite; }
+
+/* Home hero. Masked suit: exactly over the suit. Haze art is squarer, so
+   it runs wider than the ring and shares the suit's baseline. */
+.avatar-ring.sticker-swap .swap-b { left: 0; top: 0; }
+.avatar-ring.sticker-swap .swap-c {
+  left: 50%; bottom: 0;
+  width: 150%; height: auto;
+  transform: translateX(-50%);
+  max-width: none;
+}
+.avatar-ring.sticker-swap .avatar-badge { z-index: 2; }
+
+/* About: the card moves from the image to its frame, so fading the
+   portrait does not fade the card with it. */
+.bento-headshot.sticker-swap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.bento-headshot.sticker-swap .about-headshot--sticker { background: transparent; border: 0; }
+.bento-headshot.sticker-swap .swap-b,
+.bento-headshot.sticker-swap .swap-c {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.bento-headshot.sticker-swap .swap-b { z-index: 2; }
+.bento-headshot.sticker-swap .swap-c {
+  padding: var(--space-4) var(--space-2) 0;
+  z-index: 3;
+  /* The card is tall and narrow; enlarge from the bottom and let the
+     card clip the outermost smoke so the figure matches the suit's size. */
+  scale: 1.2;
+  transform-origin: center bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker-swap .swap-a,
+  .sticker-swap .swap-b { animation: none; opacity: 0; }
+  .sticker-swap .swap-c { animation: none; opacity: 1; }
+}

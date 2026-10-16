@@ -612,8 +612,12 @@ func main() {
 		http.ServeFile(w, r, "public/sw.js")
 	})
 
-	log.Println("Server Localhost berjalan di http://localhost:8080 🚀")
-	err := http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("Server Localhost berjalan di http://localhost:" + port + " 🚀")
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
